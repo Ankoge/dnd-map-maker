@@ -4,7 +4,7 @@ import EditorSidebar from "./components/EditorSidebar";
 import {useState} from "react";
 
 function App() {
-    const [isPressV, setIsPressV] = useState(false)
+    const [isMouseDown, setIsMouseDown] = useState(false)
 
     document.body.addEventListener('keydown', (event) => {
         const modifyCellSize = (modifier) => {
@@ -18,18 +18,19 @@ function App() {
             case "+":
                 modifyCellSize(1);
                 break;
-            case "v":
-                setIsPressV(true);
-                break;
             default:
                 break;
         }
     })
 
-    document.body.addEventListener('keyup', (event) => {
-        if (event.key === "v") {
-            setIsPressV(false)
-        }
+    document.body.addEventListener('mouseup', (event) => {
+
+            setIsMouseDown(false)
+
+    })
+
+    document.body.addEventListener('mousedown', event => {
+        setIsMouseDown(true)
     })
 
     return (
@@ -37,7 +38,7 @@ function App() {
             <header className="App-header">
             </header>
             <Map mapSize={40}
-            isPressV={ isPressV}/>
+            isMouseDown={ isMouseDown}/>
         </div>
     );
 }

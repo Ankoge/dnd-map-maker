@@ -2,7 +2,7 @@ import {ContextMenu} from "./ContextMenu";
 import {useState} from "react";
 import EditorSidebar from "./EditorSidebar";
 
-const Map = ({mapSize, isPressV}) => {
+const Map = ({mapSize, isMouseDown}) => {
     const [isContextMenu, setIsContextMenu] = useState(false);
     const [contextTarget, setContextTarget] = useState(null);
     const [isEdit, setIsEdit] = useState(false)
@@ -29,7 +29,7 @@ const Map = ({mapSize, isPressV}) => {
     }
 
     const handleHoverOn = (event) => {
-        if (isPressV) {
+        if (isMouseDown) {
             changeCell(event)
         } else if (event.target.dataset.cellType === "player" && isContextMenu === false) {
             const findAndSaveCells = (rowModifier, columnModifier) => {
