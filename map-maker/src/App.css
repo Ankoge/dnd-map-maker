@@ -1,0 +1,287 @@
+:root{
+    --cell-size: 50px;
+    --border-width: 6px;
+}
+
+body {
+    text-align: center;
+    background-color: black;
+}
+
+.map{
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.map-row{
+    display: flex;
+}
+
+.map-cell{
+    width: var(--cell-size);
+    height: var(--cell-size);
+    background-color: white;
+    border: var(--border-width) ridge;
+    border-right: none;
+    border-bottom: none;
+    flex: 1 0 auto;
+    background-size: var(--cell-size);
+    background-repeat: no-repeat;
+}
+
+.map-cell:hover{
+    background-color: #dedcdc;
+}
+
+.large-cell {
+    background-size: calc(var(--cell-size) * 2 + var(--border-width)) calc(var(--cell-size) * 2 + var(--border-width));
+    width: calc(var(--cell-size) + var(--border-width) / 2);
+}
+
+.huge-cell{
+    background-size: calc(var(--cell-size) * 3 + var(--border-width) * 2) calc(var(--cell-size) * 3 + var(--border-width));
+    width: calc(var(--cell-size) + var(--border-width) / 3 *2);
+}
+
+.top-right-cell, .top-left-cell, .top-middle-cell{
+    height: var(--cell-size);
+}
+
+.huge-cell.bottom-left-cell,.bottom-middle-cell.huge-cell,.huge-cell.bottom-right-cell {
+    background-size: calc(var(--cell-size) * 3 + var(--border-width) * 2) calc(var(--cell-size) * 3 + var(--border-width) * 4);
+}
+
+.bottom-right-cell,
+.bottom-left-cell,
+.bottom-middle-cell,
+.middle-left-cell,
+.middle-middle-cell,
+.middle-right-cell{
+    height: calc(var(--cell-size) + var(--border-width));
+    border-top: none;
+}
+
+.top-left-cell{
+    border-right: none;
+    border-bottom: none;
+}
+
+.top-middle-cell {
+    border-left: none;
+    background-position: center top;
+}
+
+.top-right-cell{
+    border-left: none;
+    border-bottom: none;
+    background-position: right top;
+}
+
+.middle-left-cell {
+    background-position: left center;
+}
+
+.middle-middle-cell, .middle-right-cell {
+    border-left: none;
+}
+
+.middle-middle-cell {
+    background-position: center center;
+}
+
+.middle-right-cell {
+    background-position: right center;
+}
+
+.bottom-left-cell{
+    border-right: none;
+    background-position: left bottom;
+}
+
+.bottom-middle-cell {
+    border-left: none;
+    background-position: center bottom;
+}
+
+.bottom-right-cell{
+    border-left: none;
+    background-position: right bottom;
+}
+
+.cell-in-range{
+    background-color: #dedcdc;
+}
+
+.context-menu{
+    border: black none 0;
+    box-shadow: 5px 10px 5px gray;
+    position: absolute;
+    background-color: #d9d9d9;
+    max-height: 300px;
+    content-visibility: auto;
+    overflow-y: auto;
+    width: max-content;
+    max-width: 250px;
+}
+
+.context-menu-active{
+    display: block;
+}
+
+.context-menu-inactive{
+    display: none;
+}
+
+.context-menu-button-container{
+    display: flex;
+    flex-direction: row;
+}
+
+.context-menu-button-icon{
+    height: 20px;
+    z-index: 1;
+}
+
+.context-menu-button, .context-menu-button-active{
+    border-left: none;
+    border-top: none;
+    border-radius: 0;
+    flex-grow: 3;
+    z-index: 2;
+}
+
+.context-menu-button:last-child, .context-menu-button-active:last-child{
+    border-right: none;
+}
+
+.context-menu-button-active {
+    background-image: linear-gradient(#eeeeee, #d8d8d8);
+    border-bottom: none;
+}
+
+.context-menu-option, .side-bar-option{
+    padding: 5px 9px 5px 9px;
+    min-width: 150px;
+}
+
+.context-option-image{
+    height: 25px;
+    vertical-align: middle;
+}
+
+.context-menu-option-inactive{
+    display: none;
+}
+
+.context-menu-option-active{
+    display: block;
+}
+
+.context-menu-option:hover, .context-menu-button:hover{
+    background-color: #a9a9a9;
+}
+
+.context-menu-option:last-child{
+    padding-bottom: 6px;
+}
+
+.context-menu-option:first-child{
+    padding-top: 6px;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.sidebar-container {
+    position: fixed;
+    left: 10px;
+    top: 10px;
+}
+
+.editor-icon-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.sidebar-icon , .selected-option-active{
+    height: 50px;
+    width: 50px;
+    background-size: 30px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: white;
+    border: solid black 1px;
+    border-radius: 5px;
+}
+
+.sidebar-icon{
+    background-size: 30px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.sidebar-icon:hover {
+    background-color: #dedcdc;
+}
+
+.delete-active{
+    background-size: 40px;
+    background-image: url("https://cdn.discordapp.com/attachments/1039961105046437989/1042166435872518164/output-onlinepngtools_1.png");
+}
+
+.delete-inactive{
+    background-size: 40px;
+    background-image: url("https://cdn.discordapp.com/attachments/1039961105046437989/1042166244201201685/output-onlinepngtools.png");
+}
+
+.sidebar-active{
+    display: block;
+    border: black none 0;
+    position: absolute;
+    background-color: #d9d9d9;
+    content-visibility: auto;
+    overflow-y: auto;
+    width: 250px;
+    max-height: 800px;
+}
+
+.map-editor-sidebar-active{
+    padding-left: 270px;
+}
+
+.sidebar-inactive , .selected-option-inactive{
+    display: none;
+}
+
+.sidebar{
+    border: black none 0;
+    box-shadow: 5px 10px 5px gray;
+    position: absolute;
+    background-color: #d9d9d9;
+    content-visibility: auto;
+    overflow-y: auto;
+    width: max-content;
+    max-width: 250px;
+}
+
+.sidebar-option:hover {
+    background-color: #a9a9a9;
+}
+
+.sidebar-option-icon {
+ height: 25px;
+}
