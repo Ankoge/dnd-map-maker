@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="039b2f42-e18b-4f29-9a98-66d404c0faa4" name="Changes" comment="A shamefully big commit.">
-      <change afterPath="$PROJECT_DIR$/DnD-map.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/map-maker/src/components/ContextMenu.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/map-maker/src/components/EditorSidebar.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/map-maker/src/components/Map.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/map-maker/src/data/environmentOptions.js" afterDir="false" />
+    <list default="true" id="039b2f42-e18b-4f29-9a98-66d404c0faa4" name="Changes" comment="Will continuously place cells when the mouse button is pressed down.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/map-maker/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/map-maker/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/map-maker/src/data/monsterOptions.js" beforeDir="false" afterPath="$PROJECT_DIR$/map-maker/src/data/monsterOptions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/map-maker/src/data/playerOptions.js" beforeDir="false" afterPath="$PROJECT_DIR$/map-maker/src/data/playerOptions.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,16 +32,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/ankoge/Projects/pet-Ankoge/story_teller&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.completion&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "/home/ankoge/Projects/oop-Ankoge/week3-Ankoge/dungeon-crawl-1-java-A-Bolf",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "editor.preferences.completion"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/map-maker/src/data" />
@@ -61,7 +59,7 @@
       <option name="presentableId" value="Default" />
       <updated>1667489313938</updated>
       <workItem from="1667489315830" duration="112083000" />
-      <workItem from="1668524961312" duration="12165000" />
+      <workItem from="1668524961312" duration="24660000" />
     </task>
     <task id="LOCAL-00001" summary="A shamefully big commit.">
       <created>1668591441446</created>
@@ -70,7 +68,28 @@
       <option name="project" value="LOCAL" />
       <updated>1668591441446</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="A shamefully big commit.">
+      <created>1668591868367</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1668591868367</updated>
+    </task>
+    <task id="LOCAL-00003" summary="A shamefully big commit.">
+      <created>1668591936948</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1668591936948</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Will continuously place cells when the mouse button is pressed down.">
+      <created>1668605179802</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1668605179802</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TerminalProjectNonSharedOptionsProvider">
@@ -94,7 +113,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="A shamefully big commit." />
-    <option name="LAST_COMMIT_MESSAGE" value="A shamefully big commit." />
+    <MESSAGE value="Will continuously place cells when the mouse button is pressed down." />
+    <option name="LAST_COMMIT_MESSAGE" value="Will continuously place cells when the mouse button is pressed down." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
