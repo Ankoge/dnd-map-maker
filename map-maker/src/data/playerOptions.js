@@ -12,38 +12,63 @@ export const PLAYER_OPTIONS = [{
     cellName: "Béla",
     cellSize: "medium",
     cellUrl: "https://vignette.wikia.nocookie.net/blackbandos-homebrew/images/b/bf/Burning_knight.jpg/revision/latest?cb=20171024132523",
-    speed: 5
+    speed: 6
 }, {
     cellName: "Theo",
     cellSize: "medium",
     cellUrl: "https://cdn.discordapp.com/attachments/943774890509623346/1038144811527585792/Theo_lvl2_screenshot.png",
     speed: 5
 }, {
-    cellName: "Beni",
+    cellName: "Jophiel",
     cellSize: "medium",
-    cellUrl: "https://cdn.discordapp.com/attachments/894595052427431936/1039484264330313818/My_project.png",
+    cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1042476704620347503/My_project_15.png",
+    speed: 6,
+}, {
+    cellName: "Béla",
+    cellSize: "medium",
+    cellUrl: "",
+    speed: 5,
+}, {
+    cellName: "My Name Is Nobody",
+    cellSize: "medium",
+    cellUrl: "https://media.discordapp.net/attachments/1025408325321498625/1038137190816940112/16675815587338544119634098879295.jpg",
+    speed: 6,
+}, {
+    cellName: "Jackson",
+    cellSize: "medium",
+    cellUrl: "https://cdn.discordapp.com/attachments/1042475105709719613/1042476187831771326/jpng.png",
     speed: 6
 },{
+    cellName: "Pixie",
+    cellSize: "medium",
+    cellUrl: "https://www.kryxrpg.com/static/93a4a3767f10353220e2bd45e3ce0eb4/b69f5/pixie.avif",
+    speed: 5
+}, {
+    cellName: "Oni",
+    cellSize: "medium",
+    cellUrl: "https://cdn.discordapp.com/attachments/894595052427431936/1042470658875072613/My_project_14.png",
+    speed: 6
+}, {
     cellName: "Herman",
     cellSize: "medium",
     cellUrl: "https://cdn.discordapp.com/attachments/894595052427431936/1040272425285341266/My_project_5.png",
     speed: 5,
-},{
+}, {
     cellName: "Aizen",
     cellSize: "medium",
     cellUrl: "https://cdn.discordapp.com/attachments/1022511328771985469/1040294520350322808/My_project_9.png",
     speed: 8,
-},{
+}, {
     cellName: "Alfina",
     cellSize: "medium",
     cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1040357402375094353/My_project_11.png",
     speed: 8,
-},{
+}, {
     cellName: "Grug",
     cellSize: "medium",
     cellUrl: "https://cdn.discordapp.com/attachments/910567793290805289/1040302362289524846/My_project_10.png",
     speed: 6,
-},{
+}, {
     cellName: "Spiritual Weapon",
     cellSize: "medium",
     cellUrl: "https://cdn.discordapp.com/attachments/1022511328771985469/1040353290736640070/fire-hammer.png",

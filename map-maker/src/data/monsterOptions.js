@@ -66,4 +66,8 @@ export const MONSTER_OPTIONS = [{
     cellName: "Hell Hound",
     cellSize: "medium",
     cellUrl: "https://www.kryxrpg.com/static/295c8956c39f286151c102a2e8b3e7cc/02303/hell-hound.avif",
+}, {
+    cellName: "Fat Assasin",
+    cellSize: "medium",
+    cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1042437552717701140/pngwing.com.png"
 }];
