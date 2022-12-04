@@ -12,13 +12,19 @@ export const ContextMenu = ({isContextMenu, contextTarget, onContextMenuChange, 
 
     const handleContextOptionClick = (event) => {
 
+        let eventTarget = event.target;
+
+        if(eventTarget.className.includes("image")){
+            eventTarget = eventTarget.parentElement;
+        }
+
         const getCellByCellNumber = (row, cell) => {
             return document.getElementById(`${row}${cell}-cell`);
         }
 
         const setImage = (target) => {
-            target.style.backgroundImage = `url("${event.target.dataset.image}")`;
-            target.dataset.cellType = event.target.dataset.optionType;
+            target.style.backgroundImage = `url("${eventTarget.dataset.image}")`;
+            target.dataset.cellType = eventTarget.dataset.optionType;
         }
 
         const setImageToCells = () => {
@@ -30,12 +36,12 @@ export const ContextMenu = ({isContextMenu, contextTarget, onContextMenuChange, 
 
         onContextMenuChange(false);
 
-        if (event.target.dataset.optionType === "delete") {
+        if (eventTarget.dataset.optionType === "delete") {
             handleDelete();
             return;
         }
 
-        const size = event.target.dataset.cellSize
+        const size = eventTarget.dataset.cellSize
         const rowNumber = parseInt(contextTarget.dataset.row, 10);
         const cellNumber = parseInt(contextTarget.dataset.cell, 10);
         const cells = {}
@@ -43,8 +49,8 @@ export const ContextMenu = ({isContextMenu, contextTarget, onContextMenuChange, 
         switch (size) {
             case "medium":
                 cells["full"] = contextTarget
-                if (event.target.dataset.optionType === "player") {
-                    contextTarget.dataset.speed = event.target.dataset.speed
+                if (eventTarget.dataset.optionType === "player") {
+                    contextTarget.dataset.speed = eventTarget.dataset.speed
                 }
                 setImageToCells()
                 break;
@@ -101,7 +107,7 @@ export const ContextMenu = ({isContextMenu, contextTarget, onContextMenuChange, 
 
 
     const contextMenuOptionBuilder = (options, optionType) => {
-        return options.map((option, index) => <div key={index}
+        return options.map((option, index) => <span key={index}
                                                    className={"context-menu-option context-menu-option".concat(contextButton === optionType ? "-active" : "-inactive")}
                                                    data-image={option.cellUrl}
                                                    data-cell-size={option.cellSize}
@@ -112,7 +118,7 @@ export const ContextMenu = ({isContextMenu, contextTarget, onContextMenuChange, 
         >{option.cellName} <img className={"context-option-image"}
                                 src={option.cellUrl}
                                 alt={option.cellName}/>
-        </div>)
+        </span>)
     }
 
     const contextMenuButtonBuilder = (optionType, iconUrl) => {
