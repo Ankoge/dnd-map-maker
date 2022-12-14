@@ -3,7 +3,7 @@ import {MONSTER_OPTIONS} from "../data/monsterOptions";
 import {ENVIRONMENT_OPTIONS} from "../data/environmentOptions";
 import {useState} from "react";
 
-export const ContextMenu = ({isContextMenu, contextTarget, onContextMenuChange, removeCellsInRange}) => {
+export const ContextMenu = ({isContextMenu, contextTarget, onContextMenuChange}) => {
     const [contextButton, setContextButton] = useState("player")
 
     const handleContextOptionTypeChoose = (event) => {
@@ -81,6 +81,9 @@ export const ContextMenu = ({isContextMenu, contextTarget, onContextMenuChange, 
 
     const handleDelete = () => {
         if (contextTarget.className.includes("medium")) {
+            if (contextTarget.dataset.cellType === "player"){
+
+            }
             contextTarget.dataset.speed = "0";
             contextTarget.className = "map-cell";
             contextTarget.style.backgroundImage = "none";

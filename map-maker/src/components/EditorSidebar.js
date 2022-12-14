@@ -18,6 +18,7 @@ const EditorSidebar = props => {
         }else {
             handleSidebarOptionClick(event);
         }
+        setIsDelete(!isDelete);
     }
 
     const handleSidebarOptionClick = (event) => {
@@ -26,10 +27,9 @@ const EditorSidebar = props => {
         if(eventTarget.className.includes("icon")){
             eventTarget = eventTarget.parentElement;
         }
-        setIsDelete(eventTarget.dataset.optionType === "delete")
         props.onIsEditChange(true);
-        props.onSidebarOptionChange(eventTarget)
-        document.getElementById("selected-option").style.backgroundImage = `url(${eventTarget.dataset.image})`
+        props.onSidebarOptionChange(eventTarget);
+        document.getElementById("selected-option").style.backgroundImage = `url(${eventTarget.dataset.image})`;
     }
 
     const handleEditOffClick = () => {

@@ -1,6 +1,7 @@
 :root{
     --cell-size: 50px;
     --border-width: 6px;
+    --map-size: 40;
 }
 
 body {
@@ -12,6 +13,7 @@ body {
     padding: 30px;
     display: flex;
     flex-direction: column;
+    width: calc(var(--map-size) * (var(--cell-size) + var(--border-width)));
 }
 
 .map-row{
