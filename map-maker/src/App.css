@@ -20,19 +20,39 @@ body {
     display: flex;
 }
 
-.map-cell{
-    width: var(--cell-size);
+.hex {
+    float: left;
+    margin-left: calc(var(--border-width));
+    margin-bottom: -20px;
+}
+.hex .top {
+    width: 0;
+    border-bottom: calc(var(--cell-size)/2) solid white;
+    border-left: var(--cell-size) solid transparent;
+    border-right: var(--cell-size) solid transparent;
+}
+.hex .middle {
+    width: calc(var(--cell-size)*2);
     height: var(--cell-size);
     background-color: white;
-    border: var(--border-width) ridge;
-    border-right: none;
-    border-bottom: none;
     flex: 1 0 auto;
     background-size: var(--cell-size);
     background-repeat: no-repeat;
 }
+.hex .bottom {
+    width: 0;
+    border-top: calc(var(--cell-size)/2) solid white;
+    border-left: var(--cell-size) solid transparent;
+    border-right: var(--cell-size) solid transparent;
+}
+.hex-row {
+    clear: left;
+}
+.hex-row.even {
+    margin-left: calc(var(--cell-size) + var(--border-width)/3);
+}
 
-.map-cell:hover{
+.top + .middle:hover {
     background-color: #dedcdc;
 }
 

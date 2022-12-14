@@ -94,16 +94,19 @@ const Map = ({mapSize, isMouseDown}) => {
                               data-row={1000 + rowNumber}
                               data-cell-type={"blank"}
                               id={`${1000 + rowNumber}${1000 + cellNumber}-cell`}
-                              className={"map-cell"}
+                              className={"map-cell hex"}
                               onContextMenu={handleRightClick}
                               onClick={handleLeftClick}
                               onMouseEnter={handleHoverOn}
                               onMouseLeave={handleHoverOff}
-                ></div>)
+                ><div className={"top"}></div>
+                <div className={"middle"}></div>
+                    <div className={"bottom"}></div>
+                </div>)
             }
 
             map.push(<div key={rowNumber}
-                          className="map-row"
+                          className={`map-row hex-row${rowNumber%2===0 ? "": " even"}`}
             >{row}</div>)
         }
 
