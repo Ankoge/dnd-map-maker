@@ -11,7 +11,7 @@ export const PLAYER_OPTIONS = [{
 }, {
     cellName: "Béla",
     cellSize: "medium",
-    cellUrl: "https://vignette.wikia.nocookie.net/blackbandos-homebrew/images/b/bf/Burning_knight.jpg/revision/latest?cb=20171024132523",
+    cellUrl: "https://cdn.discordapp.com/attachments/1038139856087425054/1052627043273150475/image.png",
     speed: 6
 }, {
     cellName: "Theo",
@@ -46,7 +46,7 @@ export const PLAYER_OPTIONS = [{
 }, {
     cellName: "Oni",
     cellSize: "medium",
-    cellUrl: "https://cdn.discordapp.com/attachments/894595052427431936/1042470658875072613/My_project_14.png",
+    cellUrl: "https://cdn.discordapp.com/attachments/894595052427431936/1043520142312738836/OniToken.png",
     speed: 6
 }, {
     cellName: "Herman",
