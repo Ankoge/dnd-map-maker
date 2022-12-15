@@ -16,9 +16,14 @@ export const MONSTER_OPTIONS = [{
 }, {
     cellName: "Beholder",
     cellSize: "large",
-    cellShape: "tall",
+    cellShape: "round",
     cellUrl: "https://www.kryxrpg.com/static/b5bfe3f8f12161cc1a1d23eb5341538b/49e7e/beholder.avif"
 }, {
+    cellName: "Djinni",
+    cellSize: "large",
+    cellShape: "tall",
+    cellUrl: "https://www.kryxrpg.com/static/cd3bca6280be7f06c26c39e5ecdf4db5/bace3/djinni.avif"
+},{
     cellName: "Vine Blight",
     cellSize: "medium",
     cellShape: "tall",
@@ -46,7 +51,7 @@ export const MONSTER_OPTIONS = [{
 }, {
     cellName: "Displacer",
     cellSize: "large",
-    cellShape: "tall",
+    cellShape: "flat",
     cellUrl: "https://www.kryxrpg.com/static/8f7e9536cf444507809fe635485d56e3/fb1ff/displacer-beast.avif"
 }, {
     cellName: "Abominable Yeti",

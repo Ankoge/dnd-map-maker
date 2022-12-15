@@ -52,23 +52,51 @@ body {
     margin-left: calc(1px + var(--cell-size) + var(--border-width)/3);
 }
 
+.cell-image{
+    position: absolute;
+    background-color: transparent;
+    margin-left: calc(var(--border-width) - var(--border-width)/2);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
 .cell-image.medium{
     width: calc(var(--cell-size)*2);
     height: calc(var(--cell-size) + var(--border-width)*4);
-    position: absolute;
-    background-color: transparent;
-    margin-left: calc(0px - var(--border-width)/2);
     margin-top: calc(0px - (var(--cell-size)*1.5 + var(--border-width)*2));
     z-index: 1;
-    background-repeat: no-repeat;
     background-size: auto calc(var(--cell-size) + var(--border-width)*4);
-    background-position: center;
     }
+
+.cell-image.large{
+    width: calc(var(--cell-size)*4);
+    height: calc(var(--cell-size)*4);
+    margin-top: calc(0px - var(--cell-size)*4);
+    z-index: 2;
+}
+.cell-image.large.tall{
+    background-size: calc(var(--cell-size)*1.8);
+}
+
+.cell-image.large.round{
+    height: calc(var(--cell-size)*3.3);
+    margin-top: calc(0px - var(--cell-size)*3.3);
+    background-size: calc(var(--cell-size)*2.5) ;
+
+}
+
+.cell-image.large.flat {
+    height: calc(var(--cell-size)*2.5);
+    margin-top: calc(0px - var(--cell-size)*2.5);
+    background-size: calc(var(--cell-size)*3.3);
+}
 
 .cell-image.medium.tall{
     height: calc(var(--cell-size)*2);
     background-size: auto calc(var(--cell-size)*1.8);
     margin-top: calc(0px - var(--cell-size)*2.1);
+
+
 }
 
 .large-cell {

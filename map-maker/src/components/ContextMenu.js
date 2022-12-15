@@ -6,8 +6,8 @@ import {useState} from "react";
 export const ContextMenu = ({isContextMenu, contextTarget, onContextMenuChange}) => {
     const [contextButton, setContextButton] = useState("player")
 
-    const handleContextOptionTypeChoose = (choosenType) => {
-        setContextButton(choosenType.target.dataset.contexttype)
+    const handleContextOptionTypeChoose = (chosenType) => {
+        setContextButton(chosenType.target.dataset.contexttype)
     }
 
     const handleContextOptionClick = (chosenOption) => {
@@ -27,7 +27,7 @@ export const ContextMenu = ({isContextMenu, contextTarget, onContextMenuChange})
         const setImage = () => {
             let target = document.getElementById(`${rowNumber}${cellNumber}-cell-image`)
             target.style.backgroundImage = `url("${option.dataset.image}")`;
-            target.className = `cell-image medium tall ${rowNumber}${cellNumber}-cell-image`
+            target.className = `cell-image ${size} ${shape} ${rowNumber}${cellNumber}-cell-image`
             target.parentElement.dataset.cellType = option.dataset.optionType;
         }
 
@@ -60,11 +60,10 @@ export const ContextMenu = ({isContextMenu, contextTarget, onContextMenuChange})
                 setImage()
                 break;
             case "large":
-                cells["top-left"] = contextTarget;
-                cells["top-right"] = getCellByCellNumber(rowNumber, cellNumber + 1);
-                cells["bottom-left"] = getCellByCellNumber(rowNumber + 1, cellNumber);
-                cells["bottom-right"] = getCellByCellNumber(rowNumber + 1, cellNumber + 1);
-                setImageToCells()
+                cells["left"] = getCellByCellNumber(rowNumber, cellNumber);
+                cells["right"] = getCellByCellNumber(rowNumber, cellNumber + 1);
+                cells["top"] = getCellByCellNumber(rowNumber + 1, cellNumber);
+                setImage()
                 break;
             case "huge":
                 cells["top-left"] = contextTarget;
@@ -85,17 +84,17 @@ export const ContextMenu = ({isContextMenu, contextTarget, onContextMenuChange})
     }
 
     const handleDelete = () => {
-        if (contextTarget.className.includes("medium")) {
-            if (contextTarget.dataset.cellType === "player") {
-
+        const targetImage = document.getElementById(`${contextTarget.row}${contextTarget.cell}-cell-image`)
+        const targetCell = targetImage.parentElement
+        if (targetImage.className.includes("medium")) {
+            if (targetCell.dataset.cellType === "player") {
+                targetCell.dataset.speed = "0";
             }
-            contextTarget.dataset.speed = "0";
-            contextTarget.className = "map-cell";
-            contextTarget.style.backgroundImage = "none";
-            contextTarget.dataset.cellType = "blank";
-        } else if (contextTarget.className.includes("large")) {
+            targetImage.style.backgroundImage = "none";
+            targetCell.dataset.cellType = "blank";
+        } else if (targetImage.className.includes("large")) {
             removeCellGroup("large");
-        } else if (contextTarget.className.includes("huge")) {
+        } else if (targetImage.className.includes("huge")) {
             removeCellGroup("huge");
         }
     }
@@ -119,7 +118,7 @@ export const ContextMenu = ({isContextMenu, contextTarget, onContextMenuChange})
                                                     className={"context-menu-option context-menu-option".concat(contextButton === optionType ? "-active" : "-inactive")}
                                                     data-image={option.cellUrl}
                                                     data-cell-size={option.cellSize}
-                                                    data-cell-shape={"tall"}
+                                                    data-cell-shape={option.cellShape ? option.cellShape : "tall"}
                                                     data-speed={optionType === "player" ? option.speed : 0}
                                                     data-cell-name={option.cellName}
                                                     data-option-type={optionType}
