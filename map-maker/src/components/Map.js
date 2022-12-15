@@ -4,7 +4,10 @@ import EditorSidebar from "./EditorSidebar";
 
 const Map = ({mapSize, isMouseDown}) => {
     const [isContextMenu, setIsContextMenu] = useState(false);
-    const [contextTarget, setContextTarget] = useState(null);
+    const [contextTarget, setContextTarget] = useState({
+        row: undefined,
+        cell: undefined,
+    });
     const [isEdit, setIsEdit] = useState(false)
     const [sidebarOptionTarget, setSidebarOptionTarget] = useState(null);
     const [isEditorSidebar, setIsEditorSidebar] = useState(false);
@@ -13,11 +16,19 @@ const Map = ({mapSize, isMouseDown}) => {
 
     const handleRightClick = (event) => {
         event.preventDefault();
-        setIsContextMenu(true);
-        const contextMenu = document.getElementById("context-menu");
-        contextMenu.style.top = `${event.pageY}px`;
-        contextMenu.style.left = `${event.pageX}px`;
-        setContextTarget(event.target);
+        const parentElement = event.target.parentElement;
+        if (parentElement.dataset.row && parentElement.dataset.cell) {
+            setIsContextMenu(true);
+            const contextMenu = document.getElementById("context-menu");
+            contextMenu.style.top = `${event.pageY}px`;
+            contextMenu.style.left = `${event.pageX}px`;
+            console.log(parentElement.dataset.row, parentElement.dataset.cell)
+            setContextTarget({
+                row: parentElement.dataset.row,
+                cell: parentElement.dataset.cell
+            })
+            console.log(contextTarget)
+        }
     }
 
     const handleLeftClick = (event) => {
@@ -86,31 +97,33 @@ const Map = ({mapSize, isMouseDown}) => {
     const mapBuilder = () => {
         let map = [];
 
-        for (let rowNumber = 1; rowNumber <= mapSize; rowNumber++) {
+        for (let rowNumber = 0; rowNumber <= mapSize; rowNumber++) {
             let row = [];
-            for (let cellNumber = 1; cellNumber <= mapSize; cellNumber++) {
-                row.push(<div key={`${rowNumber}${cellNumber}-cell`}
-                              data-cell={1000 + cellNumber}
-                              data-row={1000 + rowNumber}
+            for (let cellNumber = 0; cellNumber <= mapSize; cellNumber++) {
+                const calculatedRowNumber = 1000 + rowNumber;
+                const calculatedCellNumber = 1000 + cellNumber;
+                row.push(<div key={`${calculatedRowNumber}${calculatedCellNumber}-cell`}
+                              data-cell={calculatedCellNumber}
+                              data-row={calculatedRowNumber}
                               data-cell-type={"blank"}
-                              id={`${1000 + rowNumber}${1000 + cellNumber}-cell`}
-                              className={"map-cell hex"}
-                              onContextMenu={handleRightClick}
-                              onClick={handleLeftClick}
-                              onMouseEnter={handleHoverOn}
-                              onMouseLeave={handleHoverOff}
-                ><div className={"top"}></div>
-                <div className={"middle"}></div>
-                    <div className={"bottom"}></div>
+                              id={`${calculatedRowNumber}${calculatedCellNumber}-cell`}
+                              className={`map-cell hex ${calculatedRowNumber}${calculatedCellNumber}-cell`}
+                >
+                    <div className={`top ${calculatedRowNumber}${calculatedCellNumber}-cell-group`}></div>
+                    <div className={`middle ${calculatedRowNumber}${calculatedCellNumber}-cell-group`}></div>
+                    <div className={`bottom ${calculatedRowNumber}${calculatedCellNumber}-cell-group`}></div>
+
                 </div>)
             }
 
             map.push(<div key={rowNumber}
-                          className={`map-row hex-row${rowNumber%2===0 ? "": " even"}`}
+                          className={`map-row hex-row${rowNumber % 2 === 0 ? "" : " even"}`}
             >{row}</div>)
         }
 
-        return (<div className={"map map-editor-sidebar-".concat(isEditorSidebar ? "active" : "inactive")}>
+        return (<div className={"map map-editor-sidebar-".concat(isEditorSidebar ? "active" : "inactive")}
+                     onContextMenu={handleRightClick}
+                     onClick={handleLeftClick}>
             {map}
         </div>)
     }
