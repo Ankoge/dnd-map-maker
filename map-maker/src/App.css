@@ -23,7 +23,7 @@ body {
 .hex {
     float: left;
     margin-left: calc(var(--border-width));
-    margin-bottom: -20px;
+    margin-bottom: calc(var(--border-width)*2 - (50px - var(--cell-size))/2 - var(--cell-size));
 }
 .hex .top {
     width: 0;
@@ -49,11 +49,7 @@ body {
     clear: left;
 }
 .hex-row.even {
-    margin-left: calc(var(--cell-size) + var(--border-width)/3);
-}
-
-.top + .middle:hover {
-    background-color: #dedcdc;
+    margin-left: calc(1px + var(--cell-size) + var(--border-width)/3);
 }
 
 .large-cell {
