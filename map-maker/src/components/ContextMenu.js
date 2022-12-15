@@ -6,25 +6,29 @@ import {useState} from "react";
 export const ContextMenu = ({isContextMenu, contextTarget, onContextMenuChange}) => {
     const [contextButton, setContextButton] = useState("player")
 
-    const handleContextOptionTypeChoose = (event) => {
-        setContextButton(event.target.dataset.contexttype)
+    const handleContextOptionTypeChoose = (choosenType) => {
+        setContextButton(choosenType.target.dataset.contexttype)
     }
 
-    const handleContextOptionClick = (event) => {
+    const handleContextOptionClick = (chosenOption) => {
 
-        let eventTarget = event.target;
+        let option = chosenOption.target;
 
-        if(eventTarget.className.includes("image")){
-            eventTarget = eventTarget.parentElement;
+        // If you click on the image instead of the option, this will correct it.
+        if (option.className.includes("image")) {
+            option = option.parentElement;
         }
+
 
         const getCellByCellNumber = (row, cell) => {
             return document.getElementById(`${row}${cell}-cell`);
         }
 
-        const setImage = (target) => {
-            target.style.backgroundImage = `url("${eventTarget.dataset.image}")`;
-            target.dataset.cellType = eventTarget.dataset.optionType;
+        const setImage = () => {
+            let target = document.getElementById(`${rowNumber}${cellNumber}-cell-image`)
+            target.style.backgroundImage = `url("${option.dataset.image}")`;
+            target.className = `cell-image medium tall ${rowNumber}${cellNumber}-cell-image`
+            target.parentElement.dataset.cellType = option.dataset.optionType;
         }
 
         const setImageToCells = () => {
@@ -36,23 +40,24 @@ export const ContextMenu = ({isContextMenu, contextTarget, onContextMenuChange})
 
         onContextMenuChange(false);
 
-        if (eventTarget.dataset.optionType === "delete") {
+        if (option.dataset.optionType === "delete") {
             handleDelete();
             return;
         }
 
-        const size = eventTarget.dataset.cellSize
-        const rowNumber = parseInt(contextTarget.dataset.row, 10);
-        const cellNumber = parseInt(contextTarget.dataset.cell, 10);
+        const size = option.dataset.cellSize
+        const shape = option.dataset.cellShape
+        const rowNumber = parseInt(contextTarget.row, 10);
+        const cellNumber = parseInt(contextTarget.cell, 10);
         const cells = {}
 
         switch (size) {
             case "medium":
                 cells["full"] = contextTarget
-                if (eventTarget.dataset.optionType === "player") {
-                    contextTarget.dataset.speed = eventTarget.dataset.speed
+                if (option.dataset.optionType === "player") {
+                    contextTarget.dataset.speed = option.dataset.speed
                 }
-                setImageToCells()
+                setImage()
                 break;
             case "large":
                 cells["top-left"] = contextTarget;
@@ -81,7 +86,7 @@ export const ContextMenu = ({isContextMenu, contextTarget, onContextMenuChange})
 
     const handleDelete = () => {
         if (contextTarget.className.includes("medium")) {
-            if (contextTarget.dataset.cellType === "player"){
+            if (contextTarget.dataset.cellType === "player") {
 
             }
             contextTarget.dataset.speed = "0";
@@ -111,13 +116,14 @@ export const ContextMenu = ({isContextMenu, contextTarget, onContextMenuChange})
 
     const contextMenuOptionBuilder = (options, optionType) => {
         return options.map((option, index) => <span key={index}
-                                                   className={"context-menu-option context-menu-option".concat(contextButton === optionType ? "-active" : "-inactive")}
-                                                   data-image={option.cellUrl}
-                                                   data-cell-size={option.cellSize}
-                                                   data-speed={optionType === "player" ? option.speed : 0}
-                                                   data-cell-name={option.cellName}
-                                                   data-option-type={optionType}
-                                                   onClick={handleContextOptionClick}
+                                                    className={"context-menu-option context-menu-option".concat(contextButton === optionType ? "-active" : "-inactive")}
+                                                    data-image={option.cellUrl}
+                                                    data-cell-size={option.cellSize}
+                                                    data-cell-shape={"tall"}
+                                                    data-speed={optionType === "player" ? option.speed : 0}
+                                                    data-cell-name={option.cellName}
+                                                    data-option-type={optionType}
+                                                    onClick={handleContextOptionClick}
         >{option.cellName} <img className={"context-option-image"}
                                 src={option.cellUrl}
                                 alt={option.cellName}/>

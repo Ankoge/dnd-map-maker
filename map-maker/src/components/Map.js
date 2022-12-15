@@ -22,12 +22,11 @@ const Map = ({mapSize, isMouseDown}) => {
             const contextMenu = document.getElementById("context-menu");
             contextMenu.style.top = `${event.pageY}px`;
             contextMenu.style.left = `${event.pageX}px`;
-            console.log(parentElement.dataset.row, parentElement.dataset.cell)
+
             setContextTarget({
                 row: parentElement.dataset.row,
                 cell: parentElement.dataset.cell
             })
-            console.log(contextTarget)
         }
     }
 
@@ -112,7 +111,8 @@ const Map = ({mapSize, isMouseDown}) => {
                     <div className={`top ${calculatedRowNumber}${calculatedCellNumber}-cell-group`}></div>
                     <div className={`middle ${calculatedRowNumber}${calculatedCellNumber}-cell-group`}></div>
                     <div className={`bottom ${calculatedRowNumber}${calculatedCellNumber}-cell-group`}></div>
-
+                    <div className={`cell-image medium ${calculatedRowNumber}${calculatedCellNumber}-cell-image`}
+                    id={`${calculatedRowNumber}${calculatedCellNumber}-cell-image`}></div>
                 </div>)
             }
 

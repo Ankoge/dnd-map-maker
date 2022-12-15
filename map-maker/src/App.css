@@ -1,6 +1,6 @@
 :root{
     --cell-size: 50px;
-    --border-width: 6px;
+    --border-width: 3px;
     --map-size: 40;
 }
 
@@ -23,7 +23,7 @@ body {
 .hex {
     float: left;
     margin-left: calc(var(--border-width));
-    margin-bottom: calc(var(--border-width)*2 - (50px - var(--cell-size))/2 - var(--cell-size));
+    margin-bottom: calc(var(--border-width) - var(--cell-size)/2 );
 }
 .hex .top {
     width: 0;
@@ -50,6 +50,25 @@ body {
 }
 .hex-row.even {
     margin-left: calc(1px + var(--cell-size) + var(--border-width)/3);
+}
+
+.cell-image.medium{
+    width: calc(var(--cell-size)*2);
+    height: calc(var(--cell-size) + var(--border-width)*4);
+    position: absolute;
+    background-color: transparent;
+    margin-left: calc(0px - var(--border-width)/2);
+    margin-top: calc(0px - (var(--cell-size)*1.5 + var(--border-width)*2));
+    z-index: 1;
+    background-repeat: no-repeat;
+    background-size: auto calc(var(--cell-size) + var(--border-width)*4);
+    background-position: center;
+    }
+
+.cell-image.medium.tall{
+    height: calc(var(--cell-size)*2);
+    background-size: auto calc(var(--cell-size)*1.8);
+    margin-top: calc(0px - var(--cell-size)*2.1);
 }
 
 .large-cell {
@@ -145,6 +164,7 @@ body {
 
 .context-menu-active{
     display: block;
+    z-index: 10;
 }
 
 .context-menu-inactive{
@@ -228,6 +248,7 @@ body {
     position: fixed;
     left: 10px;
     top: 10px;
+    z-index: 10;
 }
 
 .editor-icon-container {
