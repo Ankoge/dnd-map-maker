@@ -29,13 +29,20 @@ export const ContextMenu = ({isContextMenu, contextTarget, onContextMenuChange})
             target.style.backgroundImage = `url("${option.dataset.image}")`;
             target.className = `cell-image ${size} ${shape} ${rowNumber}${cellNumber}-cell-image`
             target.parentElement.dataset.cellType = option.dataset.optionType;
+            target.parentElement.dataset.imageSourceCell = `${rowNumber}${cellNumber}-cell-image`
+
         }
 
-        const setImageToCells = () => {
-            Object.entries(cells).forEach((cell) => {
-                setImage(cell[1]);
-                cell[1].className = `map-cell ${rowNumber}${cellNumber}-${size}-cell ${cell[0]}-cell ${size}-cell`;
+        const setCellGroupToReserved = (element) => {
+            element.dataset.imageSourceCell = `${rowNumber}${cellNumber}-cell-image`
+            element.dataset.imageGroupId = `${rowNumber}${cellNumber}-image-group`
+            element.dataset.cellType = option.dataset.optionType;
+            const className = `${element.dataset.row}${element.dataset.cell}-cell-group`
+            const cellGroup = element.getElementsByClassName(className)
+            Array.from(cellGroup).forEach(groupElement => {
+                groupElement.classList.add(`${rowNumber}${cellNumber}-image-group`, "reserved")
             })
+
         }
 
         onContextMenuChange(false);
@@ -49,33 +56,29 @@ export const ContextMenu = ({isContextMenu, contextTarget, onContextMenuChange})
         const shape = option.dataset.cellShape
         const rowNumber = parseInt(contextTarget.row, 10);
         const cellNumber = parseInt(contextTarget.cell, 10);
-        const cells = {}
+        const cells = []
 
         switch (size) {
             case "medium":
-                cells["full"] = contextTarget
-                if (option.dataset.optionType === "player") {
-                    contextTarget.dataset.speed = option.dataset.speed
-                }
                 setImage()
                 break;
             case "large":
-                cells["left"] = getCellByCellNumber(rowNumber, cellNumber);
-                cells["right"] = getCellByCellNumber(rowNumber, cellNumber + 1);
-                cells["top"] = getCellByCellNumber(rowNumber + 1, cellNumber);
+                setCellGroupToReserved(getCellByCellNumber(rowNumber, cellNumber))
+                setCellGroupToReserved(getCellByCellNumber(rowNumber, cellNumber + 1))
+                setCellGroupToReserved(getCellByCellNumber(rowNumber + 1, cellNumber))
                 setImage()
                 break;
             case "huge":
-                cells["top-left"] = contextTarget;
-                cells["top-middle"] = getCellByCellNumber(rowNumber, cellNumber + 1);
-                cells["top-right"] = getCellByCellNumber(rowNumber, cellNumber + 2);
-                cells["middle-left"] = getCellByCellNumber(rowNumber + 1, cellNumber);
-                cells["middle-middle"] = getCellByCellNumber(rowNumber + 1, cellNumber + 1);
-                cells["middle-right"] = getCellByCellNumber(rowNumber + 1, cellNumber + 2);
-                cells["bottom-left"] = getCellByCellNumber(rowNumber + 2, cellNumber);
-                cells["bottom-middle"] = getCellByCellNumber(rowNumber + 2, cellNumber + 1);
-                cells["bottom-right"] = getCellByCellNumber(rowNumber + 2, cellNumber + 2);
-                setImageToCells()
+                cells.push(contextTarget)
+                cells.push( getCellByCellNumber(rowNumber, cellNumber + 1))
+                cells.push(getCellByCellNumber(rowNumber, cellNumber + 2))
+                cells.push(getCellByCellNumber(rowNumber + 1, cellNumber))
+                cells.push( getCellByCellNumber(rowNumber + 1, cellNumber + 1))
+                cells.push(getCellByCellNumber(rowNumber + 1, cellNumber + 2))
+                cells.push(getCellByCellNumber(rowNumber + 2, cellNumber))
+                cells.push(getCellByCellNumber(rowNumber + 2, cellNumber + 1))
+                cells.push(getCellByCellNumber(rowNumber + 2, cellNumber + 2))
+
                 break;
             default:
                 break;
@@ -84,19 +87,16 @@ export const ContextMenu = ({isContextMenu, contextTarget, onContextMenuChange})
     }
 
     const handleDelete = () => {
-        const targetImage = document.getElementById(`${contextTarget.row}${contextTarget.cell}-cell-image`)
-        const targetCell = targetImage.parentElement
-        if (targetImage.className.includes("medium")) {
-            if (targetCell.dataset.cellType === "player") {
-                targetCell.dataset.speed = "0";
-            }
-            targetImage.style.backgroundImage = "none";
-            targetCell.dataset.cellType = "blank";
-        } else if (targetImage.className.includes("large")) {
-            removeCellGroup("large");
-        } else if (targetImage.className.includes("huge")) {
-            removeCellGroup("huge");
-        }
+        const targetCell = document.getElementById(`${contextTarget.row}${contextTarget.cell}-cell`);
+        const imageSourceCell = targetCell.dataset.imageSourceCell;
+        const targetImage = document.getElementById(imageSourceCell);
+        targetImage.style.backgroundImage = "none";
+        targetImage.className = `cell-image medium ${imageSourceCell}`;
+        const imageGroupId = targetCell.dataset.imageGroupId;
+        const imageGroup = document.getElementsByClassName(imageGroupId)
+        Array.from(imageGroup).forEach(element => {
+            element.classList.remove(imageGroupId ,"reserved")
+        })
     }
 
     const removeCellGroup = (groupSize) => {
