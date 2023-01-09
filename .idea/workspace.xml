@@ -2,10 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="039b2f42-e18b-4f29-9a98-66d404c0faa4" name="Changes" comment="Will continuously place cells when the mouse button is pressed down.">
+      <change afterPath="$PROJECT_DIR$/map-maker/src/components/HexCell.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/map-maker/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/map-maker/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/map-maker/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/map-maker/src/App.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/map-maker/src/components/ContextMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/map-maker/src/components/ContextMenu.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/map-maker/src/components/EditorSidebar.js" beforeDir="false" afterPath="$PROJECT_DIR$/map-maker/src/components/EditorSidebar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/map-maker/src/components/Map.js" beforeDir="false" afterPath="$PROJECT_DIR$/map-maker/src/components/Map.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/map-maker/src/data/environmentOptions.js" beforeDir="false" afterPath="$PROJECT_DIR$/map-maker/src/data/environmentOptions.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/map-maker/src/data/monsterOptions.js" beforeDir="false" afterPath="$PROJECT_DIR$/map-maker/src/data/monsterOptions.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/map-maker/src/data/playerOptions.js" beforeDir="false" afterPath="$PROJECT_DIR$/map-maker/src/data/playerOptions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/map-maker/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/map-maker/src/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,7 +43,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/home/ankoge/Projects/oop-Ankoge/week3-Ankoge/dungeon-crawl-1-java-A-Bolf",
+    "last_opened_file_path": "/home/ankoge/Projects/pet-Ankoge/dnd-map/DnD-map",
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "editor.preferences.completion"
   }
@@ -60,6 +66,10 @@
       <updated>1667489313938</updated>
       <workItem from="1667489315830" duration="112083000" />
       <workItem from="1668524961312" duration="24660000" />
+      <workItem from="1672239332401" duration="3679000" />
+      <workItem from="1672243249261" duration="2649000" />
+      <workItem from="1672245911127" duration="11389000" />
+      <workItem from="1672855381916" duration="70778000" />
     </task>
     <task id="LOCAL-00001" summary="A shamefully big commit.">
       <created>1668591441446</created>

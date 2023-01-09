@@ -23,7 +23,7 @@ export const MONSTER_OPTIONS = [{
     cellSize: "large",
     cellShape: "tall",
     cellUrl: "https://www.kryxrpg.com/static/cd3bca6280be7f06c26c39e5ecdf4db5/bace3/djinni.avif"
-},{
+}, {
     cellName: "Vine Blight",
     cellSize: "medium",
     cellShape: "tall",
@@ -35,7 +35,7 @@ export const MONSTER_OPTIONS = [{
     cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1039972197688684574/LCo1m3W.png"
 }, {
     cellName: "Twig Blight",
-    cellSize: "medium",
+    cellSize: "small",
     cellShape: "tall",
     cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1039973874755965039/b55ade582bfae8db0709300edcc6e265.png"
 }, {
@@ -46,8 +46,23 @@ export const MONSTER_OPTIONS = [{
 }, {
     cellName: "Spider",
     cellSize: "medium",
-    cellShape: "tall",
+    cellShape: "flat",
     cellUrl: "https://www.kryxrpg.com/static/289ba6b41d2e99405cfe75237a5c8080/7bae7/giant-spider.avif"
+}, {
+    cellName: "Ettercap",
+    cellSize: "medium",
+    cellShape: "tall",
+    cellUrl: "https://www.kryxrpg.com/static/e27c14fd40620d4f8f7c180d9ce6de30/c9d3b/ettercap.avif"
+},{
+    cellName: "Phase Spider",
+    cellSize: "medium",
+    cellShape: "round",
+    cellUrl: "https://www.kryxrpg.com/static/db362a630005a4d6daff61bef8b1f9ef/b2ca7/phase-spider.avif"
+}, {
+    cellName: "Ettercap",
+    cellSize: "medium",
+    cellShape: "tall",
+    cellUrl: "https://www.kryxrpg.com/static/5ecdd9036171f9e205bb4ea5ec30d368/b5456/galeb-duhr.avif"
 }, {
     cellName: "Displacer",
     cellSize: "large",
@@ -61,7 +76,7 @@ export const MONSTER_OPTIONS = [{
 }, {
     cellName: "Adult Green Dragon",
     cellSize: "huge",
-    cellShape: "tall",
+    cellShape: "flat",
     cellUrl: "https://www.kryxrpg.com/static/902c85fccb25ff159d3bf23749bae1ed/f321e/adult-green-dragon.avif"
 }, {
     cellName: "Gargoyle",
@@ -76,7 +91,7 @@ export const MONSTER_OPTIONS = [{
 }, {
     cellName: "Basilisk",
     cellSize: "medium",
-    cellShape: "tall",
+    cellShape: "flat",
     cellUrl: "https://www.kryxrpg.com/static/1273915eafe3a93a85101a961d85b01f/4ae3d/basilisk.avif"
 }, {
     cellName: "Helmed Horror",
@@ -86,7 +101,7 @@ export const MONSTER_OPTIONS = [{
 }, {
     cellName: "Hell Hound",
     cellSize: "medium",
-    cellShape: "tall",
+    cellShape: "round",
     cellUrl: "https://www.kryxrpg.com/static/295c8956c39f286151c102a2e8b3e7cc/02303/hell-hound.avif",
 }, {
     cellName: "Fat Assasin",
