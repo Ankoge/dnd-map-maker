@@ -17,6 +17,12 @@ export const ENVIRONMENT_OPTIONS = [ {
     cellTerrain: "catch",
     cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1060859517698580520/pngegg_13.png"
 },{
+    cellName: "Stone Wall",
+    cellSize: "medium",
+    cellShape: "full",
+    cellTerrain: "unmovable",
+    cellUrl: "https://media.discordapp.net/attachments/1039961105046437989/1062736812541497364/pngegg_35.png?width=705&height=487"
+},{
     cellName: "Full",
     cellSize: "medium",
     cellShape: "full",
@@ -34,6 +40,12 @@ export const ENVIRONMENT_OPTIONS = [ {
     cellShape: "tree",
     cellTerrain: "unmovable",
     cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1060741726865727608/pngegg_6.png"
+},{
+    cellName: "Swamp",
+    cellSize: "small",
+    cellShape: "round",
+    cellTerrain: "hard",
+    cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1062739161595002920/pngegg_36.png"
 },{
     cellName: "Barrel",
     cellSize: "medium",
@@ -79,7 +91,7 @@ cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/10607370629
 },{
     cellName: "Fire",
     cellSize: "medium",
-    cellShape: "tree",
+    cellShape: "tree wave",
     cellTerrain: "hard",
     cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1060857578504065034/pngegg_11.png"
 },{
@@ -94,6 +106,24 @@ cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/10607370629
     cellShape: "tall",
     cellTerrain: "hard",
     cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1060967594376581220/pngegg_26.png"
+},{
+    cellName: "Statue Man",
+    cellSize: "medium",
+    cellShape: "tall",
+    cellTerrain: "unmovable",
+    cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1062733941158711296/pngegg_32.png"
+},{
+    cellName: "Statue Woman",
+    cellSize: "medium",
+    cellShape: "tall",
+    cellTerrain: "unmovable",
+    cellUrl: "https://media.discordapp.net/attachments/1039961105046437989/1062734149061984316/pngegg_33.png?width=234&height=644"
+},{
+    cellName: "Statue Horseman",
+    cellSize: "large",
+    cellShape: "tall",
+    cellTerrain: "unmovable",
+    cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1062734484790853764/pngegg_34.png"
 },{
     cellName: "Ground Crack",
     cellSize: "large",

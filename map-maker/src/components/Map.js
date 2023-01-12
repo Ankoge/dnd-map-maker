@@ -1,20 +1,21 @@
 import {ContextMenu} from "./ContextMenu";
-import {useState} from "react";
+import {useRef, useState} from "react";
 import EditorSidebar from "./EditorSidebar";
 
 
 const Map = ({mapSize, isMouseDown}) => {
+
     const [isContextMenu, setIsContextMenu] = useState(false);
-    const [contextTarget, setContextTarget] = useState({
-        row: undefined,
-        cell: undefined,
-    });
     const [isEdit, setIsEdit] = useState(false)
     const [sidebarOptionTarget, setSidebarOptionTarget] = useState(null);
     const [isEditorSidebar, setIsEditorSidebar] = useState(false);
     const [movable, setMovable] = useState({
         cells: new Set()
     })
+    const contextTarget = useRef({
+        row: "",
+        cell: "",
+    });
 
     const clearMovable = () => {
         const cells = movable.cells;
@@ -26,7 +27,7 @@ const Map = ({mapSize, isMouseDown}) => {
         return document.getElementById(`${row}${cell}-cell`);
     }
 
-    const setImageToCell = (option, row, cell, isTerrainRemove) => {
+    const setImageToCell = (option, isTerrainRemove) => {
         clearMovable();
 
         // If you click on the image instead of the option, this will correct it.
@@ -40,7 +41,7 @@ const Map = ({mapSize, isMouseDown}) => {
             imageCellPart.style.backgroundImage = `url("${option.dataset.image}")`;
             imageCellPart.className = `cell-image ${size} ${shape} ${rowNumber}${cellNumber}-cell-image ${option.dataset.optionType === "monster" || option.dataset.optionType === "player" ? " living" : ""}`
             setParentCell(imageCellPart.parentElement)
-            if (option.dataset.optionType === "player" || option.dataset.optionType === "monster") {
+            if (type === "player" || type === "monster") {
                 setShadow()
             }
         }
@@ -67,19 +68,19 @@ const Map = ({mapSize, isMouseDown}) => {
 
         const setParentCell = (parentCell) => {
             parentCell.dataset.terrain = option.dataset.terrain;
-            parentCell.dataset.cellType = option.dataset.optionType;
+            parentCell.dataset.cellType = type;
             parentCell.dataset.imageSourceCell = `${rowNumber}${cellNumber}-cell-image`;
             parentCell.dataset.imageGroupId = `${rowNumber}${cellNumber}-image-group`;
-            parentCell.dataset.cellSize = size;
-            if (option.dataset.optionType === "player") {
+            parentCell.dataset.cellSize = type === "environment" ? parentCell.dataset.cellSize : size;
+            if (type === "player") {
                 parentCell.dataset.speed = option.dataset.speed;
             }
         }
 
         setIsContextMenu(false);
-
-        const rowNumber = parseInt(row ? row : contextTarget.row, 10);
-        const cellNumber = parseInt(cell ? cell : contextTarget.cell, 10);
+        const rowNumber = parseInt(contextTarget.current.row, 10);
+        const cellNumber = parseInt(contextTarget.current.cell, 10);
+        if(!rowNumber||!cellNumber){return;}
 
         if (option.dataset.optionType === "delete") {
             handleDelete(rowNumber, cellNumber, isTerrainRemove);
@@ -88,6 +89,7 @@ const Map = ({mapSize, isMouseDown}) => {
 
         const size = option.dataset.cellSize;
         const shape = option.dataset.cellShape ? option.dataset.cellShape : "tall";
+        const type = option.dataset.optionType;
 
         switch (size) {
             case "tiny":
@@ -119,9 +121,8 @@ const Map = ({mapSize, isMouseDown}) => {
         const parentCell = document.getElementById(`${row}${cell}-cell`);
         const imageSourceCell = `${row}${cell}-cell-image${isTerrainRemove}`;
         const imageCellPart = document.getElementById(imageSourceCell);
-        if (parentCell.dataset.cellType === "player" || parentCell.dataset.cellType === "monster") {
-            removeShadow(row, cell, parentCell.dataset.cellSize);
-        }
+        removeShadow(row, cell, parentCell.dataset.cellSize);
+
         if (parentCell.dataset.cellSize !== "medium") {
             resetGroup(parentCell);
         } else {
@@ -172,11 +173,8 @@ const Map = ({mapSize, isMouseDown}) => {
             const contextMenu = document.getElementById("context-menu");
             contextMenu.style.top = `${event.pageY}px`;
             contextMenu.style.left = `${event.pageX}px`;
-
-            setContextTarget({
-                row: parentElement.dataset.row,
-                cell: parentElement.dataset.cell
-            })
+            contextTarget.current.row = parentElement.dataset.row;
+            contextTarget.current.cell = parentElement.dataset.cell;
         }
     }
 
@@ -184,7 +182,6 @@ const Map = ({mapSize, isMouseDown}) => {
         setIsContextMenu(false)
         clearMovable()
         if (isEdit) {
-            setContextTarget({row: undefined, cell: undefined})
             changeCellToSideBarOption(event.target.parentElement)
         }
     }
@@ -193,17 +190,19 @@ const Map = ({mapSize, isMouseDown}) => {
     const changeCellToSideBarOption = (parentCell) => {
         const removeTerrain = "-terrain"
         //Bypass the useState slow update with concrete parameters.
-        setImageToCell(sidebarOptionTarget, parentCell.dataset.row, parentCell.dataset.cell, removeTerrain);
+        contextTarget.current.row = parentCell.dataset.row;
+        contextTarget.current.cell = parentCell.dataset.cell;
+        setImageToCell(sidebarOptionTarget, removeTerrain);
 
     }
 
     //Recursive function.
-    const setMovableHexes = (row, cell, speed, step, size) => {
+    const setMovableHexes = (row, cell, speed, step, size, movableBuild) => {
         const parentCell = getCellByCellNumber(row, cell)
 
         //Early return if out of map.
         if (parentCell === null) {
-            return;
+            return movableBuild;
         }
 
         //Extract a plus movement on hard terrain.
@@ -213,23 +212,23 @@ const Map = ({mapSize, isMouseDown}) => {
 
         //Return if hex is not movable or out of step.
         if (speed < step || (parentCell.dataset.terrain === "unmovable" && step !== 0)) {
-            return;
+            return movableBuild;
         }
 
         //Return is hex is a creature, except you are small or tiny.
         if (parentCell.dataset.terrain === "creature" && !(size === "small" || size === "tiny") && step !== 0) {
-            return;
+            return movableBuild;
         }
 
         //Set hex movable.
-        if (!movable.cells.has(`${row}${cell}`)) {
-            let cells = movable.cells
-            setMovable({cells: cells.add(`${row}${cell}`)})
+        if (!movableBuild.has(`${row}${cell}`)) {
+
+            movableBuild.add(`${row}${cell}`)
         }
 
         //If terrain "catch" player here is an early return.
         if (parentCell.dataset.terrain === "catch") {
-            return;
+            return movableBuild;
         }
 
         //Update parameters.
@@ -238,12 +237,13 @@ const Map = ({mapSize, isMouseDown}) => {
         cell = parseInt(cell, 10);
 
         //Recursively call all neighbour hexes.
-        setMovableHexes(row - 1, cell + (row % 2), speed, step, size);
-        setMovableHexes(row, cell + 1, speed, step, size);
-        setMovableHexes(row + 1, cell + (row % 2), speed, step, size);
-        setMovableHexes(row + 1, cell + (-1 + row % 2), speed, step, size);
-        setMovableHexes(row, cell - 1, speed, step, size);
-        setMovableHexes(row - 1, cell + (-1 + row % 2), speed, step, size);
+        movableBuild = setMovableHexes(row - 1, cell + (row % 2), speed, step, size, movableBuild);
+        movableBuild = setMovableHexes(row, cell + 1, speed, step, size, movableBuild);
+        movableBuild = setMovableHexes(row + 1, cell + (row % 2), speed, step, size, movableBuild);
+        movableBuild = setMovableHexes(row + 1, cell + (-1 + row % 2), speed, step, size, movableBuild);
+        movableBuild = setMovableHexes(row, cell - 1, speed, step, size, movableBuild);
+        movableBuild = setMovableHexes(row - 1, cell + (-1 + row % 2), speed, step, size, movableBuild);
+        return movableBuild;
     }
 
 
@@ -255,13 +255,15 @@ const Map = ({mapSize, isMouseDown}) => {
             return;
         }
         if (parentCell.dataset.cellType === "player") {
-            setMovableHexes(
+            const movableBuild = setMovableHexes(
                 parentCell.dataset.row,
                 parentCell.dataset.cell,
                 parseInt(parentCell.dataset.speed, 10),
                 0,
-                parentCell.dataset.cellSize
+                parentCell.dataset.cellSize,
+                new Set()
             )
+            setMovable({cells: movableBuild});
         }
     }
 

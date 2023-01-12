@@ -223,6 +223,17 @@ body {
     margin-left: calc(0px - var(--cell-size) / 4);
 }
 
+.cell-image.medium.tree.wave {
+    animation: fire 1s running infinite;
+}
+
+@keyframes fire {
+    0% {transform: scaleY(0.95);margin-top: calc(0px - var(--cell-size) * 2.83)}
+    50%{transform: scaleY(1);     margin-top: calc(0px - var(--cell-size) * 2.9);}
+    100% {transform: scaleY(0.95);margin-top: calc(0px - var(--cell-size) * 2.83)
+    }
+}
+
 .cell-image.medium.bush {
     height: calc(var(--cell-size) * 2);
     width: calc(var(--cell-size) * 2.2);

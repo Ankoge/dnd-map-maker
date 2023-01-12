@@ -14,7 +14,7 @@ export const ContextMenu = props => {
     function handleContextOptionClick(option) {
         const rowCell = undefined;
         const notRemoveTerrain = "";
-        props.setImageToCell(option.target,rowCell,rowCell,notRemoveTerrain);
+        props.setImageToCell(option.target,notRemoveTerrain);
     }
 
 

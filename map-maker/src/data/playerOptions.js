@@ -5,7 +5,7 @@ export const PLAYER_OPTIONS = [
         cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1060899537658589245/pngegg_21.png",
         speed: 6,
     }, {
-        cellName: "Béla",
+        cellName: "????",
         cellSize: "medium",
         cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1060901262641602570/My_project_20.png",
         speed: 5,

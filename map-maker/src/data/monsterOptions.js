@@ -78,6 +78,11 @@ export const MONSTER_OPTIONS = [{
     cellSize: "huge",
     cellShape: "flat",
     cellUrl: "https://www.kryxrpg.com/static/902c85fccb25ff159d3bf23749bae1ed/f321e/adult-green-dragon.avif"
+},{
+    cellName: "Adult Black Dragon",
+    cellSize: "huge",
+    cellShape: "flat",
+    cellUrl: "https://www.kryxrpg.com/static/bd003e15e795fc9a04391f0060523248/c6f94/adult-black-dragon.avif"
 }, {
     cellName: "Gargoyle",
     cellSize: "medium",
@@ -87,12 +92,22 @@ export const MONSTER_OPTIONS = [{
     cellName: "Animated Statue",
     cellSize: "medium",
     cellShape: "tall",
-    cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1039971559336595466/My_project_3.png"
+    cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1062733261329137724/My_project_23.png"
 }, {
     cellName: "Basilisk",
     cellSize: "medium",
     cellShape: "flat",
     cellUrl: "https://www.kryxrpg.com/static/1273915eafe3a93a85101a961d85b01f/4ae3d/basilisk.avif"
+},{
+    cellName: "Barbed Devil",
+    cellSize: "medium",
+    cellShape: "tall",
+    cellUrl: "https://www.dndbeyond.com/avatars/thumbnails/30781/992/1000/1000/638061947419365746.png"
+},{
+    cellName: "Imp",
+    cellSize: "small",
+    cellShape: "tall",
+    cellUrl: "https://www.kryxrpg.com/static/a35e1a89919a6b2454ecb1d35c58728c/b4520/imp.avif"
 }, {
     cellName: "Helmed Horror",
     cellSize: "medium",
