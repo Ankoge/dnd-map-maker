@@ -332,6 +332,7 @@ body {
     z-index: calc(var(--map-size) * 2 + 2);
 }
 
+
 .context-menu-button:last-child, .context-menu-button-active:last-child {
     border-right: none;
 }
@@ -341,7 +342,7 @@ body {
     border-bottom: none;
 }
 
-.context-menu-option, .side-bar-option {
+.context-menu-option,.context-menu-monster-option-active,.context-menu-monster-option-inactive, .side-bar-option {
     padding: 5px 9px 5px 9px;
     min-width: 150px;
 }
@@ -351,15 +352,15 @@ body {
     vertical-align: middle;
 }
 
-.context-menu-option-inactive {
+.context-menu-option-inactive,.context-menu-monster-option-inactive {
     display: none;
 }
 
-.context-menu-option-active {
+.context-menu-option-active,.context-menu-monster-option-active {
     display: block;
 }
 
-.context-menu-option:hover, .context-menu-button:hover {
+.context-menu-option:hover,.context-menu-monster-option-inactive:hover, .context-menu-button:hover {
     background-color: #a9a9a9;
 }
 
