@@ -27,7 +27,7 @@ const Map = ({mapSize, isMouseDown}) => {
         return document.getElementById(`${row}${cell}-cell`);
     }
 
-    const setImageToCell = (option, isTerrainRemove) => {
+    const setCellProperties = (option, isTerrainRemove) => {
         clearMovable();
 
         // If you click on the image instead of the option, this will correct it.
@@ -74,6 +74,7 @@ const Map = ({mapSize, isMouseDown}) => {
             parentCell.dataset.cellSize = type === "environment" ? parentCell.dataset.cellSize : size;
             if (type === "player") {
                 parentCell.dataset.speed = option.dataset.speed;
+                parentCell.dataset.playerId = `${option.dataset.image}${option.dataset.cellName}`
             }
         }
 
@@ -90,6 +91,13 @@ const Map = ({mapSize, isMouseDown}) => {
         const size = option.dataset.cellSize;
         const shape = option.dataset.cellShape ? option.dataset.cellShape : "tall";
         const type = option.dataset.optionType;
+
+        if (type === "player") {
+            const playerDuplicate = document.querySelector('[data-player-id="'.concat(`${option.dataset.image}${option.dataset.cellName}`).concat('"]'))
+            if (playerDuplicate) {
+                handleDelete(playerDuplicate.dataset.row, playerDuplicate.dataset.cell,false)
+            }
+        }
 
         switch (size) {
             case "tiny":
@@ -118,11 +126,18 @@ const Map = ({mapSize, isMouseDown}) => {
     }
 
     const handleDelete = (row, cell, isTerrainRemove) => {
+        let classNameModifier = ""
+        if (isTerrainRemove) {
+            classNameModifier = "-terrain"
+        }
         const parentCell = document.getElementById(`${row}${cell}-cell`);
-        const imageSourceCell = `${row}${cell}-cell-image${isTerrainRemove}`;
+        const imageSourceCell = `${row}${cell}-cell-image${classNameModifier}`;
         const imageCellPart = document.getElementById(imageSourceCell);
         removeShadow(row, cell, parentCell.dataset.cellSize);
 
+        if(parentCell.dataset.cellType === "player") {
+            parentCell.removeAttribute("data-player-id");
+        }
         if (parentCell.dataset.cellSize !== "medium") {
             resetGroup(parentCell);
         } else {
@@ -188,11 +203,11 @@ const Map = ({mapSize, isMouseDown}) => {
 
 
     const changeCellToSideBarOption = (parentCell) => {
-        const removeTerrain = "-terrain"
+        const removeTerrain = true
         //Bypass the useState slow update with concrete parameters.
         contextTarget.current.row = parentCell.dataset.row;
         contextTarget.current.cell = parentCell.dataset.cell;
-        setImageToCell(sidebarOptionTarget, removeTerrain);
+        setCellProperties(sidebarOptionTarget, removeTerrain);
 
     }
 
@@ -318,7 +333,7 @@ const Map = ({mapSize, isMouseDown}) => {
             isContextMenu={isContextMenu}
             onContextMenuChange={setIsContextMenu}
             contextTarget={contextTarget}
-            setImageToCell={setImageToCell}
+            setCellProperties={setCellProperties}
         />
         {mapBuilder()}
         <EditorSidebar
