@@ -17,10 +17,10 @@ function App() {
             }
             switch (event.key) {
                 case "-":
-                    modifyCellSize(-1);
+                    modifyCellSize(-4);
                     break;
                 case "+":
-                    modifyCellSize(1);
+                    modifyCellSize(4);
                     break;
                 default:
                     break;
