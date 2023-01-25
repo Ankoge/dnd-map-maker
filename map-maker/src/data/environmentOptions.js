@@ -23,6 +23,12 @@ export const ENVIRONMENT_OPTIONS = [ {
     cellTerrain: "unmovable",
     cellUrl: "https://media.discordapp.net/attachments/1039961105046437989/1062736812541497364/pngegg_35.png?width=705&height=487"
 },{
+    cellName: "Gate",
+    cellSize: "medium",
+    cellShape: "full",
+    cellTerrain: "unmovable",
+    cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1067444427829805177/pngegg_42.png"
+},{
     cellName: "Full",
     cellSize: "medium",
     cellShape: "full",

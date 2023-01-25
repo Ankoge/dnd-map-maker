@@ -3,6 +3,36 @@ export const MONSTER_OPTIONS = [{
     cellSize: "medium",
     cellShape: "tall",
     cellUrl: "https://www.kryxrpg.com/static/a5ef4a2187298abc4de31ba3f0fca6c7/5aa84/bandit.avif"
+},{
+    cellName: "Thief Cat",
+    cellSize: "medium",
+    cellShape: "round",
+    cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1067440767020322866/pngegg_41.png"
+},{
+    cellName: "Unicorn",
+    cellSize: "large",
+    cellShape: "round",
+    cellUrl: "https://www.kryxrpg.com/static/8b65b99ca15bb1f5bb782b8112f2f168/e8cc0/unicorn.avif"
+},{
+    cellName: "Orog",
+    cellSize: "medium",
+    cellShape: "tall",
+    cellUrl: "https://www.kryxrpg.com/static/dba2fd8348004f35fb2efcd40b1d3881/c2274/orog.avif"
+},{
+    cellName: "Orc Eye of Gruums",
+    cellSize: "medium",
+    cellShape: "tall",
+    cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1067534291942248458/pngegg_47.png"
+},{
+    cellName: "Orc Warchief",
+    cellSize: "medium",
+    cellShape: "tall",
+    cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1067533905667829970/pngegg_46.png"
+},{
+    cellName: "Orc",
+    cellSize: "medium",
+    cellShape: "tall",
+    cellUrl: "https://www.kryxrpg.com/static/4f334cb38322f6f225c35385fed91deb/654ca/orc.avif"
 }, {
     cellName: "Bandit",
     cellSize: "medium",
