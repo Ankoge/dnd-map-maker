@@ -138,7 +138,7 @@ const Map = ({mapSize, isMouseDown}) => {
         if(parentCell.dataset.cellType === "player") {
             parentCell.removeAttribute("data-player-id");
         }
-        if (parentCell.dataset.cellSize !== "medium") {
+        if (parentCell.dataset.cellSize === "large" || parentCell.dataset.cellSize === "huge") {
             resetGroup(parentCell);
         } else {
             parentCell.dataset.terrain = "movable";
