@@ -7,6 +7,7 @@ const EditorSidebar = props => {
 
     const handleEditorOpenClose = () => {
         props.onIsEditorSidebarChange(!props.isEditorSidebar);
+        setIsDelete(false)
         props.onIsEditChange(false);
         document.getElementById("selected-option").style.backgroundImage = "none";
         props.onSidebarOptionChange(null);
@@ -18,13 +19,19 @@ const EditorSidebar = props => {
         }else {
             handleSidebarOptionClick(event);
         }
+        setIsDelete(!isDelete);
     }
 
     const handleSidebarOptionClick = (event) => {
-        setIsDelete(event.target.dataset.optionType === "delete")
+        let eventTarget = event.target;
+
+        if(eventTarget.className.includes("option-icon")){
+            eventTarget = eventTarget.parentElement;
+        }
+        setIsDelete(eventTarget.className.includes("delete"))
         props.onIsEditChange(true);
-        props.onSidebarOptionChange(event.target)
-        document.getElementById("selected-option").style.backgroundImage = `url(${event.target.dataset.image})`
+        props.onSidebarOptionChange(eventTarget);
+        document.getElementById("selected-option").style.backgroundImage = `url(${eventTarget.dataset.image})`;
     }
 
     const handleEditOffClick = () => {
@@ -62,8 +69,10 @@ const EditorSidebar = props => {
                                                                  data-image={option.cellUrl}
                                                                  data-cell-size={option.cellSize}
                                                                  data-speed={0}
+                                                                 data-cell-shape = {option.cellShape ? option.cellShape : "tall"}
                                                                  data-cell-name={option.cellName}
                                                                  data-option-type={"environment"}
+                                                                 data-terrain={option.cellTerrain}
                                                                  onClick={event => {
                                                                      event.stopPropagation();
                                                                      handleSidebarOptionClick(event)

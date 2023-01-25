@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="039b2f42-e18b-4f29-9a98-66d404c0faa4" name="Changes" comment="A shamefully big commit.">
-      <change afterPath="$PROJECT_DIR$/DnD-map.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/map-maker/src/components/ContextMenu.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/map-maker/src/components/EditorSidebar.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/map-maker/src/components/Map.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/map-maker/src/data/environmentOptions.js" afterDir="false" />
+    <list default="true" id="039b2f42-e18b-4f29-9a98-66d404c0faa4" name="Changes" comment="Hex Cells">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/map-maker/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/map-maker/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/map-maker/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/map-maker/src/App.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/map-maker/src/components/ContextMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/map-maker/src/components/ContextMenu.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/map-maker/src/components/Map.js" beforeDir="false" afterPath="$PROJECT_DIR$/map-maker/src/components/Map.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/map-maker/src/data/environmentOptions.js" beforeDir="false" afterPath="$PROJECT_DIR$/map-maker/src/data/environmentOptions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/map-maker/src/data/monsterOptions.js" beforeDir="false" afterPath="$PROJECT_DIR$/map-maker/src/data/monsterOptions.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,6 +24,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="hexagon_cell" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -39,7 +45,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/ankoge/Projects/pet-Ankoge/story_teller&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/ankoge/Projects/pet-Ankoge/dnd-map/DnD-map&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.completion&quot;
   }
@@ -61,7 +67,13 @@
       <option name="presentableId" value="Default" />
       <updated>1667489313938</updated>
       <workItem from="1667489315830" duration="112083000" />
-      <workItem from="1668524961312" duration="12165000" />
+      <workItem from="1668524961312" duration="24660000" />
+      <workItem from="1672239332401" duration="3679000" />
+      <workItem from="1672243249261" duration="2649000" />
+      <workItem from="1672245911127" duration="11389000" />
+      <workItem from="1672855381916" duration="75022000" />
+      <workItem from="1673429493249" duration="11259000" />
+      <workItem from="1673451516979" duration="1592000" />
     </task>
     <task id="LOCAL-00001" summary="A shamefully big commit.">
       <created>1668591441446</created>
@@ -70,7 +82,35 @@
       <option name="project" value="LOCAL" />
       <updated>1668591441446</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="A shamefully big commit.">
+      <created>1668591868367</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1668591868367</updated>
+    </task>
+    <task id="LOCAL-00003" summary="A shamefully big commit.">
+      <created>1668591936948</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1668591936948</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Will continuously place cells when the mouse button is pressed down.">
+      <created>1668605179802</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1668605179802</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Hex Cells">
+      <created>1673252857887</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1673252857887</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TerminalProjectNonSharedOptionsProvider">
@@ -94,7 +134,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="A shamefully big commit." />
-    <option name="LAST_COMMIT_MESSAGE" value="A shamefully big commit." />
+    <MESSAGE value="Will continuously place cells when the mouse button is pressed down." />
+    <MESSAGE value="Hex Cells" />
+    <option name="LAST_COMMIT_MESSAGE" value="Hex Cells" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
