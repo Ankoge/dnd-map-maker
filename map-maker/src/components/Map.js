@@ -237,13 +237,17 @@ const Map = ({mapSize, isMouseDown}) => {
 
         //Set hex movable.
         if (!movableBuild.has(`${row}${cell}`)) {
-
             movableBuild.add(`${row}${cell}`)
         }
 
         //If terrain "catch" player here is an early return.
         if (parentCell.dataset.terrain === "catch") {
             return movableBuild;
+        }
+
+        //Avoiding regression to an area already under investigation.
+        if(movableBuild.has(`${row}${cell}`&& step !== 0)){
+            return movableBuild
         }
 
         //Update parameters.
@@ -258,6 +262,7 @@ const Map = ({mapSize, isMouseDown}) => {
         movableBuild = setMovableHexes(row + 1, cell + (-1 + row % 2), speed, step, size, movableBuild);
         movableBuild = setMovableHexes(row, cell - 1, speed, step, size, movableBuild);
         movableBuild = setMovableHexes(row - 1, cell + (-1 + row % 2), speed, step, size, movableBuild);
+
         return movableBuild;
     }
 
