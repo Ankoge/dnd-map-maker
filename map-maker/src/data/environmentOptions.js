@@ -78,7 +78,7 @@ cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/10607370629
     cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1060858873541574716/pngegg_12.png"
 },{
     cellName: "Campfire",
-    cellSize: "medium",
+    cellSize: "small",
     cellShape: "round",
     cellTerrain: "hard",
     cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1060856581480255579/pngegg_10.png"
