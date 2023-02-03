@@ -7,7 +7,10 @@
 body {
     text-align: center;
     background-color: black;
-
+    /*background-image: url("https://cdn.discordapp.com/attachments/897871105363181588/1068134649689280563/AdobeStock_418559126_Preview.jpeg");*/
+    /*background-image: url("https://cdn.discordapp.com/attachments/1039961105046437989/1070065020303573114/ezgif.com-gif-maker_1.jpg");*/
+    background-image: url("https://cdn.discordapp.com/attachments/1039961105046437989/1070747769553309717/talaj-vegtelen.jpg");
+    background-size: 800px 800px;
 }
 
 .map {
@@ -25,29 +28,30 @@ body {
     float: left;
     margin-left: calc(var(--border-width));
     margin-bottom: calc(var(--border-width) - var(--cell-size) / 2);
-    border-color: white;
-    background-color: white;
+    border-color: rgba(255, 255, 255, 0.3);
+    background-color: rgba(255, 255, 255, 0.3);
     visibility: hidden;
 }
 
 .hex:hover, .middle:hover {
-    background-color: #868585;
-    border-color: #868585;
+    background-color: rgba(134, 133, 133, 0.5);
+    border-color: rgba(134, 133, 133, 0.5);
 }
 
 .movable {
-    background-color: rgba(154, 225, 157, 0.99);
-    border-color: rgba(154, 225, 157, 0.99);
+    background-color: rgba(154, 225, 157, 0.6);
+    border-color: rgba(154, 225, 157, 0.6);
 }
 
 .hex .top {
     width: 0;
-    border-bottom: calc(var(--cell-size) / 2) solid white;
+    border-bottom: calc(var(--cell-size) / 2) solid;
     border-color: inherit;
     background-color: transparent;
     border-left: var(--cell-size) solid transparent;
     border-right: var(--cell-size) solid transparent;
     visibility: initial;
+
 }
 
 .hex .middle {
@@ -63,7 +67,7 @@ body {
 .hex .bottom {
     visibility: initial;
     width: 0;
-    border-top: calc(var(--cell-size) / 2) solid white;
+    border-top: calc(var(--cell-size) / 2) solid;
     border-color: inherit;
     border-left: var(--cell-size) solid transparent;
     border-right: var(--cell-size) solid transparent;
@@ -96,24 +100,28 @@ body {
 .shadow {
     background-image: url("https://cdn.discordapp.com/attachments/1039961105046437989/1060708443645808650/pngfind.com-round-shadow-png-4130139.png");
     background-position: bottom;
-    background-size: calc(var(--cell-size) * 2) calc(var(--cell-size) / 3)
+    background-size: calc(var(--cell-size) * 2) calc(var(--cell-size) / 3);
+    opacity: 1;
 }
 
 .shadow-left {
     background-image: url("https://cdn.discordapp.com/attachments/1039961105046437989/1060708443645808650/pngfind.com-round-shadow-png-4130139.png");
     background-position: bottom left;
-    background-size: calc(var(--cell-size) * 4) calc(var(--cell-size) / 2.5)
+    background-size: calc(var(--cell-size) * 4) calc(var(--cell-size) / 2.5);
+    opacity: 1;
 }
 
 .shadow-right {
     background-image: url("https://cdn.discordapp.com/attachments/1039961105046437989/1060708443645808650/pngfind.com-round-shadow-png-4130139.png");
     background-position: bottom right;
-    background-size: calc(var(--cell-size) * 4) calc(var(--cell-size) / 2.5)
+    background-size: calc(var(--cell-size) * 4) calc(var(--cell-size) / 2.5);
+    opacity: 1;
 }
 
 .cell-image {
     pointer-events: none;
     visibility: initial;
+    opacity: 100;
 }
 
 .cell-image, [data-z-index] {
@@ -189,6 +197,7 @@ body {
     margin-top: calc(0px - var(--cell-size) * 2.5);
 }
 
+
 .cell-image.medium.full {
     border-radius: 50%;
     height: calc(var(--cell-size) * 1.8);
@@ -228,9 +237,17 @@ body {
 }
 
 @keyframes fire {
-    0% {transform: scaleY(0.95);margin-top: calc(0px - var(--cell-size) * 2.83)}
-    50%{transform: scaleY(1);     margin-top: calc(0px - var(--cell-size) * 2.9);}
-    100% {transform: scaleY(0.95);margin-top: calc(0px - var(--cell-size) * 2.83)
+    0% {
+        transform: scaleY(0.95);
+        margin-top: calc(0px - var(--cell-size) * 2.83)
+    }
+    50% {
+        transform: scaleY(1);
+        margin-top: calc(0px - var(--cell-size) * 2.9);
+    }
+    100% {
+        transform: scaleY(0.95);
+        margin-top: calc(0px - var(--cell-size) * 2.83)
     }
 }
 
@@ -281,15 +298,15 @@ body {
 
 .cell-image.huge.tall {
     background-size: auto calc(var(--cell-size) * 4.5);
-    margin-top: calc(0px - var(--cell-size) *3.8);
-    margin-left: calc(0px - var(--cell-size)*1.15);
+    margin-top: calc(0px - var(--cell-size) * 3.8);
+    margin-left: calc(0px - var(--cell-size) * 1.15);
 }
 
-.cell-image.huge.flat{
+.cell-image.huge.flat {
     width: calc(var(--cell-size) * 6.5);
     background-size: calc(var(--cell-size) * 6.5) auto;
-    margin-top: calc(0px - var(--cell-size) *3.2);
-    margin-left: calc(0px - var(--cell-size)*2.25);
+    margin-top: calc(0px - var(--cell-size) * 3.2);
+    margin-left: calc(0px - var(--cell-size) * 2.25);
 }
 
 
@@ -330,8 +347,13 @@ body {
     border-radius: 0;
     flex-grow: 3;
     z-index: calc(var(--map-size) * 2 + 2);
+    font-weight: normal;
 }
 
+.context-menu-button .context-menu-button-active-chosen {
+
+    font-size: 30px;
+}
 
 .context-menu-button:last-child, .context-menu-button-active:last-child {
     border-right: none;
@@ -342,7 +364,7 @@ body {
     border-bottom: none;
 }
 
-.context-menu-option,.context-menu-monster-option-active,.context-menu-monster-option-inactive, .side-bar-option {
+.context-menu-option, .side-bar-option {
     padding: 5px 9px 5px 9px;
     min-width: 150px;
 }
@@ -352,15 +374,37 @@ body {
     vertical-align: middle;
 }
 
-.context-menu-option-inactive,.context-menu-monster-option-inactive {
+.context-menu-option.context-menu-option-active-chosen{
+    background-color: #c5c3c3;
+    height: max-content;
+}
+.context-menu-option-active-chosen:hover{
+    font-weight: bolder;
+}
+
+.context-menu-option.context-menu-option-active{
+    font-weight: normal;
+}
+
+.monster-option-arrow {
+    margin-left: 5px;
+    height: 10px;
+    vertical-align: middle;
+}
+
+.monster-option-arrow.up-arrow {
+    transform: rotate(3.14rad);
+}
+
+.context-menu-option-inactive {
     display: none;
 }
 
-.context-menu-option-active,.context-menu-monster-option-active {
+.context-menu-option-active {
     display: block;
 }
 
-.context-menu-option:hover,.context-menu-monster-option-inactive:hover, .context-menu-button:hover {
+.on-hover:hover {
     background-color: #a9a9a9;
 }
 
@@ -433,13 +477,14 @@ body {
 
 .sidebar-active {
     display: block;
-    border: black none 0;
     position: absolute;
-    background-color: #d9d9d9;
+    background-color: white;
     content-visibility: auto;
     overflow-y: auto;
     width: 250px;
-    max-height: 800px;
+    max-height: 600px;
+    border: solid black 1px;
+    border-radius: 5px;
 }
 
 .map-editor-sidebar-active {
@@ -465,6 +510,18 @@ body {
     background-color: #a9a9a9;
 }
 
+.sidebar-option{
+    margin: 2px 0 2px 0;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .sidebar-option-icon {
+    border-radius: 3px;
+    margin: 0 0 0 20px;
+    vertical-align: middle;
+    background-size: 25px;
     height: 25px;
 }

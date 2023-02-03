@@ -196,6 +196,8 @@ const Map = ({mapSize, isMouseDown}) => {
     const handleLeftClick = (event) => {
         setIsContextMenu(false)
         clearMovable()
+
+        //If sidebar edit is active change hex image to selected environment image.
         if (isEdit) {
             changeCellToSideBarOption(event.target.parentElement)
         }
@@ -203,16 +205,16 @@ const Map = ({mapSize, isMouseDown}) => {
 
 
     const changeCellToSideBarOption = (parentCell) => {
-        const removeTerrain = true
         //Bypass the useState slow update with concrete parameters.
         contextTarget.current.row = parentCell.dataset.row;
         contextTarget.current.cell = parentCell.dataset.cell;
+        const removeTerrain = true
         setCellProperties(sidebarOptionTarget, removeTerrain);
 
     }
 
     //Recursive function.
-    const setMovableHexes = (row, cell, speed, step, size, movableBuild) => {
+    const collectMovableHexes = (row, cell, speed, step, size, movableBuild) => {
         const parentCell = getCellByCellNumber(row, cell)
 
         //Early return if out of map.
@@ -230,7 +232,7 @@ const Map = ({mapSize, isMouseDown}) => {
             return movableBuild;
         }
 
-        //Return is hex is a creature, except you are small or tiny.
+        //Return is hex is a creature, except player is small or tiny.
         if (parentCell.dataset.terrain === "creature" && !(size === "small" || size === "tiny") && step !== 0) {
             return movableBuild;
         }
@@ -256,12 +258,12 @@ const Map = ({mapSize, isMouseDown}) => {
         cell = parseInt(cell, 10);
 
         //Recursively call all neighbour hexes.
-        movableBuild = setMovableHexes(row - 1, cell + (row % 2), speed, step, size, movableBuild);
-        movableBuild = setMovableHexes(row, cell + 1, speed, step, size, movableBuild);
-        movableBuild = setMovableHexes(row + 1, cell + (row % 2), speed, step, size, movableBuild);
-        movableBuild = setMovableHexes(row + 1, cell + (-1 + row % 2), speed, step, size, movableBuild);
-        movableBuild = setMovableHexes(row, cell - 1, speed, step, size, movableBuild);
-        movableBuild = setMovableHexes(row - 1, cell + (-1 + row % 2), speed, step, size, movableBuild);
+        movableBuild = collectMovableHexes(row - 1, cell + (row % 2), speed, step, size, movableBuild);
+        movableBuild = collectMovableHexes(row, cell + 1, speed, step, size, movableBuild);
+        movableBuild = collectMovableHexes(row + 1, cell + (row % 2), speed, step, size, movableBuild);
+        movableBuild = collectMovableHexes(row + 1, cell + (-1 + row % 2), speed, step, size, movableBuild);
+        movableBuild = collectMovableHexes(row, cell - 1, speed, step, size, movableBuild);
+        movableBuild = collectMovableHexes(row - 1, cell + (-1 + row % 2), speed, step, size, movableBuild);
 
         return movableBuild;
     }
@@ -269,13 +271,17 @@ const Map = ({mapSize, isMouseDown}) => {
 
     function handleMouseEnter(event) {
         const parentCell = event.target.parentElement;
+
+        //Continuous hex image (environment image) placement when mouse down and enter a cell.
         if (isMouseDown && isEdit) {
-            //
+            //Here change te cell to the chosen environment type.
             changeCellToSideBarOption(parentCell)
             return;
         }
+
+        //Look after the possible hexes for the player move.
         if (parentCell.dataset.cellType === "player") {
-            const movableBuild = setMovableHexes(
+            const movableBuild = collectMovableHexes(
                 parentCell.dataset.row,
                 parentCell.dataset.cell,
                 parseInt(parentCell.dataset.speed, 10),
@@ -283,18 +289,22 @@ const Map = ({mapSize, isMouseDown}) => {
                 parentCell.dataset.cellSize,
                 new Set()
             )
+            //Trigger a render for the selected hexes with a state change.
             setMovable({cells: movableBuild});
         }
     }
 
+    //Creates a 2-dimensional matrix of hexes.
     const mapBuilder = () => {
         let map = [];
 
         for (let rowNumber = 0; rowNumber <= mapSize; rowNumber++) {
             let row = [];
             for (let cellNumber = 0; cellNumber <= mapSize; cellNumber++) {
-                const calculatedRowNumber = 1000 + rowNumber;
-                const calculatedCellNumber = 1000 + cellNumber;
+
+                //The id will come from the row- and cell- stringify form. This modification will avoid id duplication.
+                const calculatedRowNumber = 10000 + rowNumber;
+                const calculatedCellNumber = 10000 + cellNumber;
                 row.push(<div key={`${calculatedRowNumber}${calculatedCellNumber}-cell`}
                               data-row={calculatedRowNumber}
                               data-cell={calculatedCellNumber}
@@ -326,6 +336,8 @@ const Map = ({mapSize, isMouseDown}) => {
             >{row}</div>)
         }
 
+        //This ternary expression need to move the whole map a bit right to make place for the
+        //sidebar when the map fully scrolled to the left.
         return (<div className={"map map-editor-sidebar-".concat(isEditorSidebar ? "active" : "inactive")}
                      onContextMenu={handleRightClick}
                      onClick={handleLeftClick}>
