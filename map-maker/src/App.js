@@ -2,6 +2,7 @@ import './App.css';
 import Map from "./components/Map";
 import {useEffect, useState} from "react";
 import Background from "./components/Background";
+import ColorStyle from "./components/ColorStyle";
 
 function App() {
     const [isMouseDown, setIsMouseDown] = useState(false)
@@ -47,6 +48,7 @@ function App() {
             <Map mapSize={40}
                  isMouseDown={isMouseDown}/>
             <Background/>
+            <ColorStyle/>
         </div>
     );
 }
