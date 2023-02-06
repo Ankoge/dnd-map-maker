@@ -6,11 +6,10 @@
 
 body {
     text-align: center;
-    background-color: black;
-    /*background-image: url("https://cdn.discordapp.com/attachments/897871105363181588/1068134649689280563/AdobeStock_418559126_Preview.jpeg");*/
-    /*background-image: url("https://cdn.discordapp.com/attachments/1039961105046437989/1070065020303573114/ezgif.com-gif-maker_1.jpg");*/
-    background-image: url("https://cdn.discordapp.com/attachments/1039961105046437989/1070747769553309717/talaj-vegtelen.jpg");
-    background-size: 800px 800px;
+    background-color: lightgray;
+    background-image: url("https://cdn.discordapp.com/attachments/1039961105046437989/1072134876901429298/transparent.png");
+    background-size: 250px 200px;
+
 }
 
 .map {
@@ -432,11 +431,20 @@ body {
     background: #555;
 }
 
-.sidebar-container {
+.sidebar-container, .background-changer-container {
     position: fixed;
-    left: 10px;
     top: 10px;
     z-index: calc(var(--map-size) * 2 + 10);
+}
+
+.sidebar-container {
+    left: 10px;
+}
+
+.background-changer-container{
+    display: flex;
+    right: 10px;
+    flex-direction: column;
 }
 
 .editor-icon-container {
@@ -444,10 +452,10 @@ body {
     flex-direction: row;
 }
 
-.sidebar-icon, .selected-option-active {
+.sidebar-icon, .selected-option-active, .background-icon-active, .background-option-icon-active {
     height: 50px;
     width: 50px;
-    background-size: 30px;
+    background-size: 30px 30px;
     background-repeat: no-repeat;
     background-position: center;
     background-color: white;
