@@ -45,11 +45,11 @@ export const ContextMenu = props => {
 
 
     const contextMenuMonsterOptionBuilder = () => {
-        return MONSTER_OPTIONS.map((option, index) => <div key={option.monsterType}
+        return MONSTER_OPTIONS.map(option => <div key={option.monsterType}
                                                             className={"context-menu-option context-menu-option".concat(contextButton === "monster" ? "-active" : "-inactive").concat(monsterTypeButton === option.monsterType ? "-chosen" : " on-hover")}
                                                             onClick={handleMonsterOptionTypeChoose}
                                                             data-monster-type={option.monsterType}
-        >{option.monsterType}<img className={"monster-option-arrow ".concat(monsterTypeButton === option.monsterType? "down-arrow":"up-arrow")} src={"https://cdn.discordapp.com/attachments/1039961105046437989/1067774231636619284/pngegg_48.png"}alt={"down-arrow"}/>{contextMenuOptionBuilder(option.monsterTypes, option.monsterType)}
+        >{option.monsterType}<img className={"monster-option-arrow ".concat(monsterTypeButton === option.monsterType? "down-arrow":"up-arrow")} src={"https://cdn.discordapp.com/attachments/1039961105046437989/1067774231636619284/pngegg_48.png"} alt={"down-arrow"}/>{contextMenuOptionBuilder(option.monsterTypes, option.monsterType)}
         </div>)
     }
 
