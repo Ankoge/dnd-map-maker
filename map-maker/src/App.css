@@ -463,6 +463,10 @@ body {
     border-radius: 5px;
 }
 
+.background-option-icon-active.selected-background {
+    background-color: midnightblue;
+}
+
 .sidebar-icon {
     background-size: 30px;
     background-repeat: no-repeat;

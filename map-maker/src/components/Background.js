@@ -16,7 +16,7 @@ const Background = () => {
     const backgroundOptionBuilder = () => {
         return (BACKGROUND_OPTIONS.map((option, index) =>
             <div key={index}
-                 className={"background-option-icon-".concat(isEdit ? "active" : "inactive")}
+                 className={"background-option-icon-".concat(isEdit ? "active" : "inactive").concat(option.url === backgroundUrl ? " selected-background" : "")}
                  style={{backgroundImage: `url("${option.url}")`}}
                  data-url={option.url}
                  onClick={handleOptionClick}
