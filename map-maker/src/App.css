@@ -2,8 +2,9 @@
     --cell-size: 50px;
     --border-width: 3px;
     --map-size: 40;
-    --background-color: rgb(211, 211, 211);
-    --border: rgb(0, 0, 0);
+    --font: rgb(0,0,0);
+    --background: rgb(211, 211, 211);
+    --border: rgb(0,100,0);
     --hex-background: rgba(255, 255, 255, 0.3);
     --hover: rgb(150, 150, 150);
     --hover-transparent: rgba(133, 133, 133, 0.5);
@@ -17,8 +18,9 @@
 }
 
 body {
+    color: var(--font);
     text-align: center;
-    background-color: var(--background-color);
+    background-color: var(--background);
     background-image: url("https://cdn.discordapp.com/attachments/1039961105046437989/1072134876901429298/transparent.png");
     background-size: 250px 200px;
 }
