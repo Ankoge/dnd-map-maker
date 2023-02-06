@@ -1,6 +1,10 @@
 const ColorStyle = () => {
     return(
-        <div></div>
+        <div className={"color-changer-container"}>
+            <div className={"color-changer-icon"}
+                 style={{backgroundColor: `green`}}
+            ></div>
+        </div>
     )
 }
 
