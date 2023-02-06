@@ -1,6 +1,7 @@
 import './App.css';
 import Map from "./components/Map";
 import {useEffect, useState} from "react";
+import Background from "./components/Background";
 
 function App() {
     const [isMouseDown, setIsMouseDown] = useState(false)
@@ -27,13 +28,13 @@ function App() {
             }
         })
 
-        document.body.addEventListener('mouseup', (event) => {
+        document.body.addEventListener('mouseup', () => {
 
             setIsMouseDown(false)
 
         })
 
-        document.body.addEventListener('mousedown', event => {
+        document.body.addEventListener('mousedown', () => {
             setIsMouseDown(true)
         })
     }, [])
@@ -45,6 +46,7 @@ function App() {
             </header>
             <Map mapSize={40}
                  isMouseDown={isMouseDown}/>
+            <Background/>
         </div>
     );
 }
