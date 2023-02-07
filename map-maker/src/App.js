@@ -45,7 +45,7 @@ function App() {
         <div className="App">
             <header className="App-header">
             </header>
-            <Map mapSize={40}
+            <Map mapSize={45}
                  isMouseDown={isMouseDown}/>
             <Background/>
             <ColorStyle/>
