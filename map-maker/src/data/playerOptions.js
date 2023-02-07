@@ -21,7 +21,7 @@ export const PLAYER_OPTIONS = [
         speed: 6
     }, {
         cellName: "Pixie",
-        cellSize: "small",
+        cellSize: "large",
         cellShape: "tall",
         cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1060890887833522226/pngegg_19.png",
         speed: 5

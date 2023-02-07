@@ -44,6 +44,10 @@ const Map = ({mapSize, isMouseDown}) => {
             if (type === "player" || type === "monster") {
                 setShadow()
             }
+            if (type === "player") {
+                imageCellPart.parentElement.dataset.speed = option.dataset.speed;
+                imageCellPart.parentElement.dataset.playerId = `${option.dataset.image}${option.dataset.cellName}`
+            }
         }
 
         const setShadow = () => {
@@ -72,16 +76,16 @@ const Map = ({mapSize, isMouseDown}) => {
             parentCell.dataset.imageSourceCell = `${rowNumber}${cellNumber}-cell-image`;
             parentCell.dataset.imageGroupId = `${rowNumber}${cellNumber}-image-group`;
             parentCell.dataset.cellSize = type === "environment" ? parentCell.dataset.cellSize : size;
-            if (type === "player") {
-                parentCell.dataset.speed = option.dataset.speed;
-                parentCell.dataset.playerId = `${option.dataset.image}${option.dataset.cellName}`
-            }
+            parentCell.dataset.speed = type === "player" ? option.dataset.speed : "";
+
         }
 
         setIsContextMenu(false);
         const rowNumber = parseInt(contextTarget.current.row, 10);
         const cellNumber = parseInt(contextTarget.current.cell, 10);
-        if(!rowNumber||!cellNumber){return;}
+        if (!rowNumber || !cellNumber) {
+            return;
+        }
 
         if (option.dataset.optionType === "delete") {
             handleDelete(rowNumber, cellNumber, isTerrainRemove);
@@ -95,7 +99,7 @@ const Map = ({mapSize, isMouseDown}) => {
         if (type === "player") {
             const playerDuplicate = document.querySelector('[data-player-id="'.concat(`${option.dataset.image}${option.dataset.cellName}`).concat('"]'))
             if (playerDuplicate) {
-                handleDelete(playerDuplicate.dataset.row, playerDuplicate.dataset.cell,false)
+                handleDelete(playerDuplicate.dataset.row, playerDuplicate.dataset.cell, false)
             }
         }
 
@@ -133,12 +137,13 @@ const Map = ({mapSize, isMouseDown}) => {
         const parentCell = document.getElementById(`${row}${cell}-cell`);
         const imageSourceCell = `${row}${cell}-cell-image${classNameModifier}`;
         const imageCellPart = document.getElementById(imageSourceCell);
-        removeShadow(row, cell, parentCell.dataset.cellSize);
+        removeShadow(parseInt(row, 10), parseInt(cell, 10), parentCell.dataset.cellSize);
 
-        if(parentCell.dataset.cellType === "player") {
+        if (parentCell.dataset.cellType === "player") {
             parentCell.removeAttribute("data-player-id");
         }
         if (parentCell.dataset.cellSize === "large" || parentCell.dataset.cellSize === "huge") {
+            console.log("in large delete")
             resetGroup(parentCell);
         } else {
             parentCell.dataset.terrain = "movable";
@@ -152,6 +157,7 @@ const Map = ({mapSize, isMouseDown}) => {
 
     const resetGroup = (targetParentCell) => {
         const groupParentCells = document.querySelectorAll(`[data-image-group-id = "${targetParentCell.dataset.imageGroupId}"]`)
+        console.log(groupParentCells)
         groupParentCells.forEach(parentCell => {
             parentCell.dataset.terrain = "movable";
             parentCell.dataset.imageGroupId = "";
@@ -248,7 +254,7 @@ const Map = ({mapSize, isMouseDown}) => {
         }
 
         //Avoiding regression to an area already under investigation.
-        if(movableBuild.has(`${row}${cell}`&& step !== 0)){
+        if (movableBuild.has(`${row}${cell}` && step !== 0)) {
             return movableBuild
         }
 
@@ -281,14 +287,30 @@ const Map = ({mapSize, isMouseDown}) => {
 
         //Look after the possible hexes for the player move.
         if (parentCell.dataset.cellType === "player") {
-            const movableBuild = collectMovableHexes(
-                parentCell.dataset.row,
-                parentCell.dataset.cell,
-                parseInt(parentCell.dataset.speed, 10),
-                0,
-                parentCell.dataset.cellSize,
-                new Set()
-            )
+            let movableBuild = new Set();
+            if (parentCell.dataset.cellSize === "large") {
+                const groupParentCells = document.querySelectorAll(`[data-image-group-id = "${parentCell.dataset.imageGroupId}"]`)
+                groupParentCells.forEach(pc =>{
+                    movableBuild = collectMovableHexes(
+                        pc.dataset.row,
+                        pc.dataset.cell,
+                        parseInt(pc.dataset.speed, 10),
+                        0,
+                        pc.dataset.cellSize,
+                        movableBuild
+                    )
+                })
+            } else {
+                movableBuild = collectMovableHexes(
+                    parentCell.dataset.row,
+                    parentCell.dataset.cell,
+                    parseInt(parentCell.dataset.speed, 10),
+                    0,
+                    parentCell.dataset.cellSize,
+                    movableBuild
+                )
+            }
+
             //Trigger a render for the selected hexes with a state change.
             setMovable({cells: movableBuild});
         }
