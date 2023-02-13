@@ -26,9 +26,9 @@ export const ContextMenu = props => {
     }
 
 
-    const contextMenuOptionBuilder = (options, optionType) => {
+    const contextMenuOptionBuilder = (options, optionType, dropDownCondition) => {
         return options.map((option, index) => <span key={index}
-                                                    className={"on-hover context-menu-option".concat(optionType === "player" || optionType === "environment" ? " context-menu-option".concat(contextButton === optionType ? "-active" : "-inactive") : " context-menu-option".concat(monsterTypeButton === optionType ? "-active" : "-inactive"))}
+                                                    className={"on-hover context-menu-option".concat(optionType === "player" || optionType === "environment" ? " context-menu-option".concat(contextButton === optionType ? "-active" : "-inactive") : " context-menu-option".concat(monsterTypeButton === dropDownCondition ? "-active" : "-inactive"))}
                                                     data-image={option.cellUrl}
                                                     data-cell-size={option.cellSize}
                                                     data-cell-shape={option.cellShape ? option.cellShape : "tall"}
@@ -49,7 +49,8 @@ export const ContextMenu = props => {
                                                             className={"context-menu-option context-menu-option".concat(contextButton === "monster" ? "-active" : "-inactive").concat(monsterTypeButton === option.monsterType ? "-chosen" : " on-hover")}
                                                             onClick={handleMonsterOptionTypeChoose}
                                                             data-monster-type={option.monsterType}
-        >{option.monsterType}<img className={"monster-option-arrow ".concat(monsterTypeButton === option.monsterType? "down-arrow":"up-arrow")} src={"https://cdn.discordapp.com/attachments/1039961105046437989/1067774231636619284/pngegg_48.png"} alt={"down-arrow"}/>{contextMenuOptionBuilder(option.monsterTypes, option.monsterType)}
+        >{option.monsterType}<img className={"monster-option-arrow ".concat(monsterTypeButton === option.monsterType? "down-arrow":"up-arrow")} src={"https://cdn.discordapp.com/attachments/1039961105046437989/1067774231636619284/pngegg_48.png"} alt={"down-arrow"}/>
+            {contextMenuOptionBuilder(option.monsterTypes, "monster", option.monsterType)}
         </div>)
     }
 
@@ -80,9 +81,9 @@ export const ContextMenu = props => {
              onClick={handleContextOptionClick}
         >Delete
         </div>
-        {contextMenuOptionBuilder(PLAYER_OPTIONS, "player")}
+        {contextMenuOptionBuilder(PLAYER_OPTIONS, "player", "noDropDown") }
         {contextMenuMonsterOptionBuilder()}
-        {contextMenuOptionBuilder(ENVIRONMENT_OPTIONS, "environment")}
+        {contextMenuOptionBuilder(ENVIRONMENT_OPTIONS, "environment", "noDropDown")}
     </div>)
 
 }
