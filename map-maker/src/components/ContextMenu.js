@@ -1,23 +1,25 @@
 import {PLAYER_OPTIONS} from "../data/playerOptions";
 import {MONSTER_OPTIONS} from "../data/monsterOptions";
 import {ENVIRONMENT_OPTIONS} from "../data/environmentOptions";
-import {useState} from "react";
+import {useRef, useState} from "react";
+import {useEffectOnce} from "../hooks/useEffectOnce";
+import fetchGet from "../fetches/fetchGet";
 
 export const ContextMenu = props => {
     const [contextButton, setContextButton] = useState("player")
-    const [monsterTypeButton, setMonsterTypeButton] = useState("none")
+    const [monsterSearch, setMonsterSearch] = useState("")
+    const [targetedMonsters, setTargetedMonsters] = useState([]);
+    const allMonsters = useRef([]);
+
+    useEffectOnce(() => {
+        fetchGet("https://www.dnd5eapi.co/api/monsters")
+            .then(monsters => allMonsters.current = monsters.results)
+    })
 
     const handleContextOptionTypeChoose = (chosenType) => {
         setContextButton(chosenType.target.dataset.contexttype)
     }
 
-    function handleMonsterOptionTypeChoose(chosenType) {
-        if (chosenType.target.dataset.monsterType === monsterTypeButton) {
-            setMonsterTypeButton("none")
-        } else {
-            setMonsterTypeButton(chosenType.target.dataset.monsterType)
-        }
-    }
 
     function handleContextOptionClick(option) {
         option.stopPropagation();
@@ -26,9 +28,9 @@ export const ContextMenu = props => {
     }
 
 
-    const contextMenuOptionBuilder = (options, optionType, dropDownCondition) => {
+    const contextMenuOptionBuilder = (options, optionType) => {
         return options.map((option, index) => <span key={index}
-                                                    className={"on-hover context-menu-option".concat(optionType === "player" || optionType === "environment" ? " context-menu-option".concat(contextButton === optionType ? "-active" : "-inactive") : " context-menu-option".concat(monsterTypeButton === dropDownCondition ? "-active" : "-inactive"))}
+                                                    className={"on-hover context-menu-option".concat(" context-menu-option".concat(contextButton === optionType ? "-active" : "-inactive"))}
                                                     data-image={option.cellUrl}
                                                     data-cell-size={option.cellSize}
                                                     data-cell-shape={option.cellShape ? option.cellShape : "tall"}
@@ -45,13 +47,8 @@ export const ContextMenu = props => {
 
 
     const contextMenuMonsterOptionBuilder = () => {
-        return MONSTER_OPTIONS.map(option => <div key={option.monsterType}
-                                                            className={"context-menu-option context-menu-option".concat(contextButton === "monster" ? "-active" : "-inactive").concat(monsterTypeButton === option.monsterType ? "-chosen" : " on-hover")}
-                                                            onClick={handleMonsterOptionTypeChoose}
-                                                            data-monster-type={option.monsterType}
-        >{option.monsterType}<img className={"monster-option-arrow ".concat(monsterTypeButton === option.monsterType? "down-arrow":"up-arrow")} src={"https://cdn.discordapp.com/attachments/1039961105046437989/1067774231636619284/pngegg_48.png"} alt={"down-arrow"}/>
-            {contextMenuOptionBuilder(option.monsterTypes, "monster", option.monsterType)}
-        </div>)
+        return contextMenuOptionBuilder(MONSTER_OPTIONS.monsters, "monster")
+
     }
 
 
@@ -65,6 +62,40 @@ export const ContextMenu = props => {
         </button>)
     }
 
+    const makeSearchDropdown = () => {
+        return targetedMonsters.map(monster => <span
+            className={"context-menu-option-active search-option"}>
+            {monster.name}</span>);
+
+    }
+
+
+    function handleSearchInputChange(event) {
+        if (isAnyMeaningfulCharacter(event.target.value)) {
+            setTargetedMonsters(allMonsters.current.filter(monster =>
+                monster.name.toLowerCase().includes(event.target.value.toLowerCase())
+            ))
+        }else{
+            setTargetedMonsters([])
+        }
+    }
+
+    function isAnyMeaningfulCharacter(searchKey) {
+        return searchKey.replaceAll(" ", "").split("").length > 0;
+    }
+
+    function addNewMonsterFromList() {
+        return <div
+            className={"context-menu-option".concat(" context-menu-option".concat(contextButton === "monster" ? "-active" : "-inactive"))}>
+            <input className={"monster-input-field"}
+                   type={"text"}
+                   onChange={handleSearchInputChange}
+            ></input>
+            <div className={"search-dropdown"}
+            >{makeSearchDropdown()}
+            </div>
+        </div>
+    }
 
     return (<div id="context-menu"
                  className={"context-menu context-menu-".concat(props.isContextMenu ? "active" : "inactive")}>
@@ -81,9 +112,10 @@ export const ContextMenu = props => {
              onClick={handleContextOptionClick}
         >Delete
         </div>
-        {contextMenuOptionBuilder(PLAYER_OPTIONS, "player", "noDropDown") }
+        {contextMenuOptionBuilder(PLAYER_OPTIONS, "player")}
+        {addNewMonsterFromList()}
         {contextMenuMonsterOptionBuilder()}
-        {contextMenuOptionBuilder(ENVIRONMENT_OPTIONS, "environment", "noDropDown")}
+        {contextMenuOptionBuilder(ENVIRONMENT_OPTIONS, "environment")}
     </div>)
 
 }

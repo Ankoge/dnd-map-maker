@@ -4,7 +4,7 @@
     --map-size: 40;
     --font: rgb(0,0,0);
     --background: rgb(211, 211, 211);
-    --border: rgb(0,100,0);
+    --border: rgb(0,0,0);
     --hex-background: rgba(255, 255, 255, 0.3);
     --hover: rgb(150, 150, 150);
     --hover-transparent: rgba(133, 133, 133, 0.5);
@@ -566,4 +566,20 @@ body {
     vertical-align: middle;
     background-size: 25px;
     height: 25px;
+}
+
+.search-dropdown {
+    background-color: var(--menu-background);
+    border: var(--border) solid;
+    border-width: 1px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.search-option {
+    margin-top: 5px;
+}
+
+.search-option:hover {
+    background-color: var(--hover);
 }
