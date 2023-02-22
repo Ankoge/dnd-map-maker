@@ -62,9 +62,19 @@ export const ContextMenu = props => {
         </button>)
     }
 
+    function handleSearchTargetClick(event) {
+        const url = event.target.dataset.url;
+        fetchGet(`https://www.dnd5eapi.co${url}`)
+            .then(monsterData => MONSTER_OPTIONS.addMonster(monsterData.name, monsterData.size.toLowerCase(), `https://www.dnd5eapi.co${monsterData.image}`)
+            );
+    }
+
     const makeSearchDropdown = () => {
-        return targetedMonsters.map(monster => <span
-            className={"context-menu-option-active search-option"}>
+        return targetedMonsters.map((monster, index) => <span
+            key={`${index}`}
+            className={"context-menu-option-active search-option"}
+            data-url={monster.url}
+            onClick={handleSearchTargetClick}>
             {monster.name}</span>);
 
     }
@@ -75,7 +85,7 @@ export const ContextMenu = props => {
             setTargetedMonsters(allMonsters.current.filter(monster =>
                 monster.name.toLowerCase().includes(event.target.value.toLowerCase())
             ))
-        }else{
+        } else {
             setTargetedMonsters([])
         }
     }
