@@ -46,8 +46,9 @@ const Map = ({mapSize, isMouseDown}) => {
             }
             if (type === "player") {
                 imageCellPart.parentElement.dataset.speed = option.dataset.speed;
-                imageCellPart.parentElement.dataset.playerId = `${option.dataset.image}${option.dataset.cellName}`
             }
+            imageCellPart.parentElement.dataset.playerId = `${option.dataset.image}${option.dataset.cellName}`
+
         }
 
         const setShadow = () => {
@@ -96,7 +97,7 @@ const Map = ({mapSize, isMouseDown}) => {
         const shape = option.dataset.cellShape ? option.dataset.cellShape : "tall";
         const type = option.dataset.optionType;
 
-        if (type === "player") {
+        if (type === "player" || type === "monster") {
             const playerDuplicate = document.querySelector('[data-player-id="'.concat(`${option.dataset.image}${option.dataset.cellName}`).concat('"]'))
             if (playerDuplicate) {
                 handleDelete(playerDuplicate.dataset.row, playerDuplicate.dataset.cell, false)
