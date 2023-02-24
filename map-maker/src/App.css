@@ -2,9 +2,9 @@
     --cell-size: 50px;
     --border-width: 3px;
     --map-size: 40;
-    --font: rgb(0,0,0);
+    --font: rgb(0, 0, 0);
     --background: rgb(211, 211, 211);
-    --border: rgb(0,0,0);
+    --border: rgb(0, 0, 0);
     --hex-background: rgba(255, 255, 255, 0.3);
     --hover: rgb(150, 150, 150);
     --hover-transparent: rgba(133, 133, 133, 0.5);
@@ -109,21 +109,6 @@ body {
     margin-left: calc(1px + var(--cell-size) + var(--border-width) / 3);
 }
 
-.living {
-    animation: pulse 3.5s linear infinite;
-}
-
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(0.98);
-    }
-    100% {
-        transform: scale(1);
-    }
-}
 
 .shadow {
     background-image: url("https://cdn.discordapp.com/attachments/1039961105046437989/1060708443645808650/pngfind.com-round-shadow-png-4130139.png");
@@ -173,6 +158,18 @@ body {
     margin-left: calc(var(--cell-size) * 0.7);
 }
 
+.cell-image.tiny.tall {
+    background-size: auto calc(var(--cell-size) * 0.7);
+}
+
+.cell-image.tiny.round {
+    background-size: auto calc(var(--cell-size) * 0.5);
+}
+
+.cell-image.tiny.flat {
+    background-size: calc(var(--cell-size) * 0.7) auto;
+}
+
 .cell-image.small {
     width: calc(var(--cell-size) * 2);
     height: calc(var(--cell-size) * 1.5);
@@ -187,6 +184,12 @@ body {
 
 .cell-image.small.flat {
     background-size: auto calc(var(--cell-size) * 1);
+    margin-top: calc(0px - var(--cell-size) * 1.9);
+}
+
+.cell-image.small.round {
+    background-size: calc(var(--cell-size) * 1);
+    margin-top: calc(0px - var(--cell-size) * 1.9);
 }
 
 .cell-image.medium {
@@ -208,23 +211,14 @@ body {
 
 .cell-image.medium.round {
     background-size: calc(var(--cell-size) * 1.8) auto;
-    margin-top: calc(0px - var(--cell-size) * 2.2);
+    margin-top: calc(0px - var(--cell-size) * 2.4);
 }
 
 .cell-image.medium.flat {
-    width: calc(var(--cell-size) * 2.3);
-    background-size: calc(var(--cell-size) * 2.4) calc(var(--cell-size) * 1.5);
+    background-size: calc(var(--cell-size) * 2.0) auto;
     margin-top: calc(0px - var(--cell-size) * 2.2);
-    margin-left: calc(0px - var(--cell-size) / 10);
+    margin-left: calc(0px - var(--cell-size) / 20);
 }
-
-.cell-image.medium.oni {
-    height: calc(var(--cell-size) * 2);
-    width: calc(var(--cell-size) * 2.1);
-    background-size: calc(var(--cell-size) * 2.5) calc(var(--cell-size) * 2);
-    margin-top: calc(0px - var(--cell-size) * 2.5);
-}
-
 
 .cell-image.medium.full {
     border-radius: 50%;
@@ -303,7 +297,7 @@ body {
 
 .cell-image.large.tall {
     background-size: auto calc(var(--cell-size) * 3.5);
-    margin-top: calc(0px - var(--cell-size) * 4.4);
+    margin-top: calc(0px - var(--cell-size) * 4.25);
 }
 
 .cell-image.large.round {
@@ -343,11 +337,10 @@ body {
     box-shadow: 5px 10px 5px var(--shadow);
     position: absolute;
     background-color: var(--menu-background);
-    max-height: 300px;
+    max-height: 450px;
     content-visibility: auto;
     overflow-y: auto;
-    width: max-content;
-    max-width: 250px;
+
 }
 
 .context-menu-active {
@@ -378,6 +371,10 @@ body {
     font-weight: normal;
 }
 
+.context-menu-option.option {
+    flex-direction: row;
+}
+
 .context-menu-button .context-menu-button-active-chosen {
 
     font-size: 30px;
@@ -402,6 +399,7 @@ body {
 }
 
 .context-option-image {
+    margin-left: 5px;
     height: 25px;
     vertical-align: middle;
 }
@@ -419,22 +417,14 @@ body {
     font-weight: normal;
 }
 
-.monster-option-arrow {
-    margin-left: 5px;
-    height: 10px;
-    vertical-align: middle;
-}
-
-.monster-option-arrow.up-arrow {
-    transform: rotate(3.14rad);
-}
-
 .context-menu-option-inactive {
     display: none;
 }
 
 .context-menu-option-active {
-    display: block;
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
 }
 
 .on-hover:hover {
@@ -449,6 +439,64 @@ body {
     padding-top: 6px;
 }
 
+.shape-button:hover {
+    background-color: var(--hover);
+}
+
+.shape-button, .size-dropdown-button {
+    height: 25px;
+    width: 25px;
+    overflow: hidden;
+    border: var(--border) solid 1px;
+    border-radius: 4px;
+    margin-left: 3px;
+}
+
+.shape-image, .size-image {
+    margin-top: 3px;
+    height: 19px;
+    width: 19px;
+}
+
+.size-dropdown-container {
+    background-color: var(--menu-background);
+}
+
+.size-dropdown-button {
+    margin-bottom: 10px;
+}
+
+.size-dropdown-button:hover {
+    background-color: var(--hover);
+}
+
+.size-dropdown-option {
+    background-color: var(--menu-background);
+    text-align: left;
+    padding: 0px 5px 5px 5px;
+}
+
+.size-dropdown-option {
+    position: absolute;
+    border-left: var(--border) solid;
+    border-right: var(--border) solid;
+}
+
+.size-dropdown-option:last-child {
+    border-bottom: var(--border) solid;
+}
+
+.size-dropdown-option:first-child {
+    border-top: var(--border) solid;
+}
+
+.size-dropdown-option.active {
+    display: block;
+}
+
+.size-dropdown-option.inactive {
+    display: none;
+}
 
 .sidebar-container, .background-changer-container, .color-changer-container {
     position: fixed;
@@ -571,15 +619,27 @@ body {
 .search-dropdown {
     background-color: var(--menu-background);
     border: var(--border) solid;
-    border-width: 1px;
     max-height: 200px;
     overflow-y: auto;
 }
 
+#monster-search-container {
+    flex-direction: column;
+}
+
 .search-option {
+    justify-content: center;
     margin-top: 5px;
 }
 
 .search-option:hover {
     background-color: var(--hover);
+}
+
+.active {
+    display: block;
+}
+
+.inactive {
+    display: none
 }

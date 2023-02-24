@@ -1,4 +1,4 @@
-import {BACKGROUND_OPTIONS} from "../data/backgroundOptions";
+import {BACKGROUND_OPTIONS} from "../data/options";
 import {useState} from "react";
 
 const Background = () => {

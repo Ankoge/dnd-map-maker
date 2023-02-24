@@ -31,7 +31,7 @@ const Map = ({mapSize, isMouseDown}) => {
         clearMovable();
 
         // If you click on the image instead of the option, this will correct it.
-        if (option.className.includes("image")) {
+        if (option.className.includes("cell-option")) {
             option = option.parentElement;
         }
 
@@ -70,7 +70,6 @@ const Map = ({mapSize, isMouseDown}) => {
                     break;
             }
         }
-
         const setParentCell = (parentCell) => {
             parentCell.dataset.terrain = option.dataset.terrain;
             parentCell.dataset.cellType = type;
@@ -98,9 +97,10 @@ const Map = ({mapSize, isMouseDown}) => {
         const type = option.dataset.optionType;
 
         if (type === "player" || type === "monster") {
-            const playerDuplicate = document.querySelector('[data-player-id="'.concat(`${option.dataset.image}${option.dataset.cellName}`).concat('"]'))
-            if (playerDuplicate) {
-                handleDelete(playerDuplicate.dataset.row, playerDuplicate.dataset.cell, false)
+            const playerDuplicates = document.querySelectorAll('[data-player-id="'.concat(`${option.dataset.image}${option.dataset.cellName}`).concat('"]'))
+            if (playerDuplicates.length > 0) {
+                playerDuplicates.forEach(duplicate => handleDelete(duplicate.dataset.row, duplicate.dataset.cell, false))
+
             }
         }
 
@@ -131,12 +131,8 @@ const Map = ({mapSize, isMouseDown}) => {
     }
 
     const handleDelete = (row, cell, isTerrainRemove) => {
-        let classNameModifier = ""
-        if (isTerrainRemove) {
-            classNameModifier = "-terrain"
-        }
         const parentCell = document.getElementById(`${row}${cell}-cell`);
-        const imageSourceCell = `${row}${cell}-cell-image${classNameModifier}`;
+        const imageSourceCell = `${row}${cell}-cell-image${isTerrainRemove ? "-terrain" : ""}`;
         const imageCellPart = document.getElementById(imageSourceCell);
         removeShadow(parseInt(row, 10), parseInt(cell, 10), parentCell.dataset.cellSize);
 
@@ -144,7 +140,6 @@ const Map = ({mapSize, isMouseDown}) => {
             parentCell.removeAttribute("data-player-id");
         }
         if (parentCell.dataset.cellSize === "large" || parentCell.dataset.cellSize === "huge") {
-            console.log("in large delete")
             resetGroup(parentCell);
         } else {
             parentCell.dataset.terrain = "movable";
@@ -158,7 +153,6 @@ const Map = ({mapSize, isMouseDown}) => {
 
     const resetGroup = (targetParentCell) => {
         const groupParentCells = document.querySelectorAll(`[data-image-group-id = "${targetParentCell.dataset.imageGroupId}"]`)
-        console.log(groupParentCells)
         groupParentCells.forEach(parentCell => {
             parentCell.dataset.terrain = "movable";
             parentCell.dataset.imageGroupId = "";
@@ -291,7 +285,7 @@ const Map = ({mapSize, isMouseDown}) => {
             let movableBuild = new Set();
             if (parentCell.dataset.cellSize === "large") {
                 const groupParentCells = document.querySelectorAll(`[data-image-group-id = "${parentCell.dataset.imageGroupId}"]`)
-                groupParentCells.forEach(pc =>{
+                groupParentCells.forEach(pc => {
                     movableBuild = collectMovableHexes(
                         pc.dataset.row,
                         pc.dataset.cell,
