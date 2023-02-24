@@ -2,21 +2,16 @@ import {PLAYER_OPTIONS} from "../data/playerOptions";
 import {MONSTER_OPTIONS} from "../data/monsterOptions";
 import {ENVIRONMENT_OPTIONS} from "../data/environmentOptions";
 import {useState} from "react";
+import MonsterSearch from "./MonsterSearch";
+import ShapeButton from "./ShapeButton";
+import {SHAPE_OPTION} from "../data/options";
+import SizeDropdown from "./SizeDropdown";
 
 export const ContextMenu = props => {
     const [contextButton, setContextButton] = useState("player")
-    const [monsterTypeButton, setMonsterTypeButton] = useState("none")
 
     const handleContextOptionTypeChoose = (chosenType) => {
         setContextButton(chosenType.target.dataset.contexttype)
-    }
-
-    function handleMonsterOptionTypeChoose(chosenType) {
-        if (chosenType.target.dataset.monsterType === monsterTypeButton) {
-            setMonsterTypeButton("none")
-        } else {
-            setMonsterTypeButton(chosenType.target.dataset.monsterType)
-        }
     }
 
     function handleContextOptionClick(option) {
@@ -25,33 +20,39 @@ export const ContextMenu = props => {
         props.setCellProperties(option.target, removeTerrain);
     }
 
+    const contextMenuOptionBuilder = (options, optionType) => {
+        return options.map((option, index) =>
+            <span key={10000 + index}
+                  className={"context-menu-option".concat(" context-menu-option".concat(contextButton === optionType ? "-active" : "-inactive"))}
 
-    const contextMenuOptionBuilder = (options, optionType, dropDownCondition) => {
-        return options.map((option, index) => <span key={index}
-                                                    className={"on-hover context-menu-option".concat(optionType === "player" || optionType === "environment" ? " context-menu-option".concat(contextButton === optionType ? "-active" : "-inactive") : " context-menu-option".concat(monsterTypeButton === dropDownCondition ? "-active" : "-inactive"))}
-                                                    data-image={option.cellUrl}
-                                                    data-cell-size={option.cellSize}
-                                                    data-cell-shape={option.cellShape ? option.cellShape : "tall"}
-                                                    data-speed={optionType === "player" ? option.speed : 0}
-                                                    data-terrain={optionType === "environment" ? option.cellTerrain : "creature"}
-                                                    data-cell-name={option.cellName}
-                                                    data-option-type={optionType}
-                                                    onClick={handleContextOptionClick}
-        >{option.cellName} <img className={"context-option-image"}
-                                src={option.cellUrl}
-                                alt={option.cellName}/>
+            ><span key={index}
+                   className={"on-hover context-menu-option option"}
+                   data-image={option.cellUrl}
+                   data-cell-size={option.cellSize}
+                   data-cell-shape={option.cellShape ? option.cellShape : "tall"}
+                   data-speed={optionType === "player" ? option.speed : 0}
+                   data-terrain={optionType === "environment" ? option.cellTerrain : "creature"}
+                   data-cell-name={option.cellName}
+                   data-option-type={optionType}
+                   onClick={handleContextOptionClick}
+            ><div className={"cell-option"}>{option.cellName}</div>
+                <img className={"context-option-image cell-option"}
+                     src={option.cellUrl}
+                     alt={option.cellName}/>
+
+        </span>
+                {optionType !== "environment" ? <ShapeButton name={option.cellName}
+                                                             shape={SHAPE_OPTION.TALL}
+                                                             optionType={optionType}/> : ""}
+                {optionType !== "environment" ? <ShapeButton name={option.cellName}
+                                                             shape={SHAPE_OPTION.ROUND}
+                                                             optionType={optionType}/> : ""}
+                {optionType !== "environment" ? <ShapeButton name={option.cellName}
+                                                             shape={SHAPE_OPTION.FLAT}
+                                                             optionType={optionType}/> : ""}
+                {optionType !== "environment" ? <SizeDropdown name={option.cellName}
+                                                              optionType={optionType}/> : ""}
         </span>)
-    }
-
-
-    const contextMenuMonsterOptionBuilder = () => {
-        return MONSTER_OPTIONS.map(option => <div key={option.monsterType}
-                                                            className={"context-menu-option context-menu-option".concat(contextButton === "monster" ? "-active" : "-inactive").concat(monsterTypeButton === option.monsterType ? "-chosen" : " on-hover")}
-                                                            onClick={handleMonsterOptionTypeChoose}
-                                                            data-monster-type={option.monsterType}
-        >{option.monsterType}<img className={"monster-option-arrow ".concat(monsterTypeButton === option.monsterType? "down-arrow":"up-arrow")} src={"https://cdn.discordapp.com/attachments/1039961105046437989/1067774231636619284/pngegg_48.png"} alt={"down-arrow"}/>
-            {contextMenuOptionBuilder(option.monsterTypes, "monster", option.monsterType)}
-        </div>)
     }
 
 
@@ -64,7 +65,6 @@ export const ContextMenu = props => {
                                                                      alt={`${optionType}-icon`}/>
         </button>)
     }
-
 
     return (<div id="context-menu"
                  className={"context-menu context-menu-".concat(props.isContextMenu ? "active" : "inactive")}>
@@ -81,9 +81,10 @@ export const ContextMenu = props => {
              onClick={handleContextOptionClick}
         >Delete
         </div>
-        {contextMenuOptionBuilder(PLAYER_OPTIONS, "player", "noDropDown") }
-        {contextMenuMonsterOptionBuilder()}
-        {contextMenuOptionBuilder(ENVIRONMENT_OPTIONS, "environment", "noDropDown")}
+        {contextMenuOptionBuilder(PLAYER_OPTIONS.players, "player")}
+        <MonsterSearch contextButton={contextButton}/>
+        {contextMenuOptionBuilder(MONSTER_OPTIONS.monsters, "monster")}
+        {contextMenuOptionBuilder(ENVIRONMENT_OPTIONS, "environment")}
     </div>)
 
 }

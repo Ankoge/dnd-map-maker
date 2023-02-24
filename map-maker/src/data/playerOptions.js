@@ -1,4 +1,17 @@
-export const PLAYER_OPTIONS = [
+export const PLAYER_OPTIONS = {
+    changeSize: (name, size) => {
+        const playerForShapeChange = PLAYER_OPTIONS.players.find(player => player.cellName === name);
+        if (playerForShapeChange) {
+            playerForShapeChange.cellSize = size;
+        }
+    },
+    changeShape: (name, shape) => {
+        const playerForShapeChange = PLAYER_OPTIONS.players.find(player => player.cellName === name);
+        if (playerForShapeChange) {
+            playerForShapeChange.cellShape = shape;
+        }
+    }
+    ,players: [
     {
         cellName: "Jophiel",
         cellSize: "medium",
@@ -21,15 +34,15 @@ export const PLAYER_OPTIONS = [
         speed: 6
     }, {
         cellName: "Pixie",
-        cellSize: "large",
+        cellSize: "small",
         cellShape: "tall",
         cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1060890887833522226/pngegg_19.png",
         speed: 5
     }, {
         cellName: "Oni",
         cellSize: "medium",
-        cellShape: "oni",
-        cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1060886122881892373/My_project_18.png",
+        cellShape: "tall",
+        cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1078419627723460648/oni-remastered.png",
         speed: 6
     }, {
         cellName: "Dr. Herman",
@@ -57,36 +70,16 @@ export const PLAYER_OPTIONS = [
         cellShape: "tall",
         cellUrl: "https://cdn.discordapp.com/attachments/1022511328771985469/1040353290736640070/fire-hammer.png",
         speed: 4,
-    }, {
-        cellName: "Zah'ir",
-        cellSize: "medium",
-        cellUrl: "https://media.discordapp.net/attachments/1025408325321498625/1038137190816940112/16675815587338544119634098879295.jpg",
-        speed: 6
-    }, {
-        cellName: "Howl",
-        cellSize: "medium",
-        cellUrl: "https://i.etsystatic.com/35550803/r/il/03d72d/3846156466/il_794xN.3846156466_qdfe.jpg",
-        speed: 6
-    }, {
-        cellName: "Béla",
-        cellSize: "medium",
-        cellUrl: "https://vignette.wikia.nocookie.net/blackbandos-homebrew/images/b/bf/Burning_knight.jpg/revision/latest?cb=20171024132523",
-        speed: 6
-    }, {
-        cellName: "Theo",
-        cellSize: "medium",
-        cellUrl: "https://cdn.discordapp.com/attachments/943774890509623346/1038144811527585792/Theo_lvl2_screenshot.png",
-        speed: 5
-    }, {
+    },{
         cellName: "Miner Dwarf",
-        cellSize: "medium",
+        cellSize: "small",
         cellShape: "round",
         cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1061009114295185439/pngegg_31.png",
         speed: 4
     }, {
         cellName: "Smith Dwarf",
-        cellSize: "medium",
-        cellShape: "tall dwarf",
+        cellSize: "small",
+        cellShape: "tall",
         cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1061018524430119084/My_project_22.png",
         speed: 4
     }, {
@@ -102,4 +95,4 @@ export const PLAYER_OPTIONS = [
         speed: 5,
         cellUrl: "https://www.kryxrpg.com/static/295c8956c39f286151c102a2e8b3e7cc/02303/hell-hound.avif",
 
-    }];
+    }]};
