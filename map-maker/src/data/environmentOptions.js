@@ -34,16 +34,22 @@ export const ENVIRONMENT_OPTIONS = [ {
     cellShape: "full",
     cellTerrain: "unmovable",
     cellUrl: "https://as1.ftcdn.net/v2/jpg/01/46/04/80/1000_F_146048055_p1ExhB5tnYJsVipl0fUP1zK29lAwUJ8A.jpg"
+},{
+    cellName: "Dead Cross",
+    cellSize: "medium",
+    cellShape: "round",
+    cellTerrain: "hard",
+    cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1079434143122870362/dead-cross-resample.png"
 }, {
     cellName: "Dead Tree",
     cellSize: "medium",
     cellTerrain: "unmovable",
-    cellShape: "tree",
+    cellShape: "tall-over-sized",
     cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1060741520510169168/pngegg_5.png"
 },{
     cellName: "Oak Tree",
     cellSize: "medium",
-    cellShape: "tree",
+    cellShape: "tall-over-sized",
     cellTerrain: "unmovable",
     cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1060741726865727608/pngegg_6.png"
 },{
@@ -67,13 +73,13 @@ cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/10607370629
 },{
     cellName: "Bush",
     cellSize: "medium",
-    cellShape: "bush",
+    cellShape: "round-over-sized",
     cellTerrain: "hard",
     cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1060854987086897203/pngegg_9.png"
 },{
     cellName: "Dead Bush",
     cellSize: "medium",
-    cellShape: "bush",
+    cellShape: "round-over-sized",
     cellTerrain: "hard",
     cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1060858873541574716/pngegg_12.png"
 },{
@@ -91,18 +97,18 @@ cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/10607370629
 },{
     cellName: "Table",
     cellSize: "medium",
-    cellShape: "table",
+    cellShape: "flat-over-sized",
     cellTerrain: "hard",
     cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1060964471700467854/pngegg_25.png"
 },{
     cellName: "Fire",
     cellSize: "medium",
-    cellShape: "tree wave",
+    cellShape: "tall-over-sized fire",
     cellTerrain: "hard",
     cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1060857578504065034/pngegg_11.png"
 },{
     cellName: "Trunk",
-    cellSize: "small",
+    cellSize: "tiny",
     cellShape: "flat",
     cellTerrain: "hard",
     cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1060967704825180190/pngegg_27.png"

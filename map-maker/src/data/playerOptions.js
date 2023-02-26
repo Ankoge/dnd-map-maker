@@ -1,17 +1,23 @@
 export const PLAYER_OPTIONS = {
     changeSize: (name, size) => {
-        const playerForShapeChange = PLAYER_OPTIONS.players.find(player => player.cellName === name);
-        if (playerForShapeChange) {
-            playerForShapeChange.cellSize = size;
+        const player = PLAYER_OPTIONS.players.find(player => player.cellName === name);
+        if (player) {
+            player.cellSize = size;
         }
     },
     changeShape: (name, shape) => {
-        const playerForShapeChange = PLAYER_OPTIONS.players.find(player => player.cellName === name);
-        if (playerForShapeChange) {
-            playerForShapeChange.cellShape = shape;
+        const player = PLAYER_OPTIONS.players.find(player => player.cellName === name);
+        if (player) {
+            player.cellShape = shape;
         }
-    }
-    ,players: [
+    },
+    changeSpeed: (name, speed) => {
+        const player = PLAYER_OPTIONS.players.find(player => player.cellName === name);
+        if (player) {
+            player.speed = speed;
+        }
+    },
+    players: [
     {
         cellName: "Jophiel",
         cellSize: "medium",

@@ -98,9 +98,7 @@ const Map = ({mapSize, isMouseDown}) => {
 
         if (type === TYPE_OPTION.PLAYER || type === TYPE_OPTION.MONSTER) {
             const playerDuplicates = document.querySelectorAll('[data-player-id="'.concat(`${option.dataset.image}${option.dataset.cellName}`).concat('"]'))
-            console.log(playerDuplicates, "hello")
             if (playerDuplicates.length > 0) {
-                console.log("hello 2")
                 playerDuplicates.forEach(duplicate => handleDelete(duplicate.dataset.row, duplicate.dataset.cell, false))
 
             }
@@ -148,15 +146,16 @@ const Map = ({mapSize, isMouseDown}) => {
 
     const handleDelete = (row, cell, isTerrainRemove) => {
         const parentCell = document.getElementById(`${row}${cell}-cell`);
-        parentCell.classList.remove("reserved")
         const imageSourceCell = `${row}${cell}-cell-image${isTerrainRemove ? "-terrain" : ""}`;
         const imageCellPart = document.getElementById(imageSourceCell);
         removeShadow(parseInt(row, 10), parseInt(cell, 10), parentCell.dataset.cellSize);
-
         if (parentCell.dataset.cellType === TYPE_OPTION.PLAYER) {
             parentCell.removeAttribute("data-player-id");
         }
-        resetGroup(parentCell);
+            parentCell.classList.remove("reserved")
+            resetGroup(parentCell);
+
+
 
         parentCell.dataset.cellSize = SIZE_OPTION.MEDIUM;
         parentCell.dataset.cellType = TYPE_OPTION.BLANK;
@@ -168,6 +167,7 @@ const Map = ({mapSize, isMouseDown}) => {
     const resetGroup = (targetParentCell) => {
         const groupParentCells = document.querySelectorAll(`[data-image-group-id = "${targetParentCell.dataset.imageGroupId}"]`)
         groupParentCells.forEach(parentCell => {
+            parentCell.dataset.cellType = TYPE_OPTION.BLANK;
             parentCell.dataset.terrain = "movable";
             parentCell.dataset.imageGroupId = "";
             parentCell.dataset.imageSourceCell = "";
@@ -224,7 +224,10 @@ const Map = ({mapSize, isMouseDown}) => {
 
     //Recursive function.
     const collectMovableHexes = (row, cell, speed, step, size, movableBuild) => {
-        const parentCell = getCellByCellNumber(row, cell)
+
+        if(!movableBuild.has(`${row}${cell}` && step !== 0)){
+            const parentCell = getCellByCellNumber(row, cell)
+
 
         //Early return if out of map.
         if (parentCell === null) {
@@ -242,7 +245,7 @@ const Map = ({mapSize, isMouseDown}) => {
         }
 
         //Return is hex is a creature, except player is small or tiny.
-        if (parentCell.dataset.terrain === "creature" && !(size === "small" || size === "tiny") && step !== 0) {
+        if ((parentCell.dataset.cellType === "monster" || parentCell.dataset.cellType === "player") && !(size === "small" || size === "tiny") && step !== 0) {
             return movableBuild;
         }
 
@@ -254,12 +257,10 @@ const Map = ({mapSize, isMouseDown}) => {
         //If terrain "catch" player here is an early return.
         if (parentCell.dataset.terrain === "catch") {
             return movableBuild;
-        }
+        }}
 
         //Avoiding regression to an area already under investigation.
-        if (movableBuild.has(`${row}${cell}` && step !== 0)) {
-            return movableBuild
-        }
+
 
         //Update parameters.
         step = step + 1;
@@ -267,12 +268,12 @@ const Map = ({mapSize, isMouseDown}) => {
         cell = parseInt(cell, 10);
 
         //Recursively call all neighbour hexes.
-        movableBuild = collectMovableHexes(row - 1, cell + (row % 2), speed, step, size, movableBuild);
-        movableBuild = collectMovableHexes(row, cell + 1, speed, step, size, movableBuild);
-        movableBuild = collectMovableHexes(row + 1, cell + (row % 2), speed, step, size, movableBuild);
-        movableBuild = collectMovableHexes(row + 1, cell + (-1 + row % 2), speed, step, size, movableBuild);
-        movableBuild = collectMovableHexes(row, cell - 1, speed, step, size, movableBuild);
-        movableBuild = collectMovableHexes(row - 1, cell + (-1 + row % 2), speed, step, size, movableBuild);
+            movableBuild = collectMovableHexes(row - 1, cell + (row % 2), speed, step, size, movableBuild);
+            movableBuild = collectMovableHexes(row, cell + 1, speed, step, size, movableBuild);
+            movableBuild = collectMovableHexes(row + 1, cell + (row % 2), speed, step, size, movableBuild);
+            movableBuild = collectMovableHexes(row + 1, cell + (-1 + row % 2), speed, step, size, movableBuild);
+            movableBuild = collectMovableHexes(row, cell - 1, speed, step, size, movableBuild);
+            movableBuild = collectMovableHexes(row - 1, cell + (-1 + row % 2), speed, step, size, movableBuild);
 
         return movableBuild;
     }
