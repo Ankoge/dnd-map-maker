@@ -43,7 +43,6 @@ export const MONSTER_OPTIONS = {
         if (monsterForSizeChange) {
             monsterForSizeChange.cellSize = size;
         }
-        console.log(monsterForSizeChange)
     },
     monsterUrls: {
         "Aarakocra": "https://www.kryxrpg.com/static/0fc9f4ba937fc2a75bf7fca6ddab909e/5e9bf/aarakocra.avif",
