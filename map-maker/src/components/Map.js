@@ -98,7 +98,9 @@ const Map = ({mapSize, isMouseDown}) => {
 
         if (type === TYPE_OPTION.PLAYER || type === TYPE_OPTION.MONSTER) {
             const playerDuplicates = document.querySelectorAll('[data-player-id="'.concat(`${option.dataset.image}${option.dataset.cellName}`).concat('"]'))
+            console.log(playerDuplicates, "hello")
             if (playerDuplicates.length > 0) {
+                console.log("hello 2")
                 playerDuplicates.forEach(duplicate => handleDelete(duplicate.dataset.row, duplicate.dataset.cell, false))
 
             }
@@ -112,31 +114,31 @@ const Map = ({mapSize, isMouseDown}) => {
                 break;
             case SIZE_OPTION.LARGE:
                 setImage();
-                setParentCell(getCellByCellNumber(rowNumber, cellNumber + 1));
-                setParentCell(getCellByCellNumber(rowNumber - 1, cellNumber + rowNumber % 2));
+                setParentCell(getCellByCellNumber(rowNumber, cellNumber - 1));
+                setParentCell(getCellByCellNumber(rowNumber - 1, cellNumber + rowNumber % 2 - 1));
                 break;
             case SIZE_OPTION.HUGE:
                 setImage();
-                setParentCell(getCellByCellNumber(rowNumber, cellNumber + 1));
-                setParentCell(getCellByCellNumber(rowNumber - 1, cellNumber + rowNumber % 2 + 1));
-                setParentCell(getCellByCellNumber(rowNumber - 1, cellNumber + rowNumber % 2));
+                setParentCell(getCellByCellNumber(rowNumber, cellNumber - 1));
+                setParentCell(getCellByCellNumber(rowNumber - 1, cellNumber + rowNumber % 2 - 2));
                 setParentCell(getCellByCellNumber(rowNumber - 1, cellNumber + rowNumber % 2 - 1));
+                setParentCell(getCellByCellNumber(rowNumber - 1, cellNumber + rowNumber % 2));
+                setParentCell(getCellByCellNumber(rowNumber - 2, cellNumber - 1));
                 setParentCell(getCellByCellNumber(rowNumber - 2, cellNumber));
-                setParentCell(getCellByCellNumber(rowNumber - 2, cellNumber + 1));
                 break;
             case SIZE_OPTION.GARGANTUA:
-                setImage()
-                setParentCell(getCellByCellNumber(rowNumber, cellNumber + 1));
-                setParentCell(getCellByCellNumber(rowNumber, cellNumber + 2));
+                setImage();
+                setParentCell(getCellByCellNumber(rowNumber, cellNumber - 1));
+                setParentCell(getCellByCellNumber(rowNumber, cellNumber - 2));
+                setParentCell(getCellByCellNumber(rowNumber - 1, cellNumber + rowNumber % 2 - 3));
+                setParentCell(getCellByCellNumber(rowNumber - 1, cellNumber + rowNumber % 2 - 2));
                 setParentCell(getCellByCellNumber(rowNumber - 1, cellNumber + rowNumber % 2 - 1));
                 setParentCell(getCellByCellNumber(rowNumber - 1, cellNumber + rowNumber % 2));
-                setParentCell(getCellByCellNumber(rowNumber - 1, cellNumber + rowNumber % 2 + 1));
-                setParentCell(getCellByCellNumber(rowNumber - 1, cellNumber + rowNumber % 2 + 2));
+                setParentCell(getCellByCellNumber(rowNumber - 2, cellNumber - 2))
+                setParentCell(getCellByCellNumber(rowNumber - 2, cellNumber - 1));
                 setParentCell(getCellByCellNumber(rowNumber - 2, cellNumber));
-                setParentCell(getCellByCellNumber(rowNumber - 2, cellNumber + 1));
-                setParentCell(getCellByCellNumber(rowNumber - 2, cellNumber + 2))
-                setParentCell(getCellByCellNumber(rowNumber - 3, cellNumber + rowNumber % 2));
-                setParentCell(getCellByCellNumber(rowNumber - 3, cellNumber + rowNumber % 2 + 1));
+                setParentCell(getCellByCellNumber(rowNumber - 3, cellNumber + rowNumber % 2 - 2));
+                setParentCell(getCellByCellNumber(rowNumber - 3, cellNumber + rowNumber % 2 - 1));
                 break;
             default:
                 break;
@@ -338,11 +340,9 @@ const Map = ({mapSize, isMouseDown}) => {
                               className={`map-cell hex ${calculatedRowNumber}${calculatedCellNumber}-cell${movable.cells.has(`${calculatedRowNumber}${calculatedCellNumber}`) ? " movable" : ""}`}
                               onMouseEnter={handleMouseEnter}
                 >
-                    <div className={`top ${calculatedRowNumber}${calculatedCellNumber}-cell-group`}></div>
                     <div className={`middle ${calculatedRowNumber}${calculatedCellNumber}-cell-group`}
-                         id={`middle-${calculatedRowNumber}${calculatedCellNumber}`}></div>
-
-                    <div className={`bottom ${calculatedRowNumber}${calculatedCellNumber}-cell-group`}></div>
+                         id={`middle-${calculatedRowNumber}${calculatedCellNumber}`}
+                    ></div>
                     <div
                         className={`cell-image  blank ${calculatedRowNumber}${calculatedCellNumber}-cell-image-terrain`}
                         data-z-index={rowNumber * 2}
