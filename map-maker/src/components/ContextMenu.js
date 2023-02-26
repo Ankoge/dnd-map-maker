@@ -41,6 +41,8 @@ export const ContextMenu = props => {
                      alt={option.cellName}/>
 
         </span>
+                {optionType !== "environment" ? <SizeDropdown name={option.cellName}
+                                                              optionType={optionType}/> : ""}
                 {optionType !== "environment" ? <ShapeButton name={option.cellName}
                                                              shape={SHAPE_OPTION.TALL}
                                                              optionType={optionType}/> : ""}
@@ -50,8 +52,7 @@ export const ContextMenu = props => {
                 {optionType !== "environment" ? <ShapeButton name={option.cellName}
                                                              shape={SHAPE_OPTION.FLAT}
                                                              optionType={optionType}/> : ""}
-                {optionType !== "environment" ? <SizeDropdown name={option.cellName}
-                                                              optionType={optionType}/> : ""}
+
         </span>)
     }
 
