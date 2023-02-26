@@ -4,8 +4,9 @@ import {ENVIRONMENT_OPTIONS} from "../data/environmentOptions";
 import {useState} from "react";
 import MonsterSearch from "./MonsterSearch";
 import ShapeButton from "./ShapeButton";
-import {SHAPE_OPTION} from "../data/options";
+import {SHAPE_OPTION, TYPE_OPTION} from "../data/options";
 import SizeDropdown from "./SizeDropdown";
+import SpeedSetter from "./SpeedSetter";
 
 export const ContextMenu = props => {
     const [contextButton, setContextButton] = useState("player")
@@ -41,6 +42,8 @@ export const ContextMenu = props => {
                      alt={option.cellName}/>
 
         </span>
+                {optionType === TYPE_OPTION.PLAYER ? <SpeedSetter name={option.cellName}
+                                                                  speed={option.speed}/> : ""}
                 {optionType !== "environment" ? <SizeDropdown name={option.cellName}
                                                               optionType={optionType}/> : ""}
                 {optionType !== "environment" ? <ShapeButton name={option.cellName}

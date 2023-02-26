@@ -86,7 +86,6 @@ body {
 
 }
 
-
 .soil-container {
     position: absolute;
     z-index: 0;
@@ -94,32 +93,6 @@ body {
     background-color: transparent;
     background-image: none;
 }
-
-.top-soil, .middle-soil, .bottom-soil {
-    visibility: initial;
-    background-image: inherit;
-    background-size: auto calc(var(--cell-size) * 2);
-}
-
-.middle-soil {
-    width: calc(var(--cell-size) * 2);
-    height: calc(var(--cell-size) - 10px);
-    background-position: center;
-}
-
-.bottom-soil, .top-soil {
-    width: calc(var(--cell-size) * 2);
-    height: calc(var(--cell-size) / 2);
-}
-
-.top-soil {
-    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-}
-
-.bottom-soil {
-    clip-path: polygon(100% 0, 0 0, 50% 100%);
-}
-
 
 .hex-row {
     clear: left;
@@ -129,10 +102,9 @@ body {
     margin-left: calc(1px + var(--cell-size) + var(--border-width) / 3);
 }
 
-
 .shadow {
     background-image: url("https://cdn.discordapp.com/attachments/1039961105046437989/1060708443645808650/pngfind.com-round-shadow-png-4130139.png");
-    background-position: center 70%;
+    background-position: center 78%;
     background-size: calc(var(--cell-size) * 2) calc(var(--cell-size) / 3);
     opacity: 1;
 }
@@ -199,7 +171,7 @@ body {
 .cell-image.medium {
     width: calc(var(--cell-size) * 2);
     height: calc(var(--cell-size) * 2);
-    margin-top: calc(0px - var(--cell-size) * 2.55);
+    margin-top: calc(0px - var(--cell-size) * 2.4);
     margin-left: calc(0px);
     background-color: rgba(15, 100, 100, 0.3);
 }
@@ -210,7 +182,7 @@ body {
 
 .cell-image.medium.round {
     background-size: calc(var(--cell-size) * 1.8) auto;
-    background-position: center 75%;
+    background-position: center 80%;
 }
 
 .cell-image.medium.flat {
@@ -225,6 +197,7 @@ body {
     background-size: calc(var(--cell-size) * 2) calc(var(--cell-size) * 2);
     margin-top: calc(0px - var(--cell-size) * 1.8);
     margin-left: calc(0px - var(--cell-size) / 5);
+    overflow: hidden;
 }
 
 .cell-image.medium.full.wave {
@@ -244,7 +217,7 @@ body {
 }
 
 
-.cell-image.medium.tree {
+.cell-image.medium.tall-over-sized {
     height: calc(var(--cell-size) * 2.7);
     width: calc(var(--cell-size) * 2.5);
     background-size: calc(var(--cell-size) * 2.5) calc(var(--cell-size) * 2.7);
@@ -252,14 +225,14 @@ body {
     margin-left: calc(0px - var(--cell-size) / 4);
 }
 
-.cell-image.medium.tree.wave {
+.cell-image.medium.tall-over-sized.fire {
     animation: fire 1s running infinite;
 }
 
 @keyframes fire {
     0% {
         transform: scaleY(0.95);
-        margin-top: calc(0px - var(--cell-size) * 2.83)
+        margin-top: calc(0px - var(--cell-size) * 2.85)
     }
     50% {
         transform: scaleY(1);
@@ -267,24 +240,17 @@ body {
     }
     100% {
         transform: scaleY(0.95);
-        margin-top: calc(0px - var(--cell-size) * 2.83)
+        margin-top: calc(0px - var(--cell-size) * 2.85)
     }
 }
 
-.cell-image.medium.bush {
-    height: calc(var(--cell-size) * 2);
-    width: calc(var(--cell-size) * 2.2);
-    background-size: calc(var(--cell-size) * 2.2) calc(var(--cell-size) * 2);
-    margin-top: calc(0px - var(--cell-size) * 2);
-    margin-left: calc(0px - var(--cell-size) / 10);
+.cell-image.medium.round-over-sized {
+    background-size: calc(var(--cell-size) * 2) calc(var(--cell-size) * 2);
 }
 
-.cell-image.medium.table {
-    height: calc(var(--cell-size) * 2);
-    width: calc(var(--cell-size) * 2.2);
+.cell-image.medium.flat-over-sized {
     background-size: calc(var(--cell-size) * 2) calc(var(--cell-size) * 1.22);
-    margin-top: calc(0px - var(--cell-size) * 2);
-    margin-left: calc(0px - var(--cell-size) / 10);
+    background-position: center 80%;
 }
 
 .cell-image.large {
@@ -460,7 +426,7 @@ body {
     background-color: var(--hover);
 }
 
-.shape-button, .size-dropdown-button {
+.shape-button, .size-dropdown-button, .speed-setter {
     height: 25px;
     width: 25px;
     overflow: hidden;
@@ -469,10 +435,14 @@ body {
     margin-left: 3px;
 }
 
-.shape-image, .size-image {
+.shape-image, .size-image{
     margin-top: 3px;
     height: 19px;
     width: 19px;
+}
+
+.speed-setter {
+ text-align: center;
 }
 
 .size-dropdown-container {
