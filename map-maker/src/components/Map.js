@@ -1,6 +1,7 @@
 import {ContextMenu} from "./ContextMenu";
 import {useRef, useState} from "react";
 import EditorSidebar from "./EditorSidebar";
+import {SHAPE_OPTION, SIZE_OPTION, TYPE_OPTION} from "../data/options";
 
 
 const Map = ({mapSize, isMouseDown}) => {
@@ -37,14 +38,14 @@ const Map = ({mapSize, isMouseDown}) => {
 
 
         const setImage = () => {
-            let imageCellPart = document.getElementById(`${rowNumber}${cellNumber}-cell-image${option.dataset.optionType === "environment" ? "-terrain" : ""}`)
+            let imageCellPart = document.getElementById(`${rowNumber}${cellNumber}-cell-image${option.dataset.optionType === TYPE_OPTION.ENVIRONMENT ? "-terrain" : ""}`)
             imageCellPart.style.backgroundImage = `url("${option.dataset.image}")`;
-            imageCellPart.className = `cell-image ${size} ${shape} ${rowNumber}${cellNumber}-cell-image ${option.dataset.optionType === "monster" || option.dataset.optionType === "player" ? " living" : ""}`
+            imageCellPart.className = `cell-image ${size} ${shape} ${rowNumber}${cellNumber}-cell-image`
             setParentCell(imageCellPart.parentElement)
-            if (type === "player" || type === "monster") {
+            if (type === TYPE_OPTION.PLAYER || type === TYPE_OPTION.MONSTER) {
                 setShadow()
             }
-            if (type === "player") {
+            if (type === TYPE_OPTION.PLAYER) {
                 imageCellPart.parentElement.dataset.speed = option.dataset.speed;
             }
             imageCellPart.parentElement.dataset.playerId = `${option.dataset.image}${option.dataset.cellName}`
@@ -54,29 +55,28 @@ const Map = ({mapSize, isMouseDown}) => {
         const setShadow = () => {
             const middleCellPart = document.getElementById(`middle-${rowNumber}${cellNumber}`);
             switch (size) {
-                case "small":
-                case "medium":
+                case SIZE_OPTION.SMALL:
+                case SIZE_OPTION.MEDIUM:
                     middleCellPart.classList.add("shadow");
-                    break;
-                case "large":
-                    middleCellPart.classList.add("shadow-left");
-                    document.getElementById(`middle-${rowNumber}${cellNumber + 1}`).classList.add("shadow-right");
-                    break;
-                case "huge":
-                    document.getElementById(`middle-${rowNumber + 1}${cellNumber + rowNumber % 2 - 1}`).classList.add("shadow-left");
-                    document.getElementById(`middle-${rowNumber + 1}${cellNumber + rowNumber % 2}`).classList.add("shadow-right");
                     break;
                 default:
                     break;
             }
         }
         const setParentCell = (parentCell) => {
+            if (parentCell === null) {
+                return;
+            }
             parentCell.dataset.terrain = option.dataset.terrain;
             parentCell.dataset.cellType = type;
             parentCell.dataset.imageSourceCell = `${rowNumber}${cellNumber}-cell-image`;
             parentCell.dataset.imageGroupId = `${rowNumber}${cellNumber}-image-group`;
-            parentCell.dataset.cellSize = type === "environment" ? parentCell.dataset.cellSize : size;
-            parentCell.dataset.speed = type === "player" ? option.dataset.speed : "";
+            parentCell.dataset.cellSize = type === TYPE_OPTION.ENVIRONMENT ? parentCell.dataset.cellSize : size;
+            parentCell.dataset.speed = type === TYPE_OPTION.PLAYER ? option.dataset.speed : "";
+            if (type !== TYPE_OPTION.ENVIRONMENT) {
+                parentCell.style.backgroundColor = "var(--reserved)";
+                parentCell.style.borderColor = "var(--reserved)";
+            }
 
         }
 
@@ -93,10 +93,10 @@ const Map = ({mapSize, isMouseDown}) => {
         }
 
         const size = option.dataset.cellSize;
-        const shape = option.dataset.cellShape ? option.dataset.cellShape : "tall";
+        const shape = option.dataset.cellShape ? option.dataset.cellShape : SHAPE_OPTION.TALL;
         const type = option.dataset.optionType;
 
-        if (type === "player" || type === "monster") {
+        if (type === TYPE_OPTION.PLAYER || type === TYPE_OPTION.MONSTER) {
             const playerDuplicates = document.querySelectorAll('[data-player-id="'.concat(`${option.dataset.image}${option.dataset.cellName}`).concat('"]'))
             if (playerDuplicates.length > 0) {
                 playerDuplicates.forEach(duplicate => handleDelete(duplicate.dataset.row, duplicate.dataset.cell, false))
@@ -105,24 +105,38 @@ const Map = ({mapSize, isMouseDown}) => {
         }
 
         switch (size) {
-            case "tiny":
-            case "small":
-            case "medium":
+            case SIZE_OPTION.TINY:
+            case SIZE_OPTION.SMALL:
+            case SIZE_OPTION.MEDIUM:
                 setImage();
                 break;
-            case "large":
+            case SIZE_OPTION.LARGE:
                 setImage();
                 setParentCell(getCellByCellNumber(rowNumber, cellNumber + 1));
                 setParentCell(getCellByCellNumber(rowNumber - 1, cellNumber + rowNumber % 2));
                 break;
-            case "huge":
+            case SIZE_OPTION.HUGE:
                 setImage();
-                setParentCell(getCellByCellNumber(rowNumber - 1, cellNumber + rowNumber % 2));
                 setParentCell(getCellByCellNumber(rowNumber, cellNumber + 1));
-                setParentCell(getCellByCellNumber(rowNumber + 1, cellNumber + rowNumber % 2));
-                setParentCell(getCellByCellNumber(rowNumber + 1, cellNumber + rowNumber % 2 - 1));
-                setParentCell(getCellByCellNumber(rowNumber, cellNumber - 1));
+                setParentCell(getCellByCellNumber(rowNumber - 1, cellNumber + rowNumber % 2 + 1));
+                setParentCell(getCellByCellNumber(rowNumber - 1, cellNumber + rowNumber % 2));
                 setParentCell(getCellByCellNumber(rowNumber - 1, cellNumber + rowNumber % 2 - 1));
+                setParentCell(getCellByCellNumber(rowNumber - 2, cellNumber));
+                setParentCell(getCellByCellNumber(rowNumber - 2, cellNumber + 1));
+                break;
+            case SIZE_OPTION.GARGANTUA:
+                setImage()
+                setParentCell(getCellByCellNumber(rowNumber, cellNumber + 1));
+                setParentCell(getCellByCellNumber(rowNumber, cellNumber + 2));
+                setParentCell(getCellByCellNumber(rowNumber - 1, cellNumber + rowNumber % 2 - 1));
+                setParentCell(getCellByCellNumber(rowNumber - 1, cellNumber + rowNumber % 2));
+                setParentCell(getCellByCellNumber(rowNumber - 1, cellNumber + rowNumber % 2 + 1));
+                setParentCell(getCellByCellNumber(rowNumber - 1, cellNumber + rowNumber % 2 + 2));
+                setParentCell(getCellByCellNumber(rowNumber - 2, cellNumber));
+                setParentCell(getCellByCellNumber(rowNumber - 2, cellNumber + 1));
+                setParentCell(getCellByCellNumber(rowNumber - 2, cellNumber + 2))
+                setParentCell(getCellByCellNumber(rowNumber - 3, cellNumber + rowNumber % 2));
+                setParentCell(getCellByCellNumber(rowNumber - 3, cellNumber + rowNumber % 2 + 1));
                 break;
             default:
                 break;
@@ -132,22 +146,20 @@ const Map = ({mapSize, isMouseDown}) => {
 
     const handleDelete = (row, cell, isTerrainRemove) => {
         const parentCell = document.getElementById(`${row}${cell}-cell`);
+        parentCell.classList.remove("reserved")
         const imageSourceCell = `${row}${cell}-cell-image${isTerrainRemove ? "-terrain" : ""}`;
         const imageCellPart = document.getElementById(imageSourceCell);
         removeShadow(parseInt(row, 10), parseInt(cell, 10), parentCell.dataset.cellSize);
 
-        if (parentCell.dataset.cellType === "player") {
+        if (parentCell.dataset.cellType === TYPE_OPTION.PLAYER) {
             parentCell.removeAttribute("data-player-id");
         }
-        if (parentCell.dataset.cellSize === "large" || parentCell.dataset.cellSize === "huge") {
-            resetGroup(parentCell);
-        } else {
-            parentCell.dataset.terrain = "movable";
-        }
-        parentCell.dataset.cellSize = "medium";
-        parentCell.dataset.cellType = "blank";
+        resetGroup(parentCell);
+
+        parentCell.dataset.cellSize = SIZE_OPTION.MEDIUM;
+        parentCell.dataset.cellType = TYPE_OPTION.BLANK;
         imageCellPart.style.backgroundImage = "none";
-        imageCellPart.className = `cell-image medium blank ${imageSourceCell}`;
+        imageCellPart.className = `cell-image blank ${imageSourceCell}`;
 
     }
 
@@ -157,23 +169,17 @@ const Map = ({mapSize, isMouseDown}) => {
             parentCell.dataset.terrain = "movable";
             parentCell.dataset.imageGroupId = "";
             parentCell.dataset.imageSourceCell = "";
+            parentCell.style.backgroundColor = "var(--hex-background)";
+            parentCell.style.borderColor = "var(--hex-background)";
         })
     }
 
     const removeShadow = (row, cell, size) => {
         const middleCellPart = document.getElementById(`middle-${row}${cell}`)
         switch (size) {
-            case "small":
-            case "medium":
+            case SIZE_OPTION.SMALL:
+            case SIZE_OPTION.MEDIUM:
                 middleCellPart.classList.remove("shadow");
-                break;
-            case "large":
-                middleCellPart.classList.remove("shadow-left");
-                document.getElementById(`middle-${row}${cell + 1}`).classList.remove("shadow-right");
-                break;
-            case "huge":
-                document.getElementById(`middle-${row + 1}${cell + row % 2 - 1}`).classList.remove("shadow-left");
-                document.getElementById(`middle-${row + 1}${cell + row % 2}`).classList.remove("shadow-right");
                 break;
             default:
                 break;
@@ -326,7 +332,7 @@ const Map = ({mapSize, isMouseDown}) => {
                               data-row={calculatedRowNumber}
                               data-cell={calculatedCellNumber}
                               data-cell-type={"blank"}
-                              data-cell-size={"middle"}
+                              data-cell-size={""}
                               data-speed={0}
                               id={`${calculatedRowNumber}${calculatedCellNumber}-cell`}
                               className={`map-cell hex ${calculatedRowNumber}${calculatedCellNumber}-cell${movable.cells.has(`${calculatedRowNumber}${calculatedCellNumber}`) ? " movable" : ""}`}
@@ -338,10 +344,10 @@ const Map = ({mapSize, isMouseDown}) => {
 
                     <div className={`bottom ${calculatedRowNumber}${calculatedCellNumber}-cell-group`}></div>
                     <div
-                        className={`cell-image medium blank ${calculatedRowNumber}${calculatedCellNumber}-cell-image-terrain`}
+                        className={`cell-image  blank ${calculatedRowNumber}${calculatedCellNumber}-cell-image-terrain`}
                         data-z-index={rowNumber * 2}
                         id={`${calculatedRowNumber}${calculatedCellNumber}-cell-image-terrain`}></div>
-                    <div className={`cell-image medium blank ${calculatedRowNumber}${calculatedCellNumber}-cell-image`}
+                    <div className={`cell-image  blank ${calculatedRowNumber}${calculatedCellNumber}-cell-image`}
                          data-z-index={rowNumber * 2 - 1}
                          id={`${calculatedRowNumber}${calculatedCellNumber}-cell-image`}></div>
 

@@ -2,6 +2,7 @@ export const TYPE_OPTION = {
     PLAYER: "player",
     MONSTER: "monster",
     ENVIRONMENT: "environment",
+    BLANK: "blank"
 }
 
 export const SHAPE_OPTION = {
@@ -28,7 +29,7 @@ export const SIZE_OPTION = {
     GARGANTUA:"gargantuan",
 }
 
-export const SIZE = {
+export const SIZE_ICON = {
     name: "size",
     imageUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1078405045311258674/pngegg_58.png"
 }

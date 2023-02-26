@@ -1,4 +1,4 @@
-import {SIZE, SIZE_OPTION} from "../data/options";
+import {SIZE_ICON, SIZE_OPTION} from "../data/options";
 import {useState} from "react";
 import {MONSTER_OPTIONS} from "../data/monsterOptions";
 import {PLAYER_OPTIONS} from "../data/playerOptions";
@@ -44,8 +44,8 @@ const SizeDropdown = ({name, optionType}) => {
             <div className={"size-dropdown-button"}>
                 <img
                     className={"size-image"}
-                    src={SIZE.imageUrl}
-                    alt={SIZE.name}/>
+                    src={SIZE_ICON.imageUrl}
+                    alt={SIZE_ICON.name}/>
             </div>
             <div className={"size-dropdown-option".concat(isDropdown ? " active" : " inactive")}>
                 {makeSizeDropdown()}
