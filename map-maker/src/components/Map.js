@@ -44,11 +44,11 @@ const Map = ({mapSize, isMouseDown}) => {
             setParentCell(imageCellPart.parentElement)
             if (type === TYPE_OPTION.PLAYER || type === TYPE_OPTION.MONSTER) {
                 setShadow()
+                imageCellPart.parentElement.dataset.playerId = `${option.dataset.image}${option.dataset.cellName}`
             }
             if (type === TYPE_OPTION.PLAYER) {
                 imageCellPart.parentElement.dataset.speed = option.dataset.speed;
             }
-            imageCellPart.parentElement.dataset.playerId = `${option.dataset.image}${option.dataset.cellName}`
 
         }
 
@@ -86,20 +86,23 @@ const Map = ({mapSize, isMouseDown}) => {
         if (!rowNumber || !cellNumber) {
             return;
         }
-
-        if (option.dataset.optionType === "delete") {
-            handleDelete(rowNumber, cellNumber, isTerrainRemove);
+        const type = option.dataset.optionType;
+        if (type === TYPE_OPTION.DELETE) {
+            if (isTerrainRemove){
+                deleteEnvironment(rowNumber, cellNumber);
+            } else {
+                handleDelete(rowNumber, cellNumber);
+            }
             return;
         }
 
         const size = option.dataset.cellSize;
         const shape = option.dataset.cellShape ? option.dataset.cellShape : SHAPE_OPTION.TALL;
-        const type = option.dataset.optionType;
 
         if (type === TYPE_OPTION.PLAYER || type === TYPE_OPTION.MONSTER) {
             const playerDuplicates = document.querySelectorAll('[data-player-id="'.concat(`${option.dataset.image}${option.dataset.cellName}`).concat('"]'))
             if (playerDuplicates.length > 0) {
-                playerDuplicates.forEach(duplicate => handleDelete(duplicate.dataset.row, duplicate.dataset.cell, false))
+                playerDuplicates.forEach(duplicate => handleDelete(duplicate.dataset.row, duplicate.dataset.cell))
 
             }
         }
@@ -144,23 +147,29 @@ const Map = ({mapSize, isMouseDown}) => {
         }
     }
 
-    const handleDelete = (row, cell, isTerrainRemove) => {
+    const deleteEnvironment = (row, cell) => {
         const parentCell = document.getElementById(`${row}${cell}-cell`);
-        const imageSourceCell = `${row}${cell}-cell-image${isTerrainRemove ? "-terrain" : ""}`;
+        const imageSourceCell = `${row}${cell}-cell-image-terrain`;
+        const imageCellPart = document.getElementById(imageSourceCell);
+        parentCell.dataset.terrain = "movable"
+        imageCellPart.className = imageSourceCell;
+        imageCellPart.style.backgroundImage = "none";
+
+
+    }
+
+    const handleDelete = (row, cell) => {
+        const parentCell = document.getElementById(`${row}${cell}-cell`);
+        const imageSourceCell = `${row}${cell}-cell-image`;
         const imageCellPart = document.getElementById(imageSourceCell);
         removeShadow(parseInt(row, 10), parseInt(cell, 10), parentCell.dataset.cellSize);
-        if (parentCell.dataset.cellType === TYPE_OPTION.PLAYER) {
-            parentCell.removeAttribute("data-player-id");
-        }
-            parentCell.classList.remove("reserved")
-            resetGroup(parentCell);
-
-
-
-        parentCell.dataset.cellSize = SIZE_OPTION.MEDIUM;
+        parentCell.removeAttribute("data-player-id");
+        parentCell.classList.remove("reserved")
+        resetGroup(parentCell);
         parentCell.dataset.cellType = TYPE_OPTION.BLANK;
+        parentCell.dataset.cellSize = SIZE_OPTION.MEDIUM;
         imageCellPart.style.backgroundImage = "none";
-        imageCellPart.className = `cell-image blank ${imageSourceCell}`;
+        imageCellPart.className = `cell-image ${TYPE_OPTION.BLANK} ${imageSourceCell}`;
 
     }
 
@@ -168,7 +177,6 @@ const Map = ({mapSize, isMouseDown}) => {
         const groupParentCells = document.querySelectorAll(`[data-image-group-id = "${targetParentCell.dataset.imageGroupId}"]`)
         groupParentCells.forEach(parentCell => {
             parentCell.dataset.cellType = TYPE_OPTION.BLANK;
-            parentCell.dataset.terrain = "movable";
             parentCell.dataset.imageGroupId = "";
             parentCell.dataset.imageSourceCell = "";
             parentCell.style.backgroundColor = "var(--hex-background)";
@@ -225,39 +233,42 @@ const Map = ({mapSize, isMouseDown}) => {
     //Recursive function.
     const collectMovableHexes = (row, cell, speed, step, size, movableBuild) => {
 
-        if(!movableBuild.has(`${row}${cell}` && step !== 0)){
+        if (!movableBuild.has(`${row}${cell}` && step !== 0)) {
             const parentCell = getCellByCellNumber(row, cell)
 
 
-        //Early return if out of map.
-        if (parentCell === null) {
-            return movableBuild;
-        }
+            //Early return if out of map.
+            if (parentCell === null) {
+                return movableBuild;
+            }
 
-        //Extract a plus movement on hard terrain.
-        if (parentCell.dataset.terrain === "hard") {
-            step = step + 1
-        }
+            //Extract a plus movement on hard terrain.
+            if (parentCell.dataset.terrain === "hard") {
+                step = step + 1
+            }
 
-        //Return if hex is not movable or out of step.
-        if (speed < step || (parentCell.dataset.terrain === "unmovable" && step !== 0)) {
-            return movableBuild;
-        }
+            //Return if hex is not movable or out of step.
+            if (speed < step || (parentCell.dataset.terrain === "unmovable" && step !== 0)) {
+                return movableBuild;
+            }
 
-        //Return is hex is a creature, except player is small or tiny.
-        if ((parentCell.dataset.cellType === "monster" || parentCell.dataset.cellType === "player") && !(size === "small" || size === "tiny") && step !== 0) {
-            return movableBuild;
-        }
+            //Return is hex is a creature, except player is small or tiny.
+            if ((parentCell.dataset.cellType === TYPE_OPTION.MONSTER || parentCell.dataset.cellType === TYPE_OPTION.PLAYER)
+                && !(size === SIZE_OPTION.SMALL || size === SIZE_OPTION.TINY)
+                && step !== 0) {
+                return movableBuild;
+            }
 
-        //Set hex movable.
-        if (!movableBuild.has(`${row}${cell}`)) {
-            movableBuild.add(`${row}${cell}`)
-        }
+            //Set hex movable.
+            if (!movableBuild.has(`${row}${cell}`)) {
+                movableBuild.add(`${row}${cell}`)
+            }
 
-        //If terrain "catch" player here is an early return.
-        if (parentCell.dataset.terrain === "catch") {
-            return movableBuild;
-        }}
+            //If terrain "catch" player here is an early return.
+            if (parentCell.dataset.terrain === "catch") {
+                return movableBuild;
+            }
+        }
 
         //Avoiding regression to an area already under investigation.
 
@@ -268,12 +279,12 @@ const Map = ({mapSize, isMouseDown}) => {
         cell = parseInt(cell, 10);
 
         //Recursively call all neighbour hexes.
-            movableBuild = collectMovableHexes(row - 1, cell + (row % 2), speed, step, size, movableBuild);
-            movableBuild = collectMovableHexes(row, cell + 1, speed, step, size, movableBuild);
-            movableBuild = collectMovableHexes(row + 1, cell + (row % 2), speed, step, size, movableBuild);
-            movableBuild = collectMovableHexes(row + 1, cell + (-1 + row % 2), speed, step, size, movableBuild);
-            movableBuild = collectMovableHexes(row, cell - 1, speed, step, size, movableBuild);
-            movableBuild = collectMovableHexes(row - 1, cell + (-1 + row % 2), speed, step, size, movableBuild);
+        movableBuild = collectMovableHexes(row - 1, cell + (row % 2), speed, step, size, movableBuild);
+        movableBuild = collectMovableHexes(row, cell + 1, speed, step, size, movableBuild);
+        movableBuild = collectMovableHexes(row + 1, cell + (row % 2), speed, step, size, movableBuild);
+        movableBuild = collectMovableHexes(row + 1, cell + (-1 + row % 2), speed, step, size, movableBuild);
+        movableBuild = collectMovableHexes(row, cell - 1, speed, step, size, movableBuild);
+        movableBuild = collectMovableHexes(row - 1, cell + (-1 + row % 2), speed, step, size, movableBuild);
 
         return movableBuild;
     }
@@ -290,9 +301,9 @@ const Map = ({mapSize, isMouseDown}) => {
         }
 
         //Look after the possible hexes for the player move.
-        if (parentCell.dataset.cellType === "player") {
+        if (parentCell.dataset.cellType === TYPE_OPTION.PLAYER) {
             let movableBuild = new Set();
-            if (parentCell.dataset.cellSize === "large") {
+            if (parentCell.dataset.cellSize === SIZE_OPTION.LARGE) {
                 const groupParentCells = document.querySelectorAll(`[data-image-group-id = "${parentCell.dataset.imageGroupId}"]`)
                 groupParentCells.forEach(pc => {
                     movableBuild = collectMovableHexes(
@@ -334,7 +345,7 @@ const Map = ({mapSize, isMouseDown}) => {
                 row.push(<div key={`${calculatedRowNumber}${calculatedCellNumber}-cell`}
                               data-row={calculatedRowNumber}
                               data-cell={calculatedCellNumber}
-                              data-cell-type={"blank"}
+                              data-cell-type={TYPE_OPTION.BLANK}
                               data-cell-size={""}
                               data-speed={0}
                               id={`${calculatedRowNumber}${calculatedCellNumber}-cell`}
@@ -345,12 +356,13 @@ const Map = ({mapSize, isMouseDown}) => {
                          id={`middle-${calculatedRowNumber}${calculatedCellNumber}`}
                     ></div>
                     <div
-                        className={`cell-image  blank ${calculatedRowNumber}${calculatedCellNumber}-cell-image-terrain`}
+                        className={`cell-image  ${TYPE_OPTION.BLANK} ${calculatedRowNumber}${calculatedCellNumber}-cell-image-terrain`}
                         data-z-index={rowNumber * 2}
                         id={`${calculatedRowNumber}${calculatedCellNumber}-cell-image-terrain`}></div>
-                    <div className={`cell-image  blank ${calculatedRowNumber}${calculatedCellNumber}-cell-image`}
-                         data-z-index={rowNumber * 2 - 1}
-                         id={`${calculatedRowNumber}${calculatedCellNumber}-cell-image`}></div>
+                    <div
+                        className={`cell-image  ${TYPE_OPTION.BLANK} ${calculatedRowNumber}${calculatedCellNumber}-cell-image`}
+                        data-z-index={rowNumber * 2 - 1}
+                        id={`${calculatedRowNumber}${calculatedCellNumber}-cell-image`}></div>
 
                 </div>)
             }

@@ -1,5 +1,6 @@
 import {useState} from "react";
 import {ENVIRONMENT_OPTIONS} from "../data/environmentOptions";
+import {SHAPE_OPTION, TYPE_OPTION} from "../data/options";
 
 const EditorSidebar = props => {
     const [isDelete, setIsDelete] = useState(false);
@@ -69,9 +70,9 @@ const EditorSidebar = props => {
                                                                  data-image={option.cellUrl}
                                                                  data-cell-size={option.cellSize}
                                                                  data-speed={0}
-                                                                 data-cell-shape = {option.cellShape ? option.cellShape : "tall"}
+                                                                 data-cell-shape = {option.cellShape ? option.cellShape : SHAPE_OPTION.TALL.name}
                                                                  data-cell-name={option.cellName}
-                                                                 data-option-type={"environment"}
+                                                                 data-option-type={TYPE_OPTION.ENVIRONMENT}
                                                                  data-terrain={option.cellTerrain}
                                                                  onClick={event => {
                                                                      event.stopPropagation();

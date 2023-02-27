@@ -129,43 +129,37 @@ body {
 .cell-image.tiny {
     width: calc(var(--cell-size) * 0.7);
     height: calc(var(--cell-size) * 0.7);
-    background-size: auto calc(var(--cell-size) * 0.7);
-    margin-top: calc(0px - var(--cell-size) * 1.2);
-    margin-left: calc(var(--cell-size) * 0.7);
+    margin-top: calc(0px - var(--cell-size) * 1.3);
+    margin-left: calc(var(--cell-size) * 0.65);
 }
 
 .cell-image.tiny.tall {
     background-size: auto calc(var(--cell-size) * 0.7);
 }
 
-.cell-image.tiny.round {
-    background-size: auto calc(var(--cell-size) * 0.5);
-}
-
-.cell-image.tiny.flat {
-    background-size: calc(var(--cell-size) * 0.7) auto;
+.cell-image.tiny.round, .cell-image.tiny.flat {
+    background-size: calc(var(--cell-size) * 0.7) auto ;
 }
 
 .cell-image.small {
-    width: calc(var(--cell-size) * 2);
-    height: calc(var(--cell-size) * 1.5);
-    background-size: auto calc(var(--cell-size) * 1.4);
-    margin-left: auto;
-    margin-top: calc(0px - var(--cell-size) * 2);
+    width: calc(var(--cell-size) * 1.3);
+    height: calc(var(--cell-size) * 1.3);
+    margin-top: calc(0px - var(--cell-size) * 1.7);
+    margin-left: calc(var(--cell-size) * 0.35);
 }
 
 .cell-image.small.tall {
-    margin-top: calc(0px - var(--cell-size) * 1.95);
+    background-size: auto calc(var(--cell-size) * 1.3);
 }
 
 .cell-image.small.flat {
-    background-size: auto calc(var(--cell-size) * 1);
-    margin-top: calc(0px - var(--cell-size) * 1.9);
+    background-size: calc(var(--cell-size) * 1.3) auto ;
+    background-position: center 85%;
 }
 
 .cell-image.small.round {
-    background-size: calc(var(--cell-size) * 1);
-    margin-top: calc(0px - var(--cell-size) * 1.9);
+    background-size: calc(var(--cell-size) * 1.1) auto;
+    background-position: center 75%;
 }
 
 .cell-image.medium {
@@ -173,7 +167,6 @@ body {
     height: calc(var(--cell-size) * 2);
     margin-top: calc(0px - var(--cell-size) * 2.4);
     margin-left: calc(0px);
-    background-color: rgba(15, 100, 100, 0.3);
 }
 
 .cell-image.medium.tall {

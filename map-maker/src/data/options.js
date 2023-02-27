@@ -2,7 +2,8 @@ export const TYPE_OPTION = {
     PLAYER: "player",
     MONSTER: "monster",
     ENVIRONMENT: "environment",
-    BLANK: "blank"
+    BLANK: "blank",
+    DELETE: "delete",
 }
 
 export const SHAPE_OPTION = {

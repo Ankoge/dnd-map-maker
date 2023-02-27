@@ -1,4 +1,4 @@
-import {SIZE_ICON, SIZE_OPTION} from "../data/options";
+import {SIZE_ICON, SIZE_OPTION, TYPE_OPTION} from "../data/options";
 import {useState} from "react";
 import {MONSTER_OPTIONS} from "../data/monsterOptions";
 import {PLAYER_OPTIONS} from "../data/playerOptions";
@@ -10,14 +10,13 @@ const SizeDropdown = ({name, optionType}) => {
     function handleSizeChose(event) {
         const size = event.target.dataset.size;
         switch (optionType) {
-            case "player":
+            case TYPE_OPTION.PLAYER:
                 PLAYER_OPTIONS.changeSize(name, size);
                 break;
-            case "monster":
+            case TYPE_OPTION.MONSTER:
                 MONSTER_OPTIONS.changeSize(name, size);
                 break;
         }
-        console.log(size)
         setIsDropdown(false);
     }
 
