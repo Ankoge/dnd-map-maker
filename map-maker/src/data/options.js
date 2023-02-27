@@ -22,6 +22,7 @@ export const SHAPE_OPTION = {
 }
 
 export const SIZE_OPTION = {
+    NO_SIZE: "",
     TINY: "tiny",
     SMALL: "small",
     MEDIUM: "medium",

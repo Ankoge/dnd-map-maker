@@ -16,6 +16,8 @@ const SizeDropdown = ({name, optionType}) => {
             case TYPE_OPTION.MONSTER:
                 MONSTER_OPTIONS.changeSize(name, size);
                 break;
+            default:
+                break;
         }
         setIsDropdown(false);
     }

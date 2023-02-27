@@ -9,7 +9,7 @@ import SizeDropdown from "./SizeDropdown";
 import SpeedSetter from "./SpeedSetter";
 
 export const ContextMenu = props => {
-    const [contextButton, setContextButton] = useState(TYPE_OPTION.PLAYER4)
+    const [contextButton, setContextButton] = useState(TYPE_OPTION.PLAYER)
 
     const handleContextOptionTypeChoose = (chosenType) => {
         setContextButton(chosenType.target.dataset.contexttype)
