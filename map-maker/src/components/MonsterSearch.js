@@ -2,6 +2,7 @@ import {useRef, useState} from "react";
 import {useEffectOnce} from "../hooks/useEffectOnce";
 import {MONSTER_OPTIONS} from "../data/monsterOptions";
 import fetchGet from "../fetches/fetchGet";
+import {SIZE_OPTION, TYPE_OPTION} from "../data/options";
 
 const MonsterSearch = ({contextButton}) => {
     const [monsterSearch, setMonsterSearch] = useState("")
@@ -18,7 +19,7 @@ const MonsterSearch = ({contextButton}) => {
         const nameIndex = name.replaceAll(" ", "-").toLowerCase();
         const nameCount = getMonsterNumber(nameIndex);
         const modifier = nameCount >= 1 ? " ".concat(String(nameCount)) : "";
-        let size = "medium"
+        let size = SIZE_OPTION.MEDIUM
         try {
             await fetchGet(`https://www.dnd5eapi.co/api/monsters/${nameIndex}`)
                 .then(response => {
@@ -70,7 +71,7 @@ const MonsterSearch = ({contextButton}) => {
     }
 
     return <div
-        className={"context-menu-option".concat(" context-menu-option".concat(contextButton === "monster" ? "-active" : "-inactive"))}
+        className={"context-menu-option".concat(" context-menu-option".concat(contextButton === TYPE_OPTION.MONSTER ? "-active" : "-inactive"))}
         id={"monster-search-container"}>
         <input className={"monster-input-field"}
                type={"text"}
