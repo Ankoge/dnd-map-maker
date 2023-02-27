@@ -13,6 +13,8 @@ const ShapeButton = ({name, shape, optionType}) => {
             case TYPE_OPTION.MONSTER:
                 MONSTER_OPTIONS.changeShape(name, shape.name);
                 break;
+            default:
+                break;
         }
     }
 

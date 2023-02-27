@@ -2,6 +2,7 @@ import {ContextMenu} from "./ContextMenu";
 import {useRef, useState} from "react";
 import EditorSidebar from "./EditorSidebar";
 import {SHAPE_OPTION, SIZE_OPTION, TYPE_OPTION} from "../data/options";
+import HexCell from "./HexCell";
 
 
 const Map = ({mapSize, isMouseDown}) => {
@@ -342,29 +343,13 @@ const Map = ({mapSize, isMouseDown}) => {
                 //The id will come from the row- and cell- stringify form. This modification will avoid id duplication.
                 const calculatedRowNumber = 10000 + rowNumber;
                 const calculatedCellNumber = 10000 + cellNumber;
-                row.push(<div key={`${calculatedRowNumber}${calculatedCellNumber}-cell`}
-                              data-row={calculatedRowNumber}
-                              data-cell={calculatedCellNumber}
-                              data-cell-type={TYPE_OPTION.BLANK}
-                              data-cell-size={""}
-                              data-speed={0}
-                              id={`${calculatedRowNumber}${calculatedCellNumber}-cell`}
-                              className={`map-cell hex ${calculatedRowNumber}${calculatedCellNumber}-cell${movable.cells.has(`${calculatedRowNumber}${calculatedCellNumber}`) ? " movable" : ""}`}
-                              onMouseEnter={handleMouseEnter}
-                >
-                    <div className={`middle ${calculatedRowNumber}${calculatedCellNumber}-cell-group`}
-                         id={`middle-${calculatedRowNumber}${calculatedCellNumber}`}
-                    ></div>
-                    <div
-                        className={`cell-image  ${TYPE_OPTION.BLANK} ${calculatedRowNumber}${calculatedCellNumber}-cell-image-terrain`}
-                        data-z-index={rowNumber * 2}
-                        id={`${calculatedRowNumber}${calculatedCellNumber}-cell-image-terrain`}></div>
-                    <div
-                        className={`cell-image  ${TYPE_OPTION.BLANK} ${calculatedRowNumber}${calculatedCellNumber}-cell-image`}
-                        data-z-index={rowNumber * 2 - 1}
-                        id={`${calculatedRowNumber}${calculatedCellNumber}-cell-image`}></div>
-
-                </div>)
+                row.push(
+                    <HexCell row={calculatedRowNumber}
+                             column={calculatedCellNumber}
+                             handleMouseEnter={handleMouseEnter}
+                             movable={movable}
+                    />
+                        )
             }
 
             map.push(<div key={rowNumber}
