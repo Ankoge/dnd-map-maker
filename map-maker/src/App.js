@@ -3,6 +3,7 @@ import Map from "./components/Map";
 import {useEffect, useState} from "react";
 import Background from "./components/Background";
 import ColorStyle from "./components/ColorStyle";
+import SaveMap from "./components/SaveMap";
 
 function App() {
     const [isMouseDown, setIsMouseDown] = useState(false)

@@ -1,4 +1,4 @@
-import {SIZE_OPTION, TYPE_OPTION} from "../data/options";
+import {SIZE_OPTION, TERRAIN, TYPE_OPTION} from "../data/options";
 
 const HexCell = ({row, column, handleMouseEnter, movable}) => {
 
@@ -7,24 +7,25 @@ const HexCell = ({row, column, handleMouseEnter, movable}) => {
              data-row={row}
              data-cell={column}
              data-cell-type={TYPE_OPTION.BLANK}
-             data-cell-creature={TYPE_OPTION.BLANK}
-             data-cell-environment={TYPE_OPTION.BLANK}
-             data-cell-soil={TYPE_OPTION.BLANK}
+             data-soil-terrain={TERRAIN.OPTION.MOVABLE}
+             data-environment-terrain={TERRAIN.OPTION.MOVABLE}
+             data-terrain = {TERRAIN.OPTION.MOVABLE}
              data-cell-size={SIZE_OPTION.NO_SIZE}
              data-speed={0}
              id={`${row}${column}-cell`}
-             className={`map-cell hex ${row}${column}-cell${movable.cells.has(`${row}${column}`) ? " movable" : ""}`}
+             className={`map-cell hex${movable.cells.has(`${row}${column}`) ? " movable" : ""}`}
              onMouseEnter={handleMouseEnter}
         >
+            <div className={`soil-container`}
+                 id={`${row}${column}-cell-image-${TYPE_OPTION.SOIL}`}></div>
             <div className={`middle ${row}${column}-cell-group`}
-                 id={`middle-${row}${column}`}
-            ></div>
+                 id={`middle-${row}${column}`}></div>
             <div
-                className={`cell-image  ${TYPE_OPTION.BLANK} ${row}${column}-cell-image-terrain`}
-                id={`${row}${column}-cell-image-terrain`}></div>
+                className={`cell-image`}
+                id={`${row}${column}-cell-image-${TYPE_OPTION.ENVIRONMENT}`}></div>
             <div
-                className={`cell-image  ${TYPE_OPTION.BLANK} ${row}${column}-cell-image`}
-                id={`${row}${column}-cell-image`}></div>
+                className={`cell-image`}
+                id={`${row}${column}-cell-image-${TYPE_OPTION.CREATURE}`}></div>
         </div>
     )
 }

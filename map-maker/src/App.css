@@ -57,7 +57,6 @@ body {
     float: left;
     margin-left: calc(var(--border-width));
     margin-bottom: calc(var(--border-width) + 2px - var(--cell-size) / 2);
-    border-color: var(--hex-background);
     background-color: var(--hex-background);
     visibility: hidden;
     z-index: 30;
@@ -65,33 +64,34 @@ body {
 
 .hex:hover, .middle:hover {
     background-color: var(--hover-transparent) !important;
-    border-color: var(--hover-transparent) !important;
+}
+
+.reserved {
+    background-color: var(--reserved);
 }
 
 .movable {
     background-color: var(--hex-background-movable) !important;
-    border-color: var(--hex-background-movable) !important;
 }
 
-.hex .middle {
+.middle {
     visibility: initial;
     width: calc(var(--cell-size) * 2);
     height: calc(var(--cell-size) * 2 - 10px);
     clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-    flex: 1 0 auto;
     background-color: inherit;
-    overflow: hidden;
     background-repeat: no-repeat;
-    z-index: 1;
 
 }
 
 .soil-container {
+    width: calc(var(--cell-size) * 2);
+    height: calc(var(--cell-size) * 2 - 10px);
+    background-size: calc(var(--cell-size) * 2) calc(var(--cell-size) * 2 - 10px);
+    flex: 1 0 auto;
+    visibility: initial;
     position: absolute;
-    z-index: 0;
-    border-color: transparent;
-    background-color: transparent;
-    background-image: none;
+    clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
 }
 
 .hex-row {
@@ -138,7 +138,7 @@ body {
 }
 
 .cell-image.tiny.round, .cell-image.tiny.flat {
-    background-size: calc(var(--cell-size) * 0.7) auto ;
+    background-size: calc(var(--cell-size) * 0.7) auto;
 }
 
 .cell-image.small {
@@ -153,7 +153,7 @@ body {
 }
 
 .cell-image.small.flat {
-    background-size: calc(var(--cell-size) * 1.3) auto ;
+    background-size: calc(var(--cell-size) * 1.3) auto;
     background-position: center 85%;
 }
 
@@ -174,7 +174,7 @@ body {
 }
 
 .cell-image.medium.round {
-    background-size: calc(var(--cell-size) * 1.8) auto;
+    background-size: auto calc(var(--cell-size) * 1.8) ;
     background-position: center 80%;
 }
 
@@ -428,14 +428,14 @@ body {
     margin-left: 3px;
 }
 
-.shape-image, .size-image{
+.shape-image, .size-image {
     margin-top: 3px;
     height: 19px;
     width: 19px;
 }
 
 .speed-setter {
- text-align: center;
+    text-align: center;
 }
 
 .size-dropdown-container {
@@ -478,7 +478,11 @@ body {
     display: none;
 }
 
-.sidebar-container, .background-changer-container, .color-changer-container {
+.sidebar-container,
+.background-changer-container,
+.color-changer-container,
+.save-icon,
+.load-icon {
     position: fixed;
     top: 10px;
     z-index: calc(var(--map-size) * 2 + 10);
@@ -501,6 +505,14 @@ body {
     left: 50%;
 }
 
+.save-icon {
+    right: 72px;
+}
+
+.load-icon {
+    right: 124px;
+}
+
 .editor-icon-container, .color-changer-container {
     display: flex;
     flex-direction: row;
@@ -510,7 +522,9 @@ body {
 .selected-option-active,
 .background-icon-active,
 .background-option-icon-active,
-.color-changer-icon {
+.color-changer-icon,
+.save-icon,
+.load-icon {
     height: 50px;
     width: 50px;
     background-size: 30px 30px;
@@ -543,6 +557,67 @@ body {
 .delete-inactive {
     background-size: 40px;
     background-image: url("https://cdn.discordapp.com/attachments/1039961105046437989/1042166244201201685/output-onlinepngtools.png");
+}
+
+.delete-option-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.delete-option-one.delete-option-active {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.5s linear;
+}
+
+.delete-option-two.delete-option-active {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.8s linear;
+}
+
+.delete-option-three.delete-option-active {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 1.1s linear;
+}
+
+.delete-option-one.delete-option-inactive{
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s 1.1s, opacity 1.1s linear;
+}
+
+.delete-option-two.delete-option-inactive{
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s 0.8s, opacity 0.8s linear;
+}
+
+.delete-option-three.delete-option-inactive {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s 0.5s, opacity 0.5s linear;
+}
+
+.delete-option-one,.delete-option-two,.delete-option-three {
+    background-size: 40px auto;
+}
+
+.delete-option-one {
+    background-image: url("https://cdn.discordapp.com/attachments/1039961105046437989/1079866061891063848/hexagon-icon.png");
+}
+
+.delete-option-two {
+    background-image: url("https://cdn.discordapp.com/attachments/1039961105046437989/1079865406707204157/environment-icon.png");
+}
+
+.delete-option-three{
+    background-image: url("https://cdn.discordapp.com/attachments/1039961105046437989/1079865422792380496/creature-icon.png");
+}
+
+.delete-option-active.chosen, .delete-option-inactive.chosen {
+    background-color: var(--chosen);
 }
 
 .sidebar-active {
@@ -599,6 +674,7 @@ body {
 .search-dropdown {
     background-color: var(--menu-background);
     border: var(--border) solid;
+    border-top: none;
     max-height: 200px;
     overflow-y: auto;
 }

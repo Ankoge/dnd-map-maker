@@ -3,8 +3,26 @@ export const TYPE_OPTION = {
     MONSTER: "monster",
     ENVIRONMENT: "environment",
     BLANK: "blank",
+    SOIL: "soil",
+    CREATURE: "creature",
     DELETE: "delete",
 }
+
+export const TERRAIN = {
+    LEVEL: {
+        "movable": 1,
+        "hard": 2,
+        "unmovable": 3,
+        "catch": 4,
+    },
+    OPTION: {
+        MOVABLE: "movable",
+        HARD: "hard",
+        UNMOVABLE: "unmovable",
+        CATCH: "catch",
+    }
+}
+
 
 export const SHAPE_OPTION = {
     TALL: {
@@ -18,6 +36,10 @@ export const SHAPE_OPTION = {
     FLAT: {
         name: "flat",
         imageUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1078363931040551052/flat-icon.png",
+    },
+    TALL_OVER_SIZED: {
+        name: "tall-over-sized",
+        imageUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1078363909024649216/tall-icon.png",
     }
 }
 
@@ -28,7 +50,7 @@ export const SIZE_OPTION = {
     MEDIUM: "medium",
     LARGE: "large",
     HUGE: "huge",
-    GARGANTUA:"gargantuan",
+    GARGANTUA: "gargantuan",
 }
 
 export const SIZE_ICON = {
@@ -46,10 +68,10 @@ export const BACKGROUND_OPTIONS = [
     }, {
         name: "Dessert",
         url: "https://cdn.discordapp.com/attachments/1039961105046437989/1072206046602473532/sand.jpg"
-    },{
+    }, {
         name: "Acid Dessert",
         url: "https://cdn.discordapp.com/attachments/1039961105046437989/1072208867850727434/yellow-tile-1.jpeg"
-    },{
+    }, {
         name: "Gravel",
         url: "https://cdn.discordapp.com/attachments/1039961105046437989/1072207782444531814/gravel-soil.jpg"
     }

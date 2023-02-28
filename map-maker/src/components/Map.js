@@ -1,18 +1,20 @@
 import {ContextMenu} from "./ContextMenu";
 import {useRef, useState} from "react";
 import EditorSidebar from "./EditorSidebar";
-import {SHAPE_OPTION, SIZE_OPTION, TYPE_OPTION} from "../data/options";
+import {SHAPE_OPTION, SIZE_OPTION, TERRAIN, TYPE_OPTION} from "../data/options";
 import HexCell from "./HexCell";
+import SaveMap from "./SaveMap";
 
 
 const Map = ({mapSize, isMouseDown}) => {
-
+    const [isDelete, setIsDelete] = useState(false);
     const [isContextMenu, setIsContextMenu] = useState(false);
-    const [isEdit, setIsEdit] = useState(false)
+    const [isEdit, setIsEdit] = useState(false);
     const [sidebarOptionTarget, setSidebarOptionTarget] = useState(null);
     const [isEditorSidebar, setIsEditorSidebar] = useState(false);
+    const deleteOption = useRef(TYPE_OPTION.ENVIRONMENT);
     const [movable, setMovable] = useState({
-        cells: new Set()
+        cells: new Set(),
     })
     const contextTarget = useRef({
         row: "",
@@ -21,64 +23,16 @@ const Map = ({mapSize, isMouseDown}) => {
 
     const clearMovable = () => {
         const cells = movable.cells;
-        cells.clear()
+        cells.clear();
         setMovable({cells: cells});
     }
 
-    const getCellByCellNumber = (row, cell) => {
-        return document.getElementById(`${row}${cell}-cell`);
-    }
-
-    const setCellProperties = (option, isTerrainRemove) => {
+    const setCellProperties = (option) => {
         clearMovable();
 
         // If you click on the image instead of the option, this will correct it.
         if (option.className.includes("cell-option")) {
             option = option.parentElement;
-        }
-
-
-        const setImage = () => {
-            let imageCellPart = document.getElementById(`${rowNumber}${cellNumber}-cell-image${option.dataset.optionType === TYPE_OPTION.ENVIRONMENT ? "-terrain" : ""}`)
-            imageCellPart.style.backgroundImage = `url("${option.dataset.image}")`;
-            imageCellPart.className = `cell-image ${size} ${shape} ${rowNumber}${cellNumber}-cell-image`
-            setParentCell(imageCellPart.parentElement)
-            if (type === TYPE_OPTION.PLAYER || type === TYPE_OPTION.MONSTER) {
-                setShadow()
-                imageCellPart.parentElement.dataset.playerId = `${option.dataset.image}${option.dataset.cellName}`
-            }
-            if (type === TYPE_OPTION.PLAYER) {
-                imageCellPart.parentElement.dataset.speed = option.dataset.speed;
-            }
-
-        }
-
-        const setShadow = () => {
-            const middleCellPart = document.getElementById(`middle-${rowNumber}${cellNumber}`);
-            switch (size) {
-                case SIZE_OPTION.SMALL:
-                case SIZE_OPTION.MEDIUM:
-                    middleCellPart.classList.add("shadow");
-                    break;
-                default:
-                    break;
-            }
-        }
-        const setParentCell = (parentCell) => {
-            if (parentCell === null) {
-                return;
-            }
-            parentCell.dataset.terrain = option.dataset.terrain;
-            parentCell.dataset.cellType = type;
-            parentCell.dataset.imageSourceCell = `${rowNumber}${cellNumber}-cell-image`;
-            parentCell.dataset.imageGroupId = `${rowNumber}${cellNumber}-image-group`;
-            parentCell.dataset.cellSize = type === TYPE_OPTION.ENVIRONMENT ? parentCell.dataset.cellSize : size;
-            parentCell.dataset.speed = type === TYPE_OPTION.PLAYER ? option.dataset.speed : "";
-            if (type !== TYPE_OPTION.ENVIRONMENT) {
-                parentCell.style.backgroundColor = "var(--reserved)";
-                parentCell.style.borderColor = "var(--reserved)";
-            }
-
         }
 
         setIsContextMenu(false);
@@ -88,113 +42,145 @@ const Map = ({mapSize, isMouseDown}) => {
             return;
         }
         const type = option.dataset.optionType;
-        if (type === TYPE_OPTION.DELETE) {
-            if (isTerrainRemove){
-                deleteEnvironment(rowNumber, cellNumber);
-            } else {
-                handleDelete(rowNumber, cellNumber);
-            }
-            return;
-        }
-
         const size = option.dataset.cellSize;
         const shape = option.dataset.cellShape ? option.dataset.cellShape : SHAPE_OPTION.TALL;
 
-        if (type === TYPE_OPTION.PLAYER || type === TYPE_OPTION.MONSTER) {
-            const playerDuplicates = document.querySelectorAll('[data-player-id="'.concat(`${option.dataset.image}${option.dataset.cellName}`).concat('"]'))
-            if (playerDuplicates.length > 0) {
-                playerDuplicates.forEach(duplicate => handleDelete(duplicate.dataset.row, duplicate.dataset.cell))
+        switch (type) {
+            case TYPE_OPTION.ENVIRONMENT:
+                setEnvironment(rowNumber, cellNumber, size, shape, option.dataset.terrain, option.dataset.image);
+                break;
+            case TYPE_OPTION.SOIL:
+                setSoil(rowNumber, cellNumber, option.dataset.terrain, option.dataset.image);
+                break;
+            case TYPE_OPTION.PLAYER:
+            case TYPE_OPTION.MONSTER:
+                const playerDuplicates = document.querySelectorAll(
+                    '[data-creature-id="'
+                        .concat(`${option.dataset.image}${option.dataset.cellName}`)
+                        .concat('"]'))
+                if (playerDuplicates.length > 0) {
+                    playerDuplicates.forEach(duplicate => deleteCreature(duplicate));
+                }
+                const creatureId = `${option.dataset.image}${option.dataset.cellName}`;
+                const imageSource = `${rowNumber}${cellNumber}-cell-image-${TYPE_OPTION.CREATURE}`;
+                const groupId = `${rowNumber}${cellNumber}-image-group-${TYPE_OPTION.CREATURE}`;
+                const speed = option.dataset.speed ? option.dataset.speed : 0;
+                setCreature(rowNumber, cellNumber, size, shape, option.dataset.image, creatureId)
 
-            }
+                switch (size) {
+                    case SIZE_OPTION.TINY:
+                    case SIZE_OPTION.SMALL:
+                    case SIZE_OPTION.MEDIUM:
+                        setCreatureCellGroup(rowNumber, cellNumber, groupId, imageSource, type, speed, size);
+                        break;
+                    case SIZE_OPTION.LARGE:
+                        setCreatureCellGroup(rowNumber, cellNumber, groupId, imageSource, type, speed, size);
+                        setCreatureCellGroup(rowNumber, cellNumber - 1, groupId, imageSource, type, speed, size);
+                        setCreatureCellGroup(rowNumber - 1, cellNumber + rowNumber % 2 - 1, groupId, imageSource, type, speed, size);
+                        break;
+                    case SIZE_OPTION.HUGE:
+                        setCreatureCellGroup(rowNumber, cellNumber, groupId, imageSource, type, speed, size);
+                        setCreatureCellGroup(rowNumber, cellNumber - 1, groupId, imageSource, type, speed, size);
+                        setCreatureCellGroup(rowNumber - 1, cellNumber + rowNumber % 2 - 2, groupId, imageSource, type, speed, size);
+                        setCreatureCellGroup(rowNumber - 1, cellNumber + rowNumber % 2 - 1, groupId, imageSource, type, speed, size);
+                        setCreatureCellGroup(rowNumber - 1, cellNumber + rowNumber % 2, groupId, imageSource, type, speed, size);
+                        setCreatureCellGroup(rowNumber - 2, cellNumber - 1, groupId, imageSource, type, speed, size);
+                        setCreatureCellGroup(rowNumber - 2, cellNumber, groupId, imageSource, type, speed, size);
+                        break;
+                    case SIZE_OPTION.GARGANTUA:
+                        setCreatureCellGroup(rowNumber, cellNumber, groupId, imageSource, type, speed, size);
+                        setCreatureCellGroup(rowNumber, cellNumber - 1, groupId, imageSource, type, speed, size);
+                        setCreatureCellGroup(rowNumber, cellNumber - 2, groupId, imageSource, type, speed, size);
+                        setCreatureCellGroup(rowNumber - 1, cellNumber + rowNumber % 2 - 3, groupId, imageSource, type, speed, size);
+                        setCreatureCellGroup(rowNumber - 1, cellNumber + rowNumber % 2 - 2, groupId, imageSource, type, speed, size);
+                        setCreatureCellGroup(rowNumber - 1, cellNumber + rowNumber % 2 - 1, groupId, imageSource, type, speed, size);
+                        setCreatureCellGroup(rowNumber - 1, cellNumber + rowNumber % 2, groupId, imageSource, type, speed, size);
+                        setCreatureCellGroup(rowNumber - 2, cellNumber - 2, groupId, imageSource, type, speed, size);
+                        setCreatureCellGroup(rowNumber - 2, cellNumber - 1, groupId, imageSource, type, speed, size);
+                        setCreatureCellGroup(rowNumber - 2, cellNumber, groupId, imageSource, type, speed, size);
+                        setCreatureCellGroup(rowNumber - 3, cellNumber + rowNumber % 2 - 2, groupId, imageSource, type, speed, size);
+                        setCreatureCellGroup(rowNumber - 3, cellNumber + rowNumber % 2 - 1, groupId, imageSource, type, speed, size);
+                        break;
+                    default:
+                        break;
+                }
         }
+    }
 
-        switch (size) {
-            case SIZE_OPTION.TINY:
-            case SIZE_OPTION.SMALL:
-            case SIZE_OPTION.MEDIUM:
-                setImage();
-                break;
-            case SIZE_OPTION.LARGE:
-                setImage();
-                setParentCell(getCellByCellNumber(rowNumber, cellNumber - 1));
-                setParentCell(getCellByCellNumber(rowNumber - 1, cellNumber + rowNumber % 2 - 1));
-                break;
-            case SIZE_OPTION.HUGE:
-                setImage();
-                setParentCell(getCellByCellNumber(rowNumber, cellNumber - 1));
-                setParentCell(getCellByCellNumber(rowNumber - 1, cellNumber + rowNumber % 2 - 2));
-                setParentCell(getCellByCellNumber(rowNumber - 1, cellNumber + rowNumber % 2 - 1));
-                setParentCell(getCellByCellNumber(rowNumber - 1, cellNumber + rowNumber % 2));
-                setParentCell(getCellByCellNumber(rowNumber - 2, cellNumber - 1));
-                setParentCell(getCellByCellNumber(rowNumber - 2, cellNumber));
-                break;
-            case SIZE_OPTION.GARGANTUA:
-                setImage();
-                setParentCell(getCellByCellNumber(rowNumber, cellNumber - 1));
-                setParentCell(getCellByCellNumber(rowNumber, cellNumber - 2));
-                setParentCell(getCellByCellNumber(rowNumber - 1, cellNumber + rowNumber % 2 - 3));
-                setParentCell(getCellByCellNumber(rowNumber - 1, cellNumber + rowNumber % 2 - 2));
-                setParentCell(getCellByCellNumber(rowNumber - 1, cellNumber + rowNumber % 2 - 1));
-                setParentCell(getCellByCellNumber(rowNumber - 1, cellNumber + rowNumber % 2));
-                setParentCell(getCellByCellNumber(rowNumber - 2, cellNumber - 2))
-                setParentCell(getCellByCellNumber(rowNumber - 2, cellNumber - 1));
-                setParentCell(getCellByCellNumber(rowNumber - 2, cellNumber));
-                setParentCell(getCellByCellNumber(rowNumber - 3, cellNumber + rowNumber % 2 - 2));
-                setParentCell(getCellByCellNumber(rowNumber - 3, cellNumber + rowNumber % 2 - 1));
-                break;
-            default:
-                break;
+    const setCreature = (row, column, size, shape, imageUrl, creatureId) => {
+        const imageCell = document.getElementById(`${row}${column}-cell-image-${TYPE_OPTION.CREATURE}`);
+        imageCell.className = `cell-image ${size} ${shape} ${row}${column}-cell-image-${TYPE_OPTION.CREATURE}`;
+        imageCell.style.backgroundImage = `url("${imageUrl}")`;
+        const cellContainer = imageCell.parentElement;
+        cellContainer.dataset.creatureId = creatureId;
+    }
 
+    const setCreatureCellGroup = (row, column, groupId, imageSource, type, speed, size) => {
+        const cellContainer = document.getElementById(`${row}${column}-cell`);
+        if (cellContainer === null) {
+            return;
         }
+        cellContainer.dataset.cellType = type;
+        cellContainer.dataset.imageSourceCell = imageSource;
+        cellContainer.dataset.groupId = groupId;
+        cellContainer.dataset.cellSize = size;
+        cellContainer.dataset.speed = speed;
+        cellContainer.style.backgroundColor = "var(--reserved)";
     }
 
-    const deleteEnvironment = (row, cell) => {
-        const parentCell = document.getElementById(`${row}${cell}-cell`);
-        const imageSourceCell = `${row}${cell}-cell-image-terrain`;
-        const imageCellPart = document.getElementById(imageSourceCell);
-        parentCell.dataset.terrain = "movable"
-        imageCellPart.className = imageSourceCell;
-        imageCellPart.style.backgroundImage = "none";
-
-
-    }
-
-    const handleDelete = (row, cell) => {
-        const parentCell = document.getElementById(`${row}${cell}-cell`);
-        const imageSourceCell = `${row}${cell}-cell-image`;
-        const imageCellPart = document.getElementById(imageSourceCell);
-        removeShadow(parseInt(row, 10), parseInt(cell, 10), parentCell.dataset.cellSize);
-        parentCell.removeAttribute("data-player-id");
-        parentCell.classList.remove("reserved")
-        resetGroup(parentCell);
-        parentCell.dataset.cellType = TYPE_OPTION.BLANK;
-        parentCell.dataset.cellSize = SIZE_OPTION.MEDIUM;
-        imageCellPart.style.backgroundImage = "none";
-        imageCellPart.className = `cell-image ${TYPE_OPTION.BLANK} ${imageSourceCell}`;
-
-    }
-
-    const resetGroup = (targetParentCell) => {
-        const groupParentCells = document.querySelectorAll(`[data-image-group-id = "${targetParentCell.dataset.imageGroupId}"]`)
-        groupParentCells.forEach(parentCell => {
-            parentCell.dataset.cellType = TYPE_OPTION.BLANK;
-            parentCell.dataset.imageGroupId = "";
-            parentCell.dataset.imageSourceCell = "";
-            parentCell.style.backgroundColor = "var(--hex-background)";
-            parentCell.style.borderColor = "var(--hex-background)";
+    const deleteCreature = (cellContainer) => {
+        const imageSource = cellContainer.dataset.imageSourceCell;
+        const groupId = cellContainer.dataset.groupId;
+        const imageCell = document.getElementById(imageSource);
+        imageCell.className = `image-cell`;
+        imageCell.style.backgroundImage = "none";
+        const cellGroup = document.querySelectorAll(
+            '[data-group-id="'
+                .concat(`${groupId}`)
+                .concat('"]'));
+        cellGroup.forEach(element => {
+            element.removeAttribute("data-creature-id");
+            element.dataset.cellType = TYPE_OPTION.BLANK;
+            element.removeAttribute("data-image-source-cell");
+            element.removeAttribute("data-group-id");
+            element.dataset.cellSize = SIZE_OPTION.NO_SIZE;
+            element.dataset.speed = "0";
+            element.style.backgroundColor = "var(--hex-background)";
         })
     }
 
-    const removeShadow = (row, cell, size) => {
-        const middleCellPart = document.getElementById(`middle-${row}${cell}`)
-        switch (size) {
-            case SIZE_OPTION.SMALL:
-            case SIZE_OPTION.MEDIUM:
-                middleCellPart.classList.remove("shadow");
-                break;
-            default:
-                break;
-        }
+    const setSoil = (row, column, terrain, imageUrl) => {
+        const imageCell = document.getElementById(`${row}${column}-cell-image-${TYPE_OPTION.SOIL}`);
+        const cellContainer = imageCell.parentElement;
+        imageCell.style.backgroundImage = `url("${imageUrl}")`;
+        const currentTerrain = cellContainer.dataset.terrain;
+        cellContainer.dataset.terrain = TERRAIN.LEVEL[terrain] > TERRAIN.LEVEL[currentTerrain] ? terrain : currentTerrain;
+        cellContainer.dataset.soilTerrain = terrain;
+    }
+
+    const deleteSoil = (cellContainer) => {
+        const imageCell = document.getElementById(`${cellContainer.dataset.row}${cellContainer.dataset.cell}-cell-image-${TYPE_OPTION.SOIL}`);
+        imageCell.style.backgroundImage = "none";
+        cellContainer.dataset.terrain = cellContainer.dataset.environmentTerrain;
+        cellContainer.dataset.soilTerrain = TERRAIN.OPTION.MOVABLE;
+    }
+
+    const setEnvironment = (row, column, size, shape, terrain, imageUrl) => {
+        const imageCell = document.getElementById(`${row}${column}-cell-image-${TYPE_OPTION.ENVIRONMENT}`);
+        const cellContainer = imageCell.parentElement;
+        imageCell.style.backgroundImage = `url("${imageUrl}")`;
+        imageCell.className = `cell-image ${size} ${shape} ${row}${column}-cell-image-${TYPE_OPTION.ENVIRONMENT}`;
+        const currentTerrain = cellContainer.dataset.terrain;
+        cellContainer.dataset.terrain = TERRAIN.LEVEL[terrain] > TERRAIN.LEVEL[currentTerrain] ? terrain : currentTerrain;
+        cellContainer.dataset.environmentTerrain = terrain;
+    }
+
+    const deleteEnvironment = (cellContainer) => {
+        const imageCell = document.getElementById(`${cellContainer.dataset.row}${cellContainer.dataset.cell}-cell-image-${TYPE_OPTION.ENVIRONMENT}`);
+        imageCell.style.backgroundImage = "none";
+        imageCell.className = "cell-image";
+        cellContainer.dataset.terrain = cellContainer.dataset.soilTerrain;
+        cellContainer.dataset.environmentTerrain = TERRAIN.OPTION.MOVABLE;
     }
 
     const handleRightClick = (event) => {
@@ -212,30 +198,35 @@ const Map = ({mapSize, isMouseDown}) => {
     }
 
     const handleLeftClick = (event) => {
-        setIsContextMenu(false)
-        clearMovable()
+        setIsContextMenu(false);
+        clearMovable();
+        const targetCellContainer = event.target.parentElement
 
         //If sidebar edit is active change hex image to selected environment image.
         if (isEdit) {
-            changeCellToSideBarOption(event.target.parentElement)
+            contextTarget.current.row = targetCellContainer.dataset.row;
+            contextTarget.current.cell = targetCellContainer.dataset.cell;
+            setCellProperties(sidebarOptionTarget);
+        } else if (isDelete && targetCellContainer.className.includes("map-cell hex")) {
+            switch (deleteOption.current) {
+                case TYPE_OPTION.SOIL:
+                    deleteSoil(targetCellContainer);
+                    break;
+                case TYPE_OPTION.ENVIRONMENT:
+                    deleteEnvironment(targetCellContainer);
+                    break;
+                case TYPE_OPTION.CREATURE:
+                    deleteCreature(targetCellContainer);
+                    break;
+            }
         }
-    }
-
-
-    const changeCellToSideBarOption = (parentCell) => {
-        //Bypass the useState slow update with concrete parameters.
-        contextTarget.current.row = parentCell.dataset.row;
-        contextTarget.current.cell = parentCell.dataset.cell;
-        const removeTerrain = true
-        setCellProperties(sidebarOptionTarget, removeTerrain);
-
     }
 
     //Recursive function.
     const collectMovableHexes = (row, cell, speed, step, size, movableBuild) => {
 
         if (!movableBuild.has(`${row}${cell}` && step !== 0)) {
-            const parentCell = getCellByCellNumber(row, cell)
+            const parentCell = document.getElementById(`${row}${cell}-cell`);
 
 
             //Early return if out of map.
@@ -292,20 +283,34 @@ const Map = ({mapSize, isMouseDown}) => {
 
 
     function handleMouseEnter(event) {
-        const parentCell = event.target.parentElement;
-
+        const targetCellContainer = event.target.parentElement;
+        if ( isMouseDown && isDelete) {
+            switch (deleteOption.current) {
+                case TYPE_OPTION.SOIL:
+                    deleteSoil(targetCellContainer);
+                    break;
+                case TYPE_OPTION.ENVIRONMENT:
+                    deleteEnvironment(targetCellContainer);
+                    break;
+                case TYPE_OPTION.CREATURE:
+                    deleteCreature(targetCellContainer);
+                    break;
+            }
+        }
         //Continuous hex image (environment image) placement when mouse down and enter a cell.
         if (isMouseDown && isEdit) {
-            //Here change te cell to the chosen environment type.
-            changeCellToSideBarOption(parentCell)
+            contextTarget.current.row = targetCellContainer.dataset.row;
+            contextTarget.current.cell = targetCellContainer.dataset.cell;
+            setCellProperties(sidebarOptionTarget);
             return;
         }
 
+
         //Look after the possible hexes for the player move.
-        if (parentCell.dataset.cellType === TYPE_OPTION.PLAYER) {
+        if (targetCellContainer.dataset.cellType === TYPE_OPTION.PLAYER) {
             let movableBuild = new Set();
-            if (parentCell.dataset.cellSize === SIZE_OPTION.LARGE) {
-                const groupParentCells = document.querySelectorAll(`[data-image-group-id = "${parentCell.dataset.imageGroupId}"]`)
+            if (targetCellContainer.dataset.cellSize === SIZE_OPTION.LARGE) {
+                const groupParentCells = document.querySelectorAll(`[data-image-group-id = "${targetCellContainer.dataset.imageGroupId}"]`)
                 groupParentCells.forEach(pc => {
                     movableBuild = collectMovableHexes(
                         pc.dataset.row,
@@ -318,11 +323,11 @@ const Map = ({mapSize, isMouseDown}) => {
                 })
             } else {
                 movableBuild = collectMovableHexes(
-                    parentCell.dataset.row,
-                    parentCell.dataset.cell,
-                    parseInt(parentCell.dataset.speed, 10),
+                    targetCellContainer.dataset.row,
+                    targetCellContainer.dataset.cell,
+                    parseInt(targetCellContainer.dataset.speed, 10),
                     0,
-                    parentCell.dataset.cellSize,
+                    targetCellContainer.dataset.cellSize,
                     movableBuild
                 )
             }
@@ -344,12 +349,13 @@ const Map = ({mapSize, isMouseDown}) => {
                 const calculatedRowNumber = 10000 + rowNumber;
                 const calculatedCellNumber = 10000 + cellNumber;
                 row.push(
-                    <HexCell row={calculatedRowNumber}
+                    <HexCell key={`${calculatedRowNumber}${calculatedCellNumber}`}
+                             row={calculatedRowNumber}
                              column={calculatedCellNumber}
                              handleMouseEnter={handleMouseEnter}
                              movable={movable}
                     />
-                        )
+                )
             }
 
             map.push(<div key={rowNumber}
@@ -362,7 +368,7 @@ const Map = ({mapSize, isMouseDown}) => {
         return (<div className={"map map-editor-sidebar-".concat(isEditorSidebar ? "active" : "inactive")}
                      onContextMenu={handleRightClick}
                      onClick={handleLeftClick}>
-            <div>{map}</div>
+            <div className={"map-container"}>{map}</div>
         </div>)
     }
 
@@ -377,8 +383,11 @@ const Map = ({mapSize, isMouseDown}) => {
         <EditorSidebar
             isEditorSidebar={isEditorSidebar}
             onIsEditorSidebarChange={setIsEditorSidebar}
-            onIsEditChange={setIsEdit}
+            onEditChange={setIsEdit}
             onSidebarOptionChange={setSidebarOptionTarget}
+            deleteOption={deleteOption}
+            isDelete={isDelete}
+            onDeleteChange={setIsDelete}
         />
     </div>)
 }
