@@ -23,12 +23,10 @@ const MonsterSearch = ({contextButton}) => {
         try {
             await fetchGet(`https://www.dnd5eapi.co/api/monsters/${nameIndex}`)
                 .then(response => {
-                    console.log(response)
                     if (response.status !== 200) {
                         throw new Error(`Can not find in API database monster: ${nameIndex}`)
                     } else {
                         size = response.data.size.toLowerCase();
-                        console.log(size)
                     }
                 })
         } catch (e) {

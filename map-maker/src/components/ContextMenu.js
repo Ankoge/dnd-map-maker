@@ -1,10 +1,9 @@
 import {PLAYER_OPTIONS} from "../data/playerOptions";
 import {MONSTER_OPTIONS} from "../data/monsterOptions";
-import {ENVIRONMENT_OPTIONS} from "../data/environmentOptions";
 import {useState} from "react";
 import MonsterSearch from "./MonsterSearch";
 import ShapeButton from "./ShapeButton";
-import {SHAPE_OPTION, SIZE_OPTION, TYPE_OPTION} from "../data/options";
+import {SHAPE_OPTION, TYPE_OPTION} from "../data/options";
 import SizeDropdown from "./SizeDropdown";
 import SpeedSetter from "./SpeedSetter";
 
@@ -17,8 +16,7 @@ export const ContextMenu = props => {
 
     function handleContextOptionClick(option) {
         option.stopPropagation();
-        const removeTerrain = false;
-        props.setCellProperties(option.target, removeTerrain);
+        props.setCellProperties(option.target);
     }
 
     const contextMenuOptionBuilder = (options, optionType) => {
@@ -44,17 +42,17 @@ export const ContextMenu = props => {
         </span>
                 {optionType === TYPE_OPTION.PLAYER ? <SpeedSetter name={option.cellName}
                                                                   speed={option.speed}/> : ""}
-                {optionType !== TYPE_OPTION.ENVIRONMENT ? <SizeDropdown name={option.cellName}
-                                                              optionType={optionType}/> : ""}
-                {optionType !== TYPE_OPTION.ENVIRONMENT ? <ShapeButton name={option.cellName}
-                                                             shape={SHAPE_OPTION.TALL}
-                                                             optionType={optionType}/> : ""}
-                {optionType !== TYPE_OPTION.ENVIRONMENT ? <ShapeButton name={option.cellName}
-                                                             shape={SHAPE_OPTION.ROUND}
-                                                             optionType={optionType}/> : ""}
-                {optionType !== TYPE_OPTION.ENVIRONMENT ? <ShapeButton name={option.cellName}
-                                                             shape={SHAPE_OPTION.FLAT}
-                                                             optionType={optionType}/> : ""}
+                <SizeDropdown name={option.cellName}
+                              optionType={optionType}/>
+                <ShapeButton name={option.cellName}
+                             shape={SHAPE_OPTION.TALL}
+                             optionType={optionType}/>
+                <ShapeButton name={option.cellName}
+                             shape={SHAPE_OPTION.ROUND}
+                             optionType={optionType}/>
+                <ShapeButton name={option.cellName}
+                             shape={SHAPE_OPTION.FLAT}
+                             optionType={optionType}/>
 
         </span>)
     }
@@ -75,20 +73,10 @@ export const ContextMenu = props => {
         <div className="context-menu-button-container">
             {contextMenuButtonBuilder(TYPE_OPTION.PLAYER, "https://creazilla-store.fra1.digitaloceanspaces.com/emojis/45528/old-man-emoji-clipart-md.png")}
             {contextMenuButtonBuilder(TYPE_OPTION.MONSTER, "https://cdn-icons-png.flaticon.com/512/606/606971.png?w=826&t=st=1667696345~exp=1667696945~hmac=1f56ef0adf25915f0f3c1e120dc9660126c7fe79e29f9c806eccb1008fcccaa2")}
-            {contextMenuButtonBuilder(TYPE_OPTION.ENVIRONMENT, "https://cdn.discordapp.com/attachments/1039961105046437989/1060947032363253851/pngegg_24.png")}
-        </div>
-        <div key={"delete"}
-             className={"context-menu-option on-hover"}
-             data-image={""}
-             data-cell-size={SIZE_OPTION.MEDIUM}
-             data-option-type={"delete"}
-             onClick={handleContextOptionClick}
-        >Delete
         </div>
         {contextMenuOptionBuilder(PLAYER_OPTIONS.players, TYPE_OPTION.PLAYER)}
         <MonsterSearch contextButton={contextButton}/>
         {contextMenuOptionBuilder(MONSTER_OPTIONS.monsters, TYPE_OPTION.MONSTER)}
-        {contextMenuOptionBuilder(ENVIRONMENT_OPTIONS, TYPE_OPTION.ENVIRONMENT)}
     </div>)
 
 }
