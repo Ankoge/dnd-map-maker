@@ -1,6 +1,6 @@
 import {useRef, useState} from "react";
 import {ENVIRONMENT_OPTIONS} from "../data/environmentOptions";
-import {SHAPE_OPTION, TYPE_OPTION} from "../data/options";
+import {SHAPE_OPTION, OPTION_TYPE} from "../data/options";
 import {SOIL_OPTIONS} from "../data/soilOptions";
 
 const EditorSidebar = props => {
@@ -32,14 +32,14 @@ const EditorSidebar = props => {
         }
         props.onDeleteChange(eventTarget.className.includes("delete"));
         props.onEditChange(true);
-        props.onSidebarOptionChange(eventTarget);
+        props.onSidebarOptionChange.current = eventTarget;
         document.getElementById("selected-option").style.backgroundImage = `url(${eventTarget.dataset.image})`;
     }
 
     const handleEditOffClick = () => {
         props.onEditChange(false);
         document.getElementById("selected-option").style.backgroundImage = "none";
-        props.onSidebarOptionChange(null);
+        props.onSidebarOptionChange.current = null;
     }
 
     function handleDeleteOptionClick(event) {
@@ -80,28 +80,28 @@ const EditorSidebar = props => {
                      onMouseEnter={handleDeleteMouseEnter}
                 ></div>
                 <div className={"delete-option-container"}
-                    onMouseEnter={killDeleteOptionTimeout}
+                     onMouseEnter={killDeleteOptionTimeout}
                      onMouseLeave={setDeleteOptionTimeout}>
                     <div
                         className={"sidebar-icon delete-option-one delete-option-"
                             .concat(isDeleteOption ? "active" : "inactive")
-                            .concat(TYPE_OPTION.SOIL === props.deleteOption.current ? " chosen" : "")}
-                        data-delete-type={TYPE_OPTION.SOIL}
+                            .concat(OPTION_TYPE.SOIL === props.deleteOption.current ? " chosen" : "")}
+                        data-delete-type={OPTION_TYPE.SOIL}
                         onClick={handleDeleteOptionClick}
 
                     ></div>
                     <div
                         className={"sidebar-icon delete-option-two delete-option-"
                             .concat(isDeleteOption ? "active" : "inactive")
-                            .concat(TYPE_OPTION.ENVIRONMENT === props.deleteOption.current ? " chosen" : "")}
-                        data-delete-type={TYPE_OPTION.ENVIRONMENT}
+                            .concat(OPTION_TYPE.ENVIRONMENT === props.deleteOption.current ? " chosen" : "")}
+                        data-delete-type={OPTION_TYPE.ENVIRONMENT}
                         onClick={handleDeleteOptionClick}
                     ></div>
                     <div
                         className={"sidebar-icon delete-option-three delete-option-"
                             .concat(isDeleteOption ? "active" : "inactive")
-                            .concat(TYPE_OPTION.CREATURE === props.deleteOption.current ? " chosen" : "")}
-                        data-delete-type={TYPE_OPTION.CREATURE}
+                            .concat(OPTION_TYPE.CREATURE === props.deleteOption.current ? " chosen" : "")}
+                        data-delete-type={OPTION_TYPE.CREATURE}
                         onClick={handleDeleteOptionClick}
                     ></div>
                 </div>
@@ -110,7 +110,7 @@ const EditorSidebar = props => {
                 {SOIL_OPTIONS.map((option, index) => <div key={`${index}-${option.cellName}`}
                                                           className={"sidebar-option soil"}
                                                           data-image={option.cellUrl}
-                                                          data-option-type={TYPE_OPTION.SOIL}
+                                                          data-option-type={OPTION_TYPE.SOIL}
                                                           data-terrain={option.cellTerrain}
                                                           onClick={event => {
                                                               event.stopPropagation();
@@ -125,7 +125,7 @@ const EditorSidebar = props => {
                                                                  data-image={option.cellUrl}
                                                                  data-cell-size={option.cellSize}
                                                                  data-cell-shape={option.cellShape ? option.cellShape : SHAPE_OPTION.TALL.name}
-                                                                 data-option-type={TYPE_OPTION.ENVIRONMENT}
+                                                                 data-option-type={OPTION_TYPE.ENVIRONMENT}
                                                                  data-terrain={option.cellTerrain}
                                                                  onClick={event => {
                                                                      event.stopPropagation();

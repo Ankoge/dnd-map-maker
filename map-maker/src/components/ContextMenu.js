@@ -3,12 +3,12 @@ import {MONSTER_OPTIONS} from "../data/monsterOptions";
 import {useState} from "react";
 import MonsterSearch from "./MonsterSearch";
 import ShapeButton from "./ShapeButton";
-import {SHAPE_OPTION, TYPE_OPTION} from "../data/options";
+import {SHAPE_OPTION, OPTION_TYPE} from "../data/options";
 import SizeDropdown from "./SizeDropdown";
 import SpeedSetter from "./SpeedSetter";
 
 export const ContextMenu = props => {
-    const [contextButton, setContextButton] = useState(TYPE_OPTION.PLAYER)
+    const [contextButton, setContextButton] = useState(OPTION_TYPE.PLAYER)
 
     const handleContextOptionTypeChoose = (chosenType) => {
         setContextButton(chosenType.target.dataset.contexttype)
@@ -27,10 +27,10 @@ export const ContextMenu = props => {
             ><span key={index}
                    className={"on-hover context-menu-option option"}
                    data-image={option.cellUrl}
+                   data-cell-index={option.cellIndex}
                    data-cell-size={option.cellSize}
                    data-cell-shape={option.cellShape ? option.cellShape : SHAPE_OPTION.TALL.name}
-                   data-speed={optionType === TYPE_OPTION.PLAYER ? option.speed : 0}
-                   data-terrain={optionType === TYPE_OPTION.ENVIRONMENT ? option.cellTerrain : ""}
+                   data-speed={optionType === OPTION_TYPE.PLAYER ? option.speed : 0}
                    data-cell-name={option.cellName}
                    data-option-type={optionType}
                    onClick={handleContextOptionClick}
@@ -40,7 +40,7 @@ export const ContextMenu = props => {
                      alt={option.cellName}/>
 
         </span>
-                {optionType === TYPE_OPTION.PLAYER ? <SpeedSetter name={option.cellName}
+                {optionType === OPTION_TYPE.PLAYER ? <SpeedSetter name={option.cellName}
                                                                   speed={option.speed}/> : ""}
                 <SizeDropdown name={option.cellName}
                               optionType={optionType}/>
@@ -71,12 +71,12 @@ export const ContextMenu = props => {
     return (<div id="context-menu"
                  className={"context-menu context-menu-".concat(props.isContextMenu ? "active" : "inactive")}>
         <div className="context-menu-button-container">
-            {contextMenuButtonBuilder(TYPE_OPTION.PLAYER, "https://creazilla-store.fra1.digitaloceanspaces.com/emojis/45528/old-man-emoji-clipart-md.png")}
-            {contextMenuButtonBuilder(TYPE_OPTION.MONSTER, "https://cdn-icons-png.flaticon.com/512/606/606971.png?w=826&t=st=1667696345~exp=1667696945~hmac=1f56ef0adf25915f0f3c1e120dc9660126c7fe79e29f9c806eccb1008fcccaa2")}
+            {contextMenuButtonBuilder(OPTION_TYPE.PLAYER, "https://creazilla-store.fra1.digitaloceanspaces.com/emojis/45528/old-man-emoji-clipart-md.png")}
+            {contextMenuButtonBuilder(OPTION_TYPE.MONSTER, "https://cdn-icons-png.flaticon.com/512/606/606971.png?w=826&t=st=1667696345~exp=1667696945~hmac=1f56ef0adf25915f0f3c1e120dc9660126c7fe79e29f9c806eccb1008fcccaa2")}
         </div>
-        {contextMenuOptionBuilder(PLAYER_OPTIONS.players, TYPE_OPTION.PLAYER)}
+        {contextMenuOptionBuilder(PLAYER_OPTIONS.players, OPTION_TYPE.PLAYER)}
         <MonsterSearch contextButton={contextButton}/>
-        {contextMenuOptionBuilder(MONSTER_OPTIONS.monsters, TYPE_OPTION.MONSTER)}
+        {contextMenuOptionBuilder(MONSTER_OPTIONS.monsters, OPTION_TYPE.MONSTER)}
     </div>)
 
 }

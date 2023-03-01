@@ -1,4 +1,4 @@
-export const TYPE_OPTION = {
+export const OPTION_TYPE = {
     PLAYER: "player",
     MONSTER: "monster",
     ENVIRONMENT: "environment",

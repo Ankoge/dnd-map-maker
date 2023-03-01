@@ -1,13 +1,16 @@
 import './App.css';
-import Map from "./components/Map";
+import Container from "./components/Container";
 import {useEffect, useState} from "react";
 import Background from "./components/Background";
 import ColorStyle from "./components/ColorStyle";
-import SaveMap from "./components/SaveMap";
+
 
 function App() {
-    const [isMouseDown, setIsMouseDown] = useState(false)
+    const [isMouseDown, setIsMouseDown] = useState(false);
+    const [mapSize, setMapSize] = useState(45);
+
     useEffect(() => {
+        setMapSize(45);
         document.body.addEventListener('keydown', (event) => {
             const modifyCellSize = (modifier) => {
                 let size = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--cell-size"), 10);
@@ -42,12 +45,17 @@ function App() {
     }, [])
 
 
+    function onRightClick(event) {
+        event.preventDefault();
+    }
+
     return (
-        <div className="App">
+        <div className="App"
+        onContextMenu={onRightClick}>
             <header className="App-header">
             </header>
-            <Map mapSize={45}
-                 isMouseDown={isMouseDown}/>
+            <Container isMouseDown={isMouseDown}
+                       mapSize={mapSize}/>
             <Background/>
             <ColorStyle/>
         </div>

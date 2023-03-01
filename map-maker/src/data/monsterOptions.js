@@ -21,7 +21,7 @@ export const MONSTER_OPTIONS = {
             cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1050851179745263687/My_project_16.png"
         }
     ],
-    addMonster: (name, index, size, url) => {
+    add: (name, index, size, url) => {
         MONSTER_OPTIONS.monsters.push(
             {
                 cellName: name,
@@ -31,6 +31,14 @@ export const MONSTER_OPTIONS = {
                 cellUrl: url
             }
         )
+    },
+    isMonsterInList: (name) => {
+        return MONSTER_OPTIONS.monsters.reduce((nameInclude, monster) =>
+            monster.cellName.includes(name) ? true : nameInclude
+        , false);
+    },
+    getMonsterCount: (nameIndex) => {
+        return MONSTER_OPTIONS.monsters.reduce((count, monster) => count + (monster.cellIndex.includes(nameIndex) ? 1 : 0), 0)
     },
     changeShape: (name, shape) => {
         const monsterForShapeChange = MONSTER_OPTIONS.monsters.find(monster => monster.cellName === name);

@@ -1,16 +1,16 @@
 import {MONSTER_OPTIONS} from "../data/monsterOptions";
 import {PLAYER_OPTIONS} from "../data/playerOptions";
-import {TYPE_OPTION} from "../data/options";
+import {OPTION_TYPE} from "../data/options";
 
 const ShapeButton = ({name, shape, optionType}) => {
 
     function onClick(event) {
         event.stopPropagation();
         switch (optionType) {
-            case TYPE_OPTION.PLAYER:
+            case OPTION_TYPE.PLAYER:
                 PLAYER_OPTIONS.changeShape(name, shape.name);
                 break;
-            case TYPE_OPTION.MONSTER:
+            case OPTION_TYPE.MONSTER:
                 MONSTER_OPTIONS.changeShape(name, shape.name);
                 break;
             default:
