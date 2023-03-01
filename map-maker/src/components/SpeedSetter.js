@@ -2,10 +2,10 @@ import {PLAYER_OPTIONS} from "../data/playerOptions";
 import {useState} from "react";
 
 const SpeedSetter = (props) => {
-    const [speed, setSpeed] = useState(props.speed)
+    const [speed, setSpeed] = useState(PLAYER_OPTIONS.getSpeed(props.name))
 
     function handleSpeedInput(event) {
-        if(parseInt(event.target.value, 10) > 9){
+        if (parseInt(event.target.value, 10) > 9) {
             alert("Under development. Max speed is 9.");
             return;
         }
