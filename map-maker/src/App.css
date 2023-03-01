@@ -580,7 +580,8 @@ body {
 .background-icon-active:hover,
 .load-icon:hover,
 .save-icon:hover,
-.refresh-button:hover {
+.refresh-button:hover,
+.map-name-button:hover {
     background-color: var(--hover);
 }
 
@@ -625,6 +626,50 @@ body {
     to {
         transform: rotate(360deg);
     }
+}
+
+.map-name-editor {
+    position: fixed;
+    z-index: calc(var(--map-size) * 2 + 10);
+    top: 63px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1px;
+    right: 72px;
+    width: 104px;
+}
+
+.map-name-button {
+    height: 32px;
+    width: 32px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: var(--icon-background);
+    border: solid var(--border) 1px;
+    border-radius: 5px;
+    background-size: 27px 27px ;
+background-image: url("https://cdn.discordapp.com/attachments/1039961105046437989/1080559317939400744/scroll-icon.png");
+}
+.map-name-second-icon{
+    height: 32px;
+    width: 32px;
+    background-size: 15px 15px;
+    background-repeat: no-repeat;
+    background-position: 45% 58%;
+    transform: skew(343deg ,5deg);
+
+}
+.map-1 {background-image: url("https://cdn.discordapp.com/attachments/1039961105046437989/1080545694307328130/I.png");}
+.map-2 {background-image: url("https://cdn.discordapp.com/attachments/1039961105046437989/1080545736288112750/II.png");}
+.map-3 {background-image: url("https://cdn.discordapp.com/attachments/1039961105046437989/1080545758270459914/III.png");}
+.map-4 {background-image: url("https://cdn.discordapp.com/attachments/1039961105046437989/1080545770610114680/IV.png");}
+.map-5 {background-image: url("https://cdn.discordapp.com/attachments/1039961105046437989/1080545785466335383/V.png") ;}
+.map-6 {background-image: url("https://cdn.discordapp.com/attachments/1039961105046437989/1080545799869575259/VI.png");}
+
+
+.selected {
+    background-color: var(--chosen);
 }
 
 .delete-active {

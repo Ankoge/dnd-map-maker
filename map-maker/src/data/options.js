@@ -76,3 +76,13 @@ export const BACKGROUND_OPTIONS = [
         url: "https://cdn.discordapp.com/attachments/1039961105046437989/1072207782444531814/gravel-soil.jpg"
     }
 ]
+
+export const ENTER_IN = {
+    TOP_LEFT: "top-left",
+    TOP_RIGHT: "top-right",
+    LEFT: "left",
+    BOTTOM_LEFT: "bottom-left",
+    BOTTOM_RIGHT: "bottom-right",
+    RIGHT: "right",
+    START: "start",
+}

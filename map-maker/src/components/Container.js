@@ -1,7 +1,7 @@
 import {ContextMenu} from "./ContextMenu";
 import {useRef, useState} from "react";
 import EditorSidebar from "./EditorSidebar";
-import {SHAPE_OPTION, SIZE_OPTION, OPTION_TYPE} from "../data/options";
+import {SHAPE_OPTION, SIZE_OPTION, OPTION_TYPE, ENTER_IN} from "../data/options";
 import SaveMap from "./SaveMap";
 import LoadMap from "./LoadMap";
 import {CreatureUtil} from "../util/CreatureUtil";
@@ -9,9 +9,11 @@ import {SoilUtil} from "../util/SoilUtil";
 import {EnvironmentUtil} from "../util/EnvironmentUtil";
 import Map from "./Map";
 import RefreshButton from "./RefreshButton";
+import MapNameEditor from "./MapNameEditor";
 
 
 const Container = ({mapSize, isMouseDown}) => {
+    const [currentMapName, setCurrentMapName] = useState("map1")
     const [isDelete, setIsDelete] = useState(false);
     const [isContextMenu, setIsContextMenu] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
@@ -124,6 +126,9 @@ const Container = ({mapSize, isMouseDown}) => {
                     default:
                         break;
                 }
+                break;
+            default:
+                break;
         }
     }
 
@@ -219,7 +224,8 @@ const Container = ({mapSize, isMouseDown}) => {
                 parseInt(targetCellContainer.dataset.speed, 10),
                 0,
                 targetCellContainer.dataset.cellSize,
-                movableBuild
+                movableBuild,
+                ENTER_IN.START
             )
             //Trigger a render for the selected hexes with a state change.
             setMovable({cells: movableBuild});
@@ -229,12 +235,12 @@ const Container = ({mapSize, isMouseDown}) => {
     const removeCellFromMapStatus = (mapStatusPart, row, column) => {
         let deletedElement = NaN;
         mapStatusPart.forEach((el, i) => {
-            if(parseInt(el.row) === parseInt(row) && parseInt(el.column) === parseInt(column)){
+            if (parseInt(el.row) === parseInt(row) && parseInt(el.column) === parseInt(column)) {
                 deletedElement = i;
             }
         });
         if (deletedElement || deletedElement === 0) {
-            mapStatusPart.splice(deletedElement,1);
+            mapStatusPart.splice(deletedElement, 1);
         }
     }
 
@@ -252,11 +258,13 @@ const Container = ({mapSize, isMouseDown}) => {
                 removeCellFromMapStatus(mapState.current.map.creature, targetCellContainer.dataset.row, targetCellContainer.dataset.column);
                 CreatureUtil.deleteCreature(targetCellContainer);
                 break;
+            default:
+                break;
         }
     }
 
     //Recursive function.
-    const collectMovableHexes = (row, column, speed, step, size, movableBuild) => {
+    const collectMovableHexes = (row, column, speed, step, size, movableBuild, enterDirection) => {
 
         if (!movableBuild.has(`${row}${column}` && step !== 0)) {
             const parentCell = document.getElementById(`${row}${column}-cell`);
@@ -299,12 +307,24 @@ const Container = ({mapSize, isMouseDown}) => {
         row = parseInt(row, 10);
         column = parseInt(column, 10);
         //Recursively call all neighbour hexes.
-        movableBuild = collectMovableHexes(row - 1, column + (row % 2), speed, step, size, movableBuild);
-        movableBuild = collectMovableHexes(row, column + 1, speed, step, size, movableBuild);
-        movableBuild = collectMovableHexes(row + 1, column + (row % 2), speed, step, size, movableBuild);
-        movableBuild = collectMovableHexes(row + 1, column + (-1 + row % 2), speed, step, size, movableBuild);
-        movableBuild = collectMovableHexes(row, column - 1, speed, step, size, movableBuild);
-        movableBuild = collectMovableHexes(row - 1, column + (-1 + row % 2), speed, step, size, movableBuild);
+        if (enterDirection !== ENTER_IN.BOTTOM_LEFT) {
+            movableBuild = collectMovableHexes(row - 1, column + (row % 2), speed, step, size, movableBuild, ENTER_IN.TOP_RIGHT);
+        }
+        if (enterDirection !== ENTER_IN.LEFT) {
+            movableBuild = collectMovableHexes(row, column + 1, speed, step, size, movableBuild, ENTER_IN.RIGHT);
+        }
+        if (enterDirection !== ENTER_IN.TOP_LEFT) {
+            movableBuild = collectMovableHexes(row + 1, column + (-1 + row % 2), speed, step, size, movableBuild, ENTER_IN.BOTTOM_RIGHT);
+        }
+        if (enterDirection !== ENTER_IN.TOP_RIGHT) {
+            movableBuild = collectMovableHexes(row + 1, column + (row % 2), speed, step, size, movableBuild, ENTER_IN.BOTTOM_LEFT);
+        }
+        if (enterDirection !== ENTER_IN.RIGHT) {
+            movableBuild = collectMovableHexes(row, column - 1, speed, step, size, movableBuild, ENTER_IN.LEFT);
+        }
+        if (enterDirection !== ENTER_IN.BOTTOM_RIGHT) {
+            movableBuild = collectMovableHexes(row - 1, column + (-1 + row % 2), speed, step, size, movableBuild, ENTER_IN.TOP_LEFT);
+        }
 
         return movableBuild;
     }
@@ -317,10 +337,14 @@ const Container = ({mapSize, isMouseDown}) => {
             contextTarget={contextTarget}
             setCellProperties={setCellProperties}
         />
-        <SaveMap mapState={mapState}/>
+        <SaveMap mapState={mapState}
+                 currentMapName={currentMapName}/>
         <LoadMap setCell={setCellProperties}
-                 contextTarget={contextTarget}/>
+                 contextTarget={contextTarget}
+                 currentMapName={currentMapName}/>
         <RefreshButton/>
+        <MapNameEditor setCurrentMapName={setCurrentMapName}
+                       currentMapName={currentMapName}/>
         <Map handleLeftClick={handleLeftClick}
              handleRightClick={handleRightClick}
              handleMouseEnter={handleMouseEnter}

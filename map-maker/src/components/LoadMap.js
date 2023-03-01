@@ -3,7 +3,7 @@ import {useRef} from "react";
 import {MONSTER_OPTIONS} from "../data/monsterOptions";
 import {OPTION_TYPE} from "../data/options";
 
-const LoadMap = ({setCell, contextTarget}) => {
+const LoadMap = ({setCell, contextTarget, currentMapName}) => {
     const loadedMapState = useRef({
         map: {
             creature: [],//{row: , column: , name: , size: , shape: , speed: , optionType: , imageUrl: }
@@ -13,8 +13,7 @@ const LoadMap = ({setCell, contextTarget}) => {
     });
 
     const handleLoad = () => {
-        loadedMapState.current = Util.load("mapName");
-        console.log("In load with content: ", Util.load("mapName"));
+        loadedMapState.current = Util.load(currentMapName);
         loadMap();
     }
 

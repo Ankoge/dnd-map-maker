@@ -1,10 +1,9 @@
 import {Util} from "../util/Util";
 
-const SaveMap = ({mapState}) => {
+const SaveMap = ({mapState, currentMapName}) => {
 
     const handleSave = () => {
-        console.log("In save", mapState.current)
-        Util.save("mapName", mapState.current)
+        Util.save(currentMapName, mapState.current)
     }
 
     return (
