@@ -1,14 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="039b2f42-e18b-4f29-9a98-66d404c0faa4" name="Changes" comment="Hex Cells">
+    <list default="true" id="039b2f42-e18b-4f29-9a98-66d404c0faa4" name="Changes" comment="Add save and load.">
+      <change afterPath="$PROJECT_DIR$/map-maker/src/components/Container.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/map-maker/src/components/LoadMap.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/map-maker/src/components/RefreshButton.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/map-maker/src/components/SaveMap.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/map-maker/src/util/CreatureUtil.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/map-maker/src/util/EnvironmentUtil.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/map-maker/src/util/SoilUtil.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/map-maker/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/map-maker/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/map-maker/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/map-maker/src/App.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/map-maker/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/map-maker/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/map-maker/src/components/ContextMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/map-maker/src/components/ContextMenu.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/map-maker/src/components/EditorSidebar.js" beforeDir="false" afterPath="$PROJECT_DIR$/map-maker/src/components/EditorSidebar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/map-maker/src/components/HexCell.js" beforeDir="false" afterPath="$PROJECT_DIR$/map-maker/src/components/HexCell.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/map-maker/src/components/Map.js" beforeDir="false" afterPath="$PROJECT_DIR$/map-maker/src/components/Map.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/map-maker/src/data/environmentOptions.js" beforeDir="false" afterPath="$PROJECT_DIR$/map-maker/src/data/environmentOptions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/map-maker/src/components/MonsterSearch.js" beforeDir="false" afterPath="$PROJECT_DIR$/map-maker/src/components/MonsterSearch.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/map-maker/src/components/ShapeButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/map-maker/src/components/ShapeButton.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/map-maker/src/components/SizeDropdown.js" beforeDir="false" afterPath="$PROJECT_DIR$/map-maker/src/components/SizeDropdown.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/map-maker/src/data/monsterOptions.js" beforeDir="false" afterPath="$PROJECT_DIR$/map-maker/src/data/monsterOptions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/map-maker/src/data/options.js" beforeDir="false" afterPath="$PROJECT_DIR$/map-maker/src/data/options.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/map-maker/src/util/Util.js" beforeDir="false" afterPath="$PROJECT_DIR$/map-maker/src/util/Util.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,10 +39,18 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="hexagon_cell" />
+        <entry key="$PROJECT_DIR$" value="development" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GithubProjectSettings">
+    <option name="branchProtectionPatterns">
+      <list>
+        <option value="import" />
+        <option value="master" />
+      </list>
+    </option>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -40,16 +61,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/ankoge/Projects/pet-Ankoge/dnd-map/DnD-map&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.completion&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "/home/ankoge/Projects/pet-Ankoge/dnd-map/DnD-map",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "editor.preferences.completion",
+    "ts.external.directory.path": "/home/ankoge/.local/share/JetBrains/Toolbox/apps/IDEA-U/ch-0/222.3739.54/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/map-maker/src/data" />
@@ -110,7 +132,63 @@
       <option name="project" value="LOCAL" />
       <updated>1673252857887</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Add the possibilities to change the shape and size of pictures.">
+      <created>1677267150661</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1677267150661</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Replaces the button order in the Context menu.">
+      <created>1677414267482</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1677414267482</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Add Gargantuan size in the size list and the characters background highlighted.">
+      <created>1677414420204</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1677414420204</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Refactor character image starer cell.">
+      <created>1677422743057</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1677422743057</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Add speed setter to player's context menu.">
+      <created>1677439611673</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1677439611673</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Refactor delete function to work better (not work perfect yet)">
+      <created>1677495150888</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1677495150888</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Outsource hex into a component.">
+      <created>1677501965485</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1677501965485</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Monstrous refactor.">
+      <created>1677584867855</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1677584867855</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TerminalProjectNonSharedOptionsProvider">
@@ -136,7 +214,16 @@
     <MESSAGE value="A shamefully big commit." />
     <MESSAGE value="Will continuously place cells when the mouse button is pressed down." />
     <MESSAGE value="Hex Cells" />
-    <option name="LAST_COMMIT_MESSAGE" value="Hex Cells" />
+    <MESSAGE value="Add the possibilities to change the shape and size of pictures." />
+    <MESSAGE value="Replaces the button order in the Context menu." />
+    <MESSAGE value="Add Gargantuan size in the size list and the characters background highlighted." />
+    <MESSAGE value="Refactor character image starer cell." />
+    <MESSAGE value="Add speed setter to player's context menu." />
+    <MESSAGE value="Refactor delete function to work better (not work perfect yet)" />
+    <MESSAGE value="Outsource hex into a component." />
+    <MESSAGE value="Monstrous refactor." />
+    <MESSAGE value="Add save and load." />
+    <option name="LAST_COMMIT_MESSAGE" value="Add save and load." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

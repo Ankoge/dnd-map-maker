@@ -2,7 +2,7 @@ import {useRef, useState} from "react";
 import {useEffectOnce} from "../hooks/useEffectOnce";
 import {MONSTER_OPTIONS} from "../data/monsterOptions";
 import fetchGet from "../fetches/fetchGet";
-import {SIZE_OPTION, TYPE_OPTION} from "../data/options";
+import {SIZE_OPTION, OPTION_TYPE} from "../data/options";
 
 const MonsterSearch = ({contextButton}) => {
     const [monsterSearch, setMonsterSearch] = useState("")
@@ -17,7 +17,7 @@ const MonsterSearch = ({contextButton}) => {
         const imageUrl = event.target.dataset.url;
         const name = event.target.dataset.name;
         const nameIndex = name.replaceAll(" ", "-").toLowerCase();
-        const nameCount = getMonsterNumber(nameIndex);
+        const nameCount = MONSTER_OPTIONS.getMonsterCount(nameIndex);
         const modifier = nameCount >= 1 ? " ".concat(String(nameCount)) : "";
         let size = SIZE_OPTION.MEDIUM
         try {
@@ -32,14 +32,10 @@ const MonsterSearch = ({contextButton}) => {
         } catch (e) {
             console.warn(e);
         } finally {
-            MONSTER_OPTIONS.addMonster(name.concat(modifier), nameIndex, size, imageUrl)
+            MONSTER_OPTIONS.add(name.concat(modifier), nameIndex, size, imageUrl)
             setTargetedMonsters([])
             setMonsterSearch("")
         }
-    }
-
-    const getMonsterNumber = (nameIndex) => {
-        return MONSTER_OPTIONS.monsters.reduce((count, monster) => count + (monster.cellIndex.includes(nameIndex) ? 1 : 0), 0)
     }
 
     const makeSearchDropdown = () => {
@@ -69,7 +65,7 @@ const MonsterSearch = ({contextButton}) => {
     }
 
     return <div
-        className={"context-menu-option".concat(" context-menu-option".concat(contextButton === TYPE_OPTION.MONSTER ? "-active" : "-inactive"))}
+        className={"context-menu-option".concat(" context-menu-option".concat(contextButton === OPTION_TYPE.MONSTER ? "-active" : "-inactive"))}
         id={"monster-search-container"}>
         <input className={"monster-input-field"}
                type={"text"}
