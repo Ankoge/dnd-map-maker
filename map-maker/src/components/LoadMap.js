@@ -2,6 +2,7 @@ import {Util} from "../util/Util";
 import {useRef} from "react";
 import {MONSTER_OPTIONS} from "../data/monsterOptions";
 import {OPTION_TYPE} from "../data/options";
+import {PLAYER_OPTIONS} from "../data/playerOptions";
 
 const LoadMap = ({setCell, contextTarget, currentMapName}) => {
     const loadedMapState = useRef({
@@ -19,8 +20,11 @@ const LoadMap = ({setCell, contextTarget, currentMapName}) => {
 
     const loadMap = () => {
         loadedMapState.current.map.creature.forEach(creature => {
-            if (!MONSTER_OPTIONS.isMonsterInList(creature.name)&& creature.optionType === OPTION_TYPE.MONSTER) {
+            if (creature.optionType === OPTION_TYPE.MONSTER && !MONSTER_OPTIONS.isMonsterInList(creature.name)) {
                 MONSTER_OPTIONS.add(creature.name, creature.cellIndex, creature.size, creature.imageUrl)
+            } if(creature.optionType === OPTION_TYPE.PLAYER) {
+                PLAYER_OPTIONS.changeSize(creature.name, creature.size)
+                PLAYER_OPTIONS.changeSpeed(creature.name, creature.speed)
             }
             contextTarget.current.row = creature.row;
             contextTarget.current.column = creature.column;
