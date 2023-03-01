@@ -186,8 +186,6 @@ const Container = ({mapSize, isMouseDown}) => {
         setIsContextMenu(false);
         clearMovable();
         const targetCellContainer = event.target.parentElement
-        console.log(targetCellContainer)
-
         //If sidebar edit is active change hex image to selected environment image.
         if (isEdit) {
             contextTarget.current.row = targetCellContainer.dataset.row;
@@ -229,14 +227,14 @@ const Container = ({mapSize, isMouseDown}) => {
     }
 
     const removeCellFromMapStatus = (mapStatusPart, row, column) => {
-        console.log(mapStatusPart)
-        const deletedElement = mapStatusPart.find(el => {
-            console.log(el.row, "  ", el.column, "  ", row, column)
-            return parseInt(el.row, 10) === parseInt(row, 10) && parseInt(el.column, 10) === parseInt(column, 10)
+        let deletedElement = NaN;
+        mapStatusPart.forEach((el, i) => {
+            if(parseInt(el.row) === parseInt(row) && parseInt(el.column) === parseInt(column)){
+                deletedElement = i;
+            }
         });
-        console.log(deletedElement)
-        if (deletedElement) {
-            mapStatusPart.splice(deletedElement, 1);
+        if (deletedElement || deletedElement === 0) {
+            mapStatusPart.splice(deletedElement,1);
         }
     }
 

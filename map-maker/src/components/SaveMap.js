@@ -3,6 +3,7 @@ import {Util} from "../util/Util";
 const SaveMap = ({mapState}) => {
 
     const handleSave = () => {
+        console.log("In save", mapState.current)
         Util.save("mapName", mapState.current)
     }
 

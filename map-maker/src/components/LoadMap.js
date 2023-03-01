@@ -20,7 +20,7 @@ const LoadMap = ({setCell, contextTarget}) => {
 
     const loadMap = () => {
         loadedMapState.current.map.creature.forEach(creature => {
-            if (!MONSTER_OPTIONS.isMonsterInList(creature.name && creature.optionType === OPTION_TYPE.MONSTER)) {
+            if (!MONSTER_OPTIONS.isMonsterInList(creature.name)&& creature.optionType === OPTION_TYPE.MONSTER) {
                 MONSTER_OPTIONS.add(creature.name, creature.cellIndex, creature.size, creature.imageUrl)
             }
             contextTarget.current.row = creature.row;
