@@ -6,29 +6,33 @@ export const MONSTER_OPTIONS = {
             cellIndex: "thief-cat",
             cellSize: "medium",
             cellShape: "round",
-            cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1067440767020322866/pngegg_41.png"
+            cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1067440767020322866/pngegg_41.png",
+            speed: 8
         }, {
             cellName: "Fat Assasin",
             cellIndex: "fat-assasin",
             cellSize: "medium",
             cellShape: "tall",
-            cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1042437552717701140/pngwing.com.png"
+            cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1042437552717701140/pngwing.com.png",
+            speed: 6
         }, {
             cellName: "Brew Witch",
             cellIndex: "brew-witch",
             cellSize: "medium",
             cellShape: "tall",
-            cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1050851179745263687/My_project_16.png"
+            cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1050851179745263687/My_project_16.png",
+            speed: 4
         }
     ],
-    add: (name, index, size, url) => {
+    add: (name, index, size, url, speed) => {
         MONSTER_OPTIONS.monsters.push(
             {
                 cellName: name,
                 cellIndex: index,
                 cellSize: size,
                 cellShape: "tall",
-                cellUrl: url
+                cellUrl: url,
+                speed: speed
             }
         )
     },
@@ -52,6 +56,18 @@ export const MONSTER_OPTIONS = {
             monsterForSizeChange.cellSize = size;
         }
     },
+    changeSpeed: (name, speed) => {
+        const player = MONSTER_OPTIONS.monsters.find(player => player.cellName === name);
+        if (player) {
+            player.speed = speed;
+        }
+    },
+    getSpeed: (name) => {
+        const player = MONSTER_OPTIONS.monsters.find(player => player.cellName === name);
+        if (player) {
+            return player.speed;
+        }
+        },
     monsterUrls: {
         "Aarakocra": "https://www.kryxrpg.com/static/0fc9f4ba937fc2a75bf7fca6ddab909e/5e9bf/aarakocra.avif",
         "Aboleth": "https://www.kryxrpg.com/static/38d778fdf032e705851d2a86b2a9d906/8be70/aboleth.avif",

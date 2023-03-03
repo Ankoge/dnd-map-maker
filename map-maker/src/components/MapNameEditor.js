@@ -1,14 +1,19 @@
 const MapNameEditor = ({setCurrentMapName, currentMapName}) => {
 
     const handleSelect = (event) => {
-        setCurrentMapName(event.target.dataset.value);
+        console.log(event)
+        setCurrentMapName(event.target.dataset.mapNumber);
+        console.log(currentMapName)
     }
 
     const buildMapButtons = () => {
-        return ([...Array(6).keys()].map(i => <div key={`${i + 1}`}
-                                                   className={`map-name-button`.concat(currentMapName === `map${i + 1}` ? " selected" : "")}
-                                                   onClick={handleSelect}
-                                                   data-value={`map${i + 1}`}><div className={`map-name-second-icon map-${i+1}`}></div></div>))
+        return ([...Array(6).keys()].map(i =>
+            <div key={`${i + 1}`}
+                 className={`map-name-button`.concat(currentMapName === `map${i + 1}` ? " selected" : "")}
+                 onClick={handleSelect}>
+                <div data-map-number={`map${i + 1}`}
+                     className={`map-name-second-icon map-${i + 1}`}></div>
+            </div>))
     }
 
     return (

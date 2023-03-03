@@ -1,8 +1,10 @@
 import {PLAYER_OPTIONS} from "../data/playerOptions";
 import {useState} from "react";
+import {OPTION_TYPE} from "../data/options";
+import {MONSTER_OPTIONS} from "../data/monsterOptions";
 
 const SpeedSetter = (props) => {
-    const [speed, setSpeed] = useState(PLAYER_OPTIONS.getSpeed(props.name))
+    const [speed, setSpeed] = useState(props.optionType === OPTION_TYPE.PLAYER ? PLAYER_OPTIONS.getSpeed(props.name) : MONSTER_OPTIONS.getSpeed(props.name))
 
     function handleSpeedInput(event) {
         if (parseInt(event.target.value, 10) > 9) {
@@ -10,7 +12,7 @@ const SpeedSetter = (props) => {
             return;
         }
         setSpeed(event.target.value)
-        PLAYER_OPTIONS.changeSpeed(props.name, event.target.value)
+        props.optionType === OPTION_TYPE.PLAYER ? PLAYER_OPTIONS.changeSpeed(props.name, event.target.value) : MONSTER_OPTIONS.changeSpeed(props.name, event.target.value)
     }
 
     return (
