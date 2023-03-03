@@ -216,7 +216,8 @@ const Container = ({mapSize, isMouseDown}) => {
 
 
         //Look after the possible hexes for the player move.
-        if (targetCellContainer.dataset.cellType === OPTION_TYPE.PLAYER) {
+        if (targetCellContainer.dataset.cellType === OPTION_TYPE.PLAYER
+            || targetCellContainer.dataset.cellType === OPTION_TYPE.MONSTER) {
             let movableBuild = new Set();
             movableBuild = collectMovableHexes(
                 targetCellContainer.dataset.row,
@@ -266,7 +267,6 @@ const Container = ({mapSize, isMouseDown}) => {
     //Recursive function.
     const collectMovableHexes = (row, column, speed, step, size, movableBuild, enterDirection) => {
 
-        if (!movableBuild.has(`${row}${column}` && step !== 0)) {
             const parentCell = document.getElementById(`${row}${column}-cell`);
 
 
@@ -301,7 +301,7 @@ const Container = ({mapSize, isMouseDown}) => {
             if (parentCell.dataset.terrain === "catch") {
                 return movableBuild;
             }
-        }
+
         //Update parameters.
         step = step + 1;
         row = parseInt(row, 10);

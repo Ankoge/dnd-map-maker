@@ -20,6 +20,7 @@ const MonsterSearch = ({contextButton}) => {
         const nameCount = MONSTER_OPTIONS.getMonsterCount(nameIndex);
         const modifier = nameCount >= 1 ? " ".concat(String(nameCount)) : "";
         let size = SIZE_OPTION.MEDIUM
+        let speed = 0;
         try {
             await fetchGet(`https://www.dnd5eapi.co/api/monsters/${nameIndex}`)
                 .then(response => {
@@ -27,12 +28,13 @@ const MonsterSearch = ({contextButton}) => {
                         throw new Error(`Can not find in API database monster: ${nameIndex}`)
                     } else {
                         size = response.data.size.toLowerCase();
+                        speed = parseInt(response.data.speed.walk.match(/\d+/),10);
                     }
                 })
         } catch (e) {
             console.warn(e);
         } finally {
-            MONSTER_OPTIONS.add(name.concat(modifier), nameIndex, size, imageUrl)
+            MONSTER_OPTIONS.add(name.concat(modifier), nameIndex, size, imageUrl, speed)
             setTargetedMonsters([])
             setMonsterSearch("")
         }

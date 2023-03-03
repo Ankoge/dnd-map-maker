@@ -26,6 +26,30 @@ export const PLAYER_OPTIONS = {
     },
     players: [
         {
+            cellName: "Tarvis",
+            cellSize: SIZE_OPTION.MEDIUM,
+            cellShape: SHAPE_OPTION.TALL.name,
+            speed: 6,
+            cellUrl: "https://cdn.discordapp.com/attachments/894595052427431936/1081165921743274054/My_project_34.png"
+        }, {
+            cellName: "Urd Jotunnson",
+            cellSize: SIZE_OPTION.SMALL,
+            cellShape: SHAPE_OPTION.TALL.name,
+            speed: 5,
+            cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1081173291634532452/goblin-barbar.png"
+        }, {
+            cellName: "Orcsány Viktor",
+            cellSize: SIZE_OPTION.MEDIUM,
+            cellShape: SHAPE_OPTION.TALL.name,
+            speed: 6,
+            cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1081159044330430505/orcsany-fektor.png"
+        }, {
+            cellName: "Kildrak",
+            cellSize: SIZE_OPTION.MEDIUM,
+            cellShape: SHAPE_OPTION.FLAT.name,
+            speed: 5,
+            cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1080590204781461504/dwarf.png"
+        }, {
             cellName: "Jophiel",
             cellSize: "medium",
             cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1080574733780799529/elf-warrior.png",

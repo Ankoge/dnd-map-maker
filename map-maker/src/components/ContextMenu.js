@@ -30,7 +30,7 @@ export const ContextMenu = props => {
                    data-cell-index={option.cellIndex}
                    data-cell-size={option.cellSize}
                    data-cell-shape={option.cellShape ? option.cellShape : SHAPE_OPTION.TALL.name}
-                   data-speed={optionType === OPTION_TYPE.PLAYER ? option.speed : 0}
+                   data-speed={option.speed}
                    data-cell-name={option.cellName}
                    data-option-type={optionType}
                    onClick={handleContextOptionClick}
@@ -40,8 +40,9 @@ export const ContextMenu = props => {
                      alt={option.cellName}/>
 
         </span>
-                {optionType === OPTION_TYPE.PLAYER ? <SpeedSetter name={option.cellName}
-                                                                  speed={option.speed}/> : ""}
+                <SpeedSetter name={option.cellName}
+                             speed={option.speed}
+                             optionType={optionType}/>
                 <SizeDropdown name={option.cellName}
                               optionType={optionType}/>
                 <ShapeButton name={option.cellName}
@@ -68,15 +69,16 @@ export const ContextMenu = props => {
         </button>)
     }
 
-    return (<div id="context-menu"
-                 className={"context-menu context-menu-".concat(props.isContextMenu ? "active" : "inactive")}>
-        <div className="context-menu-button-container">
-            {contextMenuButtonBuilder(OPTION_TYPE.PLAYER, "https://creazilla-store.fra1.digitaloceanspaces.com/emojis/45528/old-man-emoji-clipart-md.png")}
-            {contextMenuButtonBuilder(OPTION_TYPE.MONSTER, "https://cdn-icons-png.flaticon.com/512/606/606971.png?w=826&t=st=1667696345~exp=1667696945~hmac=1f56ef0adf25915f0f3c1e120dc9660126c7fe79e29f9c806eccb1008fcccaa2")}
-        </div>
-        {contextMenuOptionBuilder(PLAYER_OPTIONS.players, OPTION_TYPE.PLAYER)}
-        <MonsterSearch contextButton={contextButton}/>
-        {contextMenuOptionBuilder(MONSTER_OPTIONS.monsters, OPTION_TYPE.MONSTER)}
-    </div>)
+    return (
+        <div id="context-menu"
+             className={"context-menu context-menu-".concat(props.isContextMenu ? "active" : "inactive")}>
+            <div className="context-menu-button-container">
+                {contextMenuButtonBuilder(OPTION_TYPE.PLAYER, "https://creazilla-store.fra1.digitaloceanspaces.com/emojis/45528/old-man-emoji-clipart-md.png")}
+                {contextMenuButtonBuilder(OPTION_TYPE.MONSTER, "https://cdn-icons-png.flaticon.com/512/606/606971.png?w=826&t=st=1667696345~exp=1667696945~hmac=1f56ef0adf25915f0f3c1e120dc9660126c7fe79e29f9c806eccb1008fcccaa2")}
+            </div>
+            {contextMenuOptionBuilder(PLAYER_OPTIONS.players, OPTION_TYPE.PLAYER)}
+            <MonsterSearch contextButton={contextButton}/>
+            {contextMenuOptionBuilder(MONSTER_OPTIONS.monsters, OPTION_TYPE.MONSTER)}
+        </div>)
 
 }
