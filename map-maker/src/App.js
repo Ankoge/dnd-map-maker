@@ -13,11 +13,12 @@ function App() {
         setMapSize(45);
         document.body.addEventListener('keydown', (event) => {
             const modifyCellSize = (modifier) => {
+                // default 50
                 let size = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--cell-size"), 10);
-                if (size > 200) {
-                    size = 200;
-                } else if (size < 0) {
-                    size = 0;
+                if (size > 142) {
+                    size = 142;
+                } else if (size < 22) {
+                    size = 22;
                 }
                 document.documentElement.style.setProperty('--cell-size', `${size + modifier}px`)
             }
