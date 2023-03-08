@@ -7,9 +7,12 @@ import {SHAPE_OPTION, OPTION_TYPE, SHAPE_ICON} from "../data/options";
 import SizeDropdown from "./SizeDropdown";
 import SpeedSetter from "./SpeedSetter";
 import CreatureRemove from "./CreatureRemove";
+import ButtonSwitch from "./ButtonSwitch";
 
 export const ContextMenu = props => {
     const [contextButton, setContextButton] = useState(OPTION_TYPE.PLAYER)
+    const [isButtonActive, setIsButtonActive] = useState(false);
+
 
     const handleContextOptionTypeChoose = (chosenType) => {
         setContextButton(chosenType.target.dataset.contexttype)
@@ -41,24 +44,30 @@ export const ContextMenu = props => {
                      alt={option.cellName}/>
 
         </span>
+                <SizeDropdown name={option.cellName}
+                              optionType={optionType}/>
                 <SpeedSetter name={option.cellName}
                              speed={option.speed}
                              optionType={optionType}/>
-                <SizeDropdown name={option.cellName}
-                              optionType={optionType}/>
+                <ButtonSwitch isActive={isButtonActive}
+                              setIsActive={setIsButtonActive}/>
                 <ShapeButton name={option.cellName}
                              shape={SHAPE_ICON.TALL}
-                             optionType={optionType}/>
+                             optionType={optionType}
+                             isActive={isButtonActive}/>
                 <ShapeButton name={option.cellName}
                              shape={SHAPE_ICON.ROUND}
-                             optionType={optionType}/>
+                             optionType={optionType}
+                             isActive={isButtonActive}/>
                 <ShapeButton name={option.cellName}
                              shape={SHAPE_ICON.FLAT}
-                             optionType={optionType}/>
+                             optionType={optionType}
+                             isActive={isButtonActive}/>
                 <CreatureRemove creatureName={option.cellName}
                                 imageUrl={option.imageUrl}
                                 optionType={optionType}
-                                deleteCreatureFromMap={props.deleteCreatureFromMap}/>
+                                deleteCreatureFromMap={props.deleteCreatureFromMap}
+                                isActive={isButtonActive}/>
 
         </span>)
     }
