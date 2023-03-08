@@ -3,9 +3,10 @@ import {MONSTER_OPTIONS} from "../data/monsterOptions";
 import {useState} from "react";
 import MonsterSearch from "./MonsterSearch";
 import ShapeButton from "./ShapeButton";
-import {SHAPE_OPTION, OPTION_TYPE} from "../data/options";
+import {SHAPE_OPTION, OPTION_TYPE, SHAPE_ICON} from "../data/options";
 import SizeDropdown from "./SizeDropdown";
 import SpeedSetter from "./SpeedSetter";
+import CreatureRemove from "./CreatureRemove";
 
 export const ContextMenu = props => {
     const [contextButton, setContextButton] = useState(OPTION_TYPE.PLAYER)
@@ -26,17 +27,17 @@ export const ContextMenu = props => {
 
             ><span key={index}
                    className={"on-hover context-menu-option option"}
-                   data-image={option.cellUrl}
+                   data-image={option.imageUrl}
                    data-cell-index={option.cellIndex}
                    data-cell-size={option.cellSize}
-                   data-cell-shape={option.cellShape ? option.cellShape : SHAPE_OPTION.TALL.name}
+                   data-cell-shape={option.cellShape ? option.cellShape : SHAPE_OPTION.TALL}
                    data-speed={option.speed}
                    data-cell-name={option.cellName}
                    data-option-type={optionType}
                    onClick={handleContextOptionClick}
             ><div className={"cell-option"}>{option.cellName}</div>
                 <img className={"context-option-image cell-option"}
-                     src={option.cellUrl}
+                     src={option.imageUrl}
                      alt={option.cellName}/>
 
         </span>
@@ -46,14 +47,18 @@ export const ContextMenu = props => {
                 <SizeDropdown name={option.cellName}
                               optionType={optionType}/>
                 <ShapeButton name={option.cellName}
-                             shape={SHAPE_OPTION.TALL}
+                             shape={SHAPE_ICON.TALL}
                              optionType={optionType}/>
                 <ShapeButton name={option.cellName}
-                             shape={SHAPE_OPTION.ROUND}
+                             shape={SHAPE_ICON.ROUND}
                              optionType={optionType}/>
                 <ShapeButton name={option.cellName}
-                             shape={SHAPE_OPTION.FLAT}
+                             shape={SHAPE_ICON.FLAT}
                              optionType={optionType}/>
+                <CreatureRemove creatureName={option.cellName}
+                                imageUrl={option.imageUrl}
+                                optionType={optionType}
+                                deleteCreatureFromMap={props.deleteCreatureFromMap}/>
 
         </span>)
     }

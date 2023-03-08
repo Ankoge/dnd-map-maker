@@ -71,16 +71,7 @@ const Container = ({mapSize, isMouseDown}) => {
                 break;
             case OPTION_TYPE.PLAYER:
             case OPTION_TYPE.MONSTER:
-                const playerDuplicates = document.querySelectorAll(
-                    '[data-creature-id="'
-                        .concat(`${option.dataset.image}${option.dataset.cellName}`)
-                        .concat('"]'))
-                if (playerDuplicates.length > 0) {
-                    playerDuplicates.forEach(duplicate => {
-                        removeCellFromMapStatus(mapState.current.map.creature, duplicate.dataset.row, duplicate.dataset.column);
-                        CreatureUtil.deleteCreature(duplicate);
-                    });
-                }
+                deleteCreatureFromMap(option.dataset.image, option.dataset.cellName);
                 const cellIndex = option.dataset.cellIndex;
                 const creatureId = `${option.dataset.image}${option.dataset.cellName}`;
                 const imageSource = `${row}${column}-cell-image-${OPTION_TYPE.CREATURE}`;
@@ -129,6 +120,19 @@ const Container = ({mapSize, isMouseDown}) => {
                 break;
             default:
                 break;
+        }
+    }
+
+    const deleteCreatureFromMap = (imageUrl, creatureName) => {
+        const playerDuplicates = document.querySelectorAll(
+            '[data-creature-id="'
+                .concat(`${imageUrl}${creatureName}`)
+                .concat('"]'))
+        if (playerDuplicates.length > 0) {
+            playerDuplicates.forEach(duplicate => {
+                removeCellFromMapStatus(mapState.current.map.creature, duplicate.dataset.row, duplicate.dataset.column);
+                CreatureUtil.deleteCreature(duplicate);
+            });
         }
     }
 
@@ -256,51 +260,55 @@ const Container = ({mapSize, isMouseDown}) => {
                 EnvironmentUtil.deleteEnvironment(targetCellContainer);
                 break;
             case OPTION_TYPE.CREATURE:
-                removeCellFromMapStatus(mapState.current.map.creature, targetCellContainer.dataset.row, targetCellContainer.dataset.column);
-                CreatureUtil.deleteCreature(targetCellContainer);
+                if (targetCellContainer.dataset.imageSourceCell) {
+                    targetCellContainer = document.getElementById(targetCellContainer.dataset.imageSourceCell).parentElement;
+                    removeCellFromMapStatus(mapState.current.map.creature, targetCellContainer.dataset.row, targetCellContainer.dataset.column);
+                    CreatureUtil.deleteCreature(targetCellContainer);
+                }
                 break;
             default:
                 break;
         }
+
     }
 
     //Recursive function.
     const collectMovableHexes = (row, column, speed, step, size, movableBuild, enterDirection) => {
 
-            const parentCell = document.getElementById(`${row}${column}-cell`);
+        const parentCell = document.getElementById(`${row}${column}-cell`);
 
 
-            //Early return if out of map.
-            if (parentCell === null) {
-                return movableBuild;
-            }
+        //Early return if out of map.
+        if (parentCell === null) {
+            return movableBuild;
+        }
 
-            //Extract a plus movement on hard terrain.
-            if (parentCell.dataset.terrain === "hard") {
-                step = step + 1
-            }
+        //Extract a plus movement on hard terrain.
+        if (parentCell.dataset.terrain === "hard") {
+            step = step + 1
+        }
 
-            //Return if hex is not movable or out of step.
-            if (speed < step || (parentCell.dataset.terrain === "unmovable" && step !== 0)) {
-                return movableBuild;
-            }
+        //Return if hex is not movable or out of step.
+        if (speed < step || (parentCell.dataset.terrain === "unmovable" && step !== 0)) {
+            return movableBuild;
+        }
 
-            //Return is hex is a creature, except player is small or tiny.
-            if ((parentCell.dataset.cellType === OPTION_TYPE.MONSTER || parentCell.dataset.cellType === OPTION_TYPE.PLAYER)
-                && !(size === SIZE_OPTION.SMALL || size === SIZE_OPTION.TINY)
-                && step !== 0) {
-                return movableBuild;
-            }
+        //Return is hex is a creature, except player is small or tiny.
+        if ((parentCell.dataset.cellType === OPTION_TYPE.MONSTER || parentCell.dataset.cellType === OPTION_TYPE.PLAYER)
+            && !(size === SIZE_OPTION.SMALL || size === SIZE_OPTION.TINY)
+            && step !== 0) {
+            return movableBuild;
+        }
 
-            //Set hex movable.
-            if (!movableBuild.has(`${row}${column}`)) {
-                movableBuild.add(`${row}${column}`)
-            }
+        //Set hex movable.
+        if (!movableBuild.has(`${row}${column}`)) {
+            movableBuild.add(`${row}${column}`)
+        }
 
-            //If terrain "catch" player here is an early return.
-            if (parentCell.dataset.terrain === "catch") {
-                return movableBuild;
-            }
+        //If terrain "catch" player here is an early return.
+        if (parentCell.dataset.terrain === "catch") {
+            return movableBuild;
+        }
 
         //Update parameters.
         step = step + 1;
@@ -336,6 +344,7 @@ const Container = ({mapSize, isMouseDown}) => {
             onContextMenuChange={setIsContextMenu}
             contextTarget={contextTarget}
             setCellProperties={setCellProperties}
+            deleteCreatureFromMap={deleteCreatureFromMap}
         />
         <SaveMap mapState={mapState}
                  currentMapName={currentMapName}/>

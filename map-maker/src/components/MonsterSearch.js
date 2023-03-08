@@ -25,10 +25,10 @@ const MonsterSearch = ({contextButton}) => {
             await fetchGet(`https://www.dnd5eapi.co/api/monsters/${nameIndex}`)
                 .then(response => {
                     if (response.status !== 200) {
-                        throw new Error(`Can not find in API database monster: ${nameIndex}`)
+                        throw new Error(`Can not find in API database monster: ${nameIndex}. The monster loaded from the local database.`)
                     } else {
                         size = response.data.size.toLowerCase();
-                        speed = parseInt(response.data.speed.walk.match(/\d+/),10);
+                        speed = parseInt(response.data.speed.walk.match(/\d+/), 10) / 5;
                     }
                 })
         } catch (e) {
@@ -74,7 +74,7 @@ const MonsterSearch = ({contextButton}) => {
                onChange={handleSearchInputChange}
                value={monsterSearch}
         ></input>
-        <div className={"search-dropdown".concat(targetedMonsters.length > 0 ? " active":  " inactive")}
+        <div className={"search-dropdown".concat(targetedMonsters.length > 0 ? " active" : " inactive")}
         >{makeSearchDropdown()}
         </div>
     </div>
