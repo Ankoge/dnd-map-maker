@@ -2,7 +2,7 @@ import {DELETE_ICON, OPTION_TYPE} from "../data/options";
 import {MONSTER_OPTIONS} from "../data/monsterOptions";
 import {PLAYER_OPTIONS} from "../data/playerOptions";
 
-const CreatureRemove = ({creatureName, imageUrl, deleteCreatureFromMap, optionType}) => {
+const CreatureRemove = ({creatureName, imageUrl, deleteCreatureFromMap, optionType, isActive}) => {
 
     const removeListedCreature = () => {
         if (window.confirm("Do you want to permanently remove the creature from the list??")) {
@@ -23,7 +23,7 @@ const CreatureRemove = ({creatureName, imageUrl, deleteCreatureFromMap, optionTy
     }
 
     return (
-        <div className={"creature-remove-button"}
+        <div className={"creature-remove-button".concat(isActive?" active":" inactive")}
              onClick={removeListedCreature}
         >
             <img className={"creature-remove-image"}

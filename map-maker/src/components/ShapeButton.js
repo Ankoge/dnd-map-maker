@@ -2,7 +2,7 @@ import {MONSTER_OPTIONS} from "../data/monsterOptions";
 import {PLAYER_OPTIONS} from "../data/playerOptions";
 import {OPTION_TYPE} from "../data/options";
 
-const ShapeButton = ({name, shape, optionType}) => {
+const ShapeButton = ({name, shape, optionType, isActive}) => {
 
     function onClick(event) {
         event.stopPropagation();
@@ -20,7 +20,7 @@ const ShapeButton = ({name, shape, optionType}) => {
 
     return (
         <div
-            className={"shape-button"}
+            className={"shape-button".concat(isActive?" active":" inactive")}
             onClick={onClick}
         ><img
             className={"shape-image"}
