@@ -1,26 +1,28 @@
+import {SHAPE_OPTION, SIZE_OPTION} from "./options";
+
 export const MONSTER_OPTIONS = {
 
     monsters: [
         {
             cellName: "Thief Cat",
             cellIndex: "thief-cat",
-            cellSize: "medium",
-            cellShape: "round",
-            cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1067440767020322866/pngegg_41.png",
+            cellSize: SIZE_OPTION.MEDIUM,
+            cellShape: SHAPE_OPTION.ROUND,
+            imageUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1067440767020322866/pngegg_41.png",
             speed: 8
         }, {
             cellName: "Fat Assasin",
             cellIndex: "fat-assasin",
-            cellSize: "medium",
-            cellShape: "tall",
-            cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1042437552717701140/pngwing.com.png",
+            cellSize: SIZE_OPTION.MEDIUM,
+            cellShape: SHAPE_OPTION.TALL,
+            imageUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1042437552717701140/pngwing.com.png",
             speed: 6
         }, {
             cellName: "Brew Witch",
             cellIndex: "brew-witch",
-            cellSize: "medium",
-            cellShape: "tall",
-            cellUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1050851179745263687/My_project_16.png",
+            cellSize: SIZE_OPTION.MEDIUM,
+            cellShape: SHAPE_OPTION.TALL,
+            imageUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1050851179745263687/My_project_16.png",
             speed: 4
         }
     ],
@@ -30,11 +32,23 @@ export const MONSTER_OPTIONS = {
                 cellName: name,
                 cellIndex: index,
                 cellSize: size,
-                cellShape: "tall",
-                cellUrl: url,
+                cellShape: SHAPE_OPTION.TALL,
+                imageUrl: url,
                 speed: speed
             }
         )
+    },
+
+    delete: (name) => {
+        let deletedElementIndex = NaN;
+        MONSTER_OPTIONS.monsters.forEach((monster, index) => {
+            if (monster.cellName === name) {
+                deletedElementIndex = index;
+            }
+        });
+        if (deletedElementIndex || deletedElementIndex === 0) {
+            MONSTER_OPTIONS.monsters.splice(deletedElementIndex, 1);
+        }
     },
     isMonsterInList: (name) => {
         return MONSTER_OPTIONS.monsters.reduce((nameInclude, monster) =>

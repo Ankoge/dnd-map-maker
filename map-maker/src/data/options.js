@@ -24,7 +24,7 @@ export const TERRAIN = {
 }
 
 
-export const SHAPE_OPTION = {
+export const SHAPE_ICON = {
     TALL: {
         name: "tall",
         imageUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1078363909024649216/tall-icon.png",
@@ -42,6 +42,14 @@ export const SHAPE_OPTION = {
         imageUrl: "https://cdn.discordapp.com/attachments/1039961105046437989/1078363909024649216/tall-icon.png",
     }
 }
+
+export const SHAPE_OPTION = {
+    TALL:"tall",
+    ROUND:"round",
+    FLAT:"flat",
+    TALL_OVER_SIZED: "tall-over-sized"
+}
+
 
 export const SIZE_OPTION = {
     NO_SIZE: "",
@@ -76,6 +84,11 @@ export const BACKGROUND_OPTIONS = [
         url: "https://cdn.discordapp.com/attachments/1039961105046437989/1072207782444531814/gravel-soil.jpg"
     }
 ]
+
+export const DELETE_ICON = {
+    name:"delete",
+    url:"https://cdn.discordapp.com/attachments/1039961105046437989/1042166244201201685/output-onlinepngtools.png"
+}
 
 export const ENTER_IN = {
     TOP_LEFT: "top-left",
